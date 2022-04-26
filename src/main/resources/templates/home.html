@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTZZA</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/css/style.css">
+    <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
+    <script src="../../static/js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Header -->
+<header id="header">
+    <div class="header-top">
+        <div class="logo">
+            <a href="index">
+                <img src="../../static/images/logo.png">
+            </a>
+        </div>
+        <div class="search">
+            <form action="results" method="GET">
+                <input class="search-bar form-control" type="text" placeholder="Search images" name="q">
+                <input class="search-btn form-control" type="submit" value="검색">
+            </form>
+        </div>
+
+        <!-- 마이페이지 -->
+
+<!--        <ul class="member-menu">-->
+<!--            <div th:if="${userID eq null}">-->
+<!--                <li><a href="login">로그인</a></li>-->
+<!--                <li><a href="join">회원가입</a></li>-->
+<!--            </div>-->
+<!--            <div th:if test="${userID ne null}">-->
+<!--                <li><a href="logoutAction">로그아웃</a></li>-->
+<!--                <li><a href="mypage">마이페이지</a></li>-->
+<!--            </div>-->
+<!--        </ul>-->
+        <a href="#" class="toggle-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </a>
+    </div>
+    <ul class="main-menu">
+        <li>
+            <a class="categ-menu" href="">테마별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">무한도전</a></li>
+                <li><a href="">정치·사회</a></li>
+                <li><a href="">가수·연예인</a></li>
+                <li><a href="">예능</a></li>
+                <li><a href="">Meme</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="categ-menu" href="">상황별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">시험</a></li>
+                <li><a href="">회사</a></li>
+                <li><a href="">주식</a></li>
+                <li><a href="">연애</a></li>
+                <li><a href="">학교</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="categ-menu" href="">짤 등록</a>
+        </li>
+        <li>
+            <a class="categ-menu" href="">짤 만들기</a>
+        </li>
+        <li>
+            <a class="categ-menu" href="./notice">게시판</a>
+            <ul class="sub-menu">
+                <li><a href="./notice">공지사항</a></li>
+                <li><a href="./board">자유게시판</a></li>
+            </ul>
+        </li>
+    </ul>
+</header>
+
+<!-- main -->
+<main id="main">
+    <div class="container">
+        <h2>
+            BEST
+        </h2>
+        <hr>
+        <div id="row" class="row">
+                <div th:each="n : ${list}" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+                    <div class="content">
+                        <a href="/view?id=${n.id}">
+                            <img th:src="|/images/${n.imgPath}|">
+                        </a>
+                        <div class="keyword">
+                                <a th:each="key, i : ${n.title}" th:if="${i.count eq 3}" href="./results?q=${key}">
+                                    ${key}
+                                </a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="next-page">
+            <div class="more-text" onclick="nextPage()">
+            		<span>
+            			더보기
+            			<i class="fas fa-chevron-down"></i>
+            		</span>
+            </div>
+        </div>
+        <div class="banner">
+            <img src="../../static/images/banner.png">
+        </div>
+    </div>
+</main>
+
+<script>
+     var menu = document.querySelector(".main-menu");
+
+     function toggleMenu(){
+         menu.classList.toggle('active');
+     }
+</script>
+</body>
+</html>
