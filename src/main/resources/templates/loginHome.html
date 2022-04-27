@@ -87,9 +87,7 @@
                         <img th:src="|/images/${n.imgPath}|">
                     </a>
                     <div class="keyword">
-                        <a th:each="key, i : ${n.title}" th:if="${i.count eq 3}" href="./results?q=${key}">
-                            ${key}
-                        </a>
+                        <a th:each="key, i : ${n.title}" th:if="${i.count le 3}" href="./results?q=${key}" th:text="${key}"></a>
                     </div>
                 </div>
             </div>
