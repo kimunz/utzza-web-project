@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+
+/* 요소(element) 여백 초기화  */
+html, body,
+div, span,
+dl, dt, dd, ul, ol, li,
+h1, h2, h3, h4, h5, h6,
+blockquote, p, address, pre, cite,
+form, fieldset, input, textarea, select,
+table, th, td{
+	margin:0;
+	padding:0;
+	}
+
+/* 목록 */
+ol, ul { list-style:none; margin: 0; padding: 0;}
+
+/* 테이블 - 마크업에 'cellspacing="0"' 지정 함께 필요 */
+table {
+	border-collapse: separate;
+	border-spacing:0;
+	border:0 none;
+	}
+caption, th, td {
+	text-align:left;
+	font-weight: normal;
+}
+
+/* 하이퍼링크*/
+a{
+	text-decoration: none;
+	color:inherit;
+}
+
+a:hover{
+	text-decoration: none !important;
+	color:inherit;
+}

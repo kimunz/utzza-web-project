@@ -1,13 +1,13 @@
 package com.oiji.springweb.dao;
 
 import com.oiji.springweb.dto.image.Image;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class ImageDao {
 
     public void updateHit(int id) {
@@ -33,7 +33,7 @@ public class ImageDao {
         }
     }
 
-    public Image getImagebyId(int id) {
+    public Image getImageById(int id) {
         Image img = null;
         String sql = "SELECT TITLE, IMG_LOC, HIT FROM IMAGE WHERE ID = ?";
         String url = "jdbc:oracle:thin:@localhost:1521:xe";

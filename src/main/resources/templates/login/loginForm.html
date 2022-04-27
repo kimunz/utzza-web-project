@@ -6,10 +6,8 @@
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/style.css">
+    <link type="text/css" rel="stylesheet" href="/css/loginForm.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
-    <script src="../../static/js/main.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 <!-- Header -->
@@ -26,9 +24,7 @@
                 <input class="search-btn form-control" type="submit" value="검색">
             </form>
         </div>
-
         <!-- 마이페이지 -->
-
         <ul class="member-menu">
             <li><a href="login">로그인</a></li>
             <li><a href="join">회원가입</a></li>
@@ -73,48 +69,25 @@
         </li>
     </ul>
 </header>
-
-<!-- main -->
 <main id="main">
     <div class="container">
-        <h2>
-            BEST
-        </h2>
-        <hr>
-        <div id="row" class="row">
-                <div th:each="n : ${list}" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                    <div class="content">
-                        <a href="/view?id=${n.id}">
-                            <img th:src="|/images/${n.imgPath}|">
-                        </a>
-                        <div class="keyword">
-                                <a th:each="key, i : ${n.title}" th:if="${i.count eq 3}" href="./results?q=${key}">
-                                    ${key}
-                                </a>
-                        </div>
-                    </div>
-                </div>
-        </div>
-        <div class="next-page">
-            <div class="more-text" onclick="nextPage()">
-            		<span>
-            			더보기
-            			<i class="fas fa-chevron-down"></i>
-            		</span>
-            </div>
-        </div>
-        <div class="banner">
-            <img src="../../static/images/banner.png">
-        </div>
+        <h1>
+            <a href="index">UTZZA</a>
+        </h1>
+        <form method="post" th:action>
+            <p>
+                <input type="text" name="loginId" id="user-id" placeholder="아이디">
+            </p>
+            <p>
+                <input type="password" name="password" id="user-pw" placeholder="비밀번호" >
+            </p>
+            <p>
+                <input type="checkbox" name="" id="save-check">
+                <label class="save-lb" for="save-check">아이디 저장</label>
+            </p>
+            <input class="login-btn" type="submit" value="로그인">
+        </form>
     </div>
 </main>
-
-<script>
-     var menu = document.querySelector(".main-menu");
-
-     function toggleMenu(){
-         menu.classList.toggle('active');
-     }
-</script>
 </body>
 </html>

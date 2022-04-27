@@ -1,0 +1,217 @@
+@import url('reset.css');
+
+:root{
+	--text-color: #0D0000;
+    --background-color: #EAFFD0;
+    --accent-color: #FF75A0;
+    --light-accent-color: #A6A198;
+    --bright-color: #95E1D3;
+    --yellow-color: #FCE38A;
+}
+
+@font-face{
+	font-family:noto;
+    src:local(※), url(NotoSansKR-Regular.otf) format(‘otf’);
+}
+
+body{
+	overflow-y: scroll;
+    background: var(--background-color);
+	font-family: 'Noto Sans KR', sans-serif, noto;
+}
+
+#header{
+    width: 1100px;
+    margin: 0 auto;
+}
+
+#header .header-top{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 80px;
+    margin-top: 20px;
+    color: var(--accent-color);
+}
+
+#header .header-top .logo{
+    position: relative;
+    width: 130px;
+    text-align: left;
+}
+
+#header .header-top .logo img{
+	height: 60px;
+}
+
+#header .header-top .search {
+    position: relative;
+    margin: 0 auto;
+}
+
+#header .header-top .search .search-bar{
+    height: 50px;
+    width: 700px;
+    padding-left: 10px;
+    font-size: 18px;
+    float: left;
+    color: var(--accent-color);
+}
+
+#header .header-top .search .search-bar:focus{
+	outline: none;
+}
+
+#header .header-top .search .search-btn{
+	height: 50px;
+    width: 60px;
+    font-size: 15px;
+    float: left;
+    cursor: pointer;
+    border: none;
+    background: var(--bright-color);
+    color: var(--text-color);
+}
+
+#header .header-top .member-menu{
+    display: flex;
+    margin-right: 10px;
+    height: 100%;
+}
+
+#header .header-top .member-menu li{
+    margin: 0 10px;
+}
+
+#header .header-top .toggle-btn{
+	font-size: 30px;
+	color: var(--accent-color);
+	display: none;
+}
+
+#header .main-menu{
+    display: flex;
+    position: relative;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 15px;
+    padding: 5px 0;
+    background: var(--accent-color);
+}
+
+#header .main-menu li .categ-menu{
+    font-size: 16px;
+    color: white;;
+    padding: 15px 10px;
+}
+
+
+#header .main-menu li:hover .categ-menu{
+    color: var(--background-color);
+}
+
+#header .main-menu li .sub-menu{
+    display: none;
+    position: absolute;
+    top: 32px;
+    width: 170px;
+    background: white;
+    border: 1px solid var(--light-accent-color);
+}
+
+#header .main-menu li:hover .sub-menu{
+    display: block;
+    z-index: 1;
+}
+
+#header .main-menu li .sub-menu li a{
+    display: block;
+    padding: 10px;
+}
+
+#header .main-menu li .sub-menu li:hover{
+    background: var(--yellow-color);
+}
+
+/* main 로그인 화면*/
+#main .container{
+    margin: 80px auto;
+    width: 420px;
+    padding: 10px;
+    text-align: center;
+}
+
+#main .container h1{
+    color: var(--accent-color);
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+
+#main .container p #user-id,
+#main .container p #user-pw
+{
+    height: 54px;
+    width: 400px;
+    margin-bottom: 8px;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+#main .container p:nth-child(3){
+    position: relative;
+    text-align: left;
+}
+
+#main .container p #save-check{
+    height: 20px;
+    width: 20px;
+    --margin-left: 10px;
+    margin-top: 1px;
+}
+
+#main .container p .save-lb{
+    position: absolute;
+    margin-left: 10px;
+    color: var(--accent-color);
+}
+
+#main .container .login-btn{
+    height: 54px;
+    width: 400px;
+    margin-top: 15px;
+    border: none;
+    background: var(--bright-color);
+    font-size: 15px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+	#header {
+		width: 970px;
+	}
+
+	#header .header-top .search .search-bar{
+	    width: 600px;
+	}
+}
+
+@media screen and (max-width: 992px) {
+	#header {
+		width: 800px;
+	}
+
+	#header .header-top .search .search-bar{
+	    width: 500px;
+	}
+
+	#header .header-top .member-menu{
+		display: none;
+	}
+
+	#header .header-top .toggle-btn{
+		display: block;
+	}
+
+}
