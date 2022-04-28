@@ -1,13 +1,36 @@
 @import url('reset.css');
 
 :root{
+	--text-color: #1f1e30;
+    --background-color: #f8f5fa;
+    --accent-color: #50606f;
+    --light-accent-color: #A6A198;
+    --bright-color: #c4e1ff;
+    --yellow-color: #FCE38A;
+    --error-color: #ff003e;
+}
+
+	/*
 	--text-color: #0D0000;
     --background-color: #EAFFD0;
     --accent-color: #FF75A0;
     --light-accent-color: #A6A198;
     --bright-color: #95E1D3;
     --yellow-color: #FCE38A;
-}
+    --error-color: #ff003e;
+
+	--text-color: #0D0000;
+    --까만색
+    --background-color: #EAFFD0;
+    --연두색
+    --accent-color: #FF75A0;
+    --분홍색
+    --light-accent-color: #A6A198;
+    --회색
+    --bright-color: #95E1D3;
+    --초록색
+    --yellow-color: #FCE38A;
+    --노란색*/
 
 @font-face{
 	font-family:noto;
@@ -56,10 +79,12 @@ body{
     font-size: 18px;
     float: left;
     color: var(--accent-color);
+    border-radius: 0.1em;
 }
 
 #header .header-top .search .search-bar:focus{
 	outline: none;
+	box-shadow: none;
 }
 
 #header .header-top .search .search-btn{
@@ -68,9 +93,9 @@ body{
     font-size: 15px;
     float: left;
     cursor: pointer;
-    border: none;
     background: var(--bright-color);
     color: var(--text-color);
+    border-radius: 0.1em;
 }
 
 #header .header-top .member-menu{
@@ -148,8 +173,8 @@ body{
 }
 
 
-#main .container p #user-id,
-#main .container p #user-pw
+#main .container p #loginId,
+#main .container p #password
 {
     height: 54px;
     width: 400px;
@@ -173,7 +198,16 @@ body{
 #main .container p .save-lb{
     position: absolute;
     margin-left: 10px;
-    color: var(--accent-color);
+    color: var(--light-accent-color);
+    font-weight: 500;
+}
+
+#main .container .field-error{
+    margin-top: 10px;
+    color: var(--error-color);
+    text-align: left;
+    padding: 5px;
+    font-size: 12px;
 }
 
 #main .container .login-btn{

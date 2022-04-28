@@ -63,28 +63,7 @@ public class LoginDao {
         return -1;
     }
 
-    public Optional<Member> getUserInfo(String userID) {
-        String SQL = "SELECT * FROM MEMBER WHERE USERID = ?";
-        Member member = null;
-        try {
-            st = con.prepareStatement(SQL);
-            st.setString(1, userID); // sql injection을 방어하기 위해 pstmt를 사용함
-            rs = st.executeQuery();
-            while (rs.next()) {
-                String userPassword = rs.getString("USERPASSWORD");
-                String userName = rs.getString("USERNAME");
-                String userEmail = rs.getString("USEREMAIL");
-                member = new Member(userID, userPassword, userName, userEmail);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return Optional.ofNullable(member);
-
-    }
-
-    public Member findByLoginId(String loginId) {
+    public Optional<Member> findByLoginId(String loginId) {
         String SQL = "SELECT * FROM MEMBER WHERE USERID = ?";
         Member member = null;
         try {
@@ -100,7 +79,7 @@ public class LoginDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return member;
+        return Optional.ofNullable(member);
     }
 
     public int join(Member user) {

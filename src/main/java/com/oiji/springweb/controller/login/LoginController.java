@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -23,13 +24,17 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public String loginForm() {
-        return "/login/loginForm";
+    public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
+        return "login/loginForm";
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginForm form, BindingResult bindingResult,
+    public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
                         HttpServletRequest request) {
+
+        if (bindingResult.hasErrors()) {
+            return "login/loginForm";
+        }
 
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
         if (loginMember == null) {

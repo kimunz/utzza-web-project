@@ -90,6 +90,11 @@ hr{
     margin: 0 10px;
 }
 
+#header .header-top .member-menu li .logout-btn{
+    background: inherit;
+    border: none;
+}
+
 #header .header-top .toggle-btn{
 	font-size: 30px;
 	color: var(--accent-color);

@@ -12,6 +12,8 @@ public class LoginService {
     private final LoginDao loginDao;
 
     public Member login(String loginId, String password) {
-        return loginDao.findByLoginId(loginId);
+        return loginDao.findByLoginId(loginId)
+                .filter(m -> m.getPassword().equals(password))
+                .orElse(null);
     }
 }

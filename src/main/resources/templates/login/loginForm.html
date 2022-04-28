@@ -20,7 +20,7 @@
         </div>
         <div class="search">
             <form action="results" method="GET">
-                <input class="search-bar form-control" type="text" placeholder="Search images" name="q">
+                <input class="search-bar form-control" type="text" placeholder="Search for images" name="q">
                 <input class="search-btn form-control" type="submit" value="검색">
             </form>
         </div>
@@ -74,16 +74,19 @@
         <h1>
             <a href="index">UTZZA</a>
         </h1>
-        <form method="post" th:action>
+        <form method="post" th:action th:object="${loginForm}">
             <p>
-                <input type="text" name="loginId" id="user-id" placeholder="아이디">
+                <input type="text" th:field="*{loginId}" id="loginId" placeholder="아이디">
             </p>
             <p>
-                <input type="password" name="password" id="user-pw" placeholder="비밀번호" >
+                <input type="password" th:field="*{password}" id="password" placeholder="비밀번호" >
             </p>
             <p>
                 <input type="checkbox" name="" id="save-check">
                 <label class="save-lb" for="save-check">아이디 저장</label>
+            </p>
+            <p th:if="${#fields.hasGlobalErrors()}">
+                <div class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</div>
             </p>
             <input class="login-btn" type="submit" value="로그인">
         </form>
