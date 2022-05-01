@@ -2,13 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/style.css">
+    <link type="text/css" rel="stylesheet" href="/css/results.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
-    <script src="/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
@@ -16,22 +14,26 @@
 <header id="header">
     <div class="header-top">
         <div class="logo">
-            <a href="index">
-<!--                <img src="/images/logo.png">-->
+            <a href="./index">
+                <img src="../../static/images/logo.png">
             </a>
         </div>
         <div class="search">
-            <form action="results" method="GET" th:action="@{/search}">
-                <input class="search-bar form-control" type="text" placeholder="Search for images" name="q">
+            <form action="results" method="GET">
+                <input class="search-bar form-control" type="text" placeholder="Search images" name="q">
                 <input class="search-btn form-control" type="submit" value="검색">
             </form>
         </div>
-
         <!-- 마이페이지 -->
-
         <ul class="member-menu">
-            <li><a href="login">로그인</a></li>
-            <li><a href="join">회원가입</a></li>
+            <c:if test="<%=userID == null%>">
+                <li><a href="login">로그인</a></li>
+                <li><a href="join">회원가입</a></li>
+            </c:if>
+            <c:if test="<%=userID != null%>">
+                <li><a href="logoutAction">로그아웃</a></li>
+                <li><a href="mypage">마이페이지</a></li>
+            </c:if>
         </ul>
         <a href="#" class="toggle-btn" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
@@ -78,20 +80,25 @@
 <main id="main">
     <div class="container">
         <h2>
-            BEST
+            <span>- ${query}에 대한 검색결과</span>
         </h2>
-        <hr>
         <div id="row" class="row">
-                <div th:each="n : ${list}" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+            <c:forEach var="n" items="${list}">
+                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
                     <div class="content">
                         <a href="/view?id=${n.id}">
-                            <img th:src="|/images/${n.imgPath}|">
+                            <img src="/images/${n.img_Loc}">
                         </a>
                         <div class="keyword">
-                            <a th:each="key, i : ${n.title}" th:if="${i.count le 3}" href="./results?q=${key}" th:text="${key}"></a>
+                            <c:forEach var="key" items="${n.title}" begin="0" end="2">
+                                <a href="#">
+                                    ${key}
+                                </a>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
+            </c:forEach>
         </div>
         <div class="next-page">
             <div class="more-text" onclick="nextPage()">
@@ -101,18 +108,55 @@
             		</span>
             </div>
         </div>
-        <div class="banner">
-            <img src="../../static/images/banner.png">
-        </div>
     </div>
 </main>
-
 <script>
-     var menu = document.querySelector(".main-menu");
+	    var page = 2;
+	    var query = searchParam('q');
+	    function nextPage(){
+	    	$.ajax({
+	            url : "./ajax/moreList",
+	            type : "get",
+	            dataType : "json",
+	            data : {"p" : page,
+	            		"q" : query},
 
-     function toggleMenu(){
-         menu.classList.toggle('active');
-     }
-</script>
+	            success : function(jary) {
+	                var content="";
+	                var list = jary;
+
+	    			if(list == "none"){
+	    				alert("더이상 불러올 짤이 없습니다.");
+	    				return false;
+	    			}
+	    			$.each(list, function(index,item){
+	    				content +=
+	    	            "<div class='col-xs-6 col-sm-4 col-md-3 col-lg-3'>"+
+	    	            	"<div class='content'>"+
+	    	                	"<a href='/view?id="+item.id+"'>"+
+	    	                		"<img src='images/"+item.img_Loc+"'>"+
+	    	                	"</a>"+
+	    	                	"<div class='keyword'>"+
+	    	                  		"<a href='#'>"+item.title[0]+"</a>"+
+	    	                  		"<a href='#'>"+item.title[1]+"</a>"+
+	    	                  		"<a href='#'>"+item.title[2]+"</a>"+
+	    	                  	"</div>"+
+	    	                "</div>"+
+	    	            "</div>";
+
+	                });
+	                $('#row').append(content);
+	                page++;
+	            },error:function(request,status,error){
+	            	alert("message:"+request.responseText+"\n");
+	    		}
+
+	        });
+	    }
+	    function searchParam(key) {
+	   		return new URLSearchParams(location.search).get(key);
+	    };
+    </script>
+
 </body>
 </html>

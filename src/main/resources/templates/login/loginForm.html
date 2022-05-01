@@ -19,7 +19,7 @@
             </a>
         </div>
         <div class="search">
-            <form action="results" method="GET">
+            <form action="results" method="GET" th:action="@{/search}">
                 <input class="search-bar form-control" type="text" placeholder="Search for images" name="q">
                 <input class="search-btn form-control" type="submit" value="검색">
             </form>

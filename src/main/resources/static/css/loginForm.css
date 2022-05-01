@@ -12,14 +12,6 @@
 
 	/*
 	--text-color: #0D0000;
-    --background-color: #EAFFD0;
-    --accent-color: #FF75A0;
-    --light-accent-color: #A6A198;
-    --bright-color: #95E1D3;
-    --yellow-color: #FCE38A;
-    --error-color: #ff003e;
-
-	--text-color: #0D0000;
     --까만색
     --background-color: #EAFFD0;
     --연두색
@@ -122,6 +114,7 @@ body{
     margin-top: 15px;
     padding: 5px 0;
     background: var(--accent-color);
+    height: 32px;
 }
 
 #header .main-menu li .categ-menu{
@@ -142,11 +135,11 @@ body{
     width: 170px;
     background: white;
     border: 1px solid var(--light-accent-color);
+    z-index: 1;
 }
 
 #header .main-menu li:hover .sub-menu{
     display: block;
-    z-index: 1;
 }
 
 #header .main-menu li .sub-menu li a{
@@ -207,7 +200,7 @@ body{
     color: var(--error-color);
     text-align: left;
     padding: 5px;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #main .container .login-btn{
