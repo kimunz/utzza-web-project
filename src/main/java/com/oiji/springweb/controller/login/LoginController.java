@@ -2,7 +2,7 @@ package com.oiji.springweb.controller.login;
 
 import com.oiji.springweb.controller.SessionConst;
 import com.oiji.springweb.dto.login.LoginForm;
-import com.oiji.springweb.dto.member.Member;
+import com.oiji.springweb.dto.user.User;
 import com.oiji.springweb.service.login.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,17 +32,17 @@ public class LoginController {
     public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
                         HttpServletRequest request) {
 
-        if (bindingResult.hasErrors()) {
-            return "login/loginForm";
-        }
-
-        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
-        if (loginMember == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "login/loginForm";
-        }
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+//        if (bindingResult.hasErrors()) {
+//            return "login/loginForm";
+//        }
+//
+//        User loginMember = loginService.login(form.getLoginId(), form.getPassword());
+//        if (loginMember == null) {
+//            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+//            return "login/loginForm";
+//        }
+//        HttpSession session = request.getSession();
+//        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
         return "redirect:/";
     }
@@ -54,5 +54,15 @@ public class LoginController {
             session.invalidate();
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/signUp")
+    public String signUpForm() {
+        return "user/signUp";
+    }
+
+    @PostMapping("/signUp")
+    public String signUp() {
+        return "redirect:/login";
     }
 }

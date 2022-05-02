@@ -1,25 +1,25 @@
-package com.oiji.springweb.dto.member;
+package com.oiji.springweb.dto.user;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class Member {
+public class User {
 
     @NotEmpty
     private String loginId;
     @NotEmpty
     private String password;
     @NotEmpty
-    private String name;
-    @NotEmpty
     private String email;
+    @NotEmpty
+    private String name;
 
-    public Member(String loginId, String password, String name, String email) {
+    public User(String loginId, String password, String email, String name) {
         this.loginId = loginId;
         this.password = password;
-        this.name = name;
         this.email = email;
+        this.name = name;
     }
 }

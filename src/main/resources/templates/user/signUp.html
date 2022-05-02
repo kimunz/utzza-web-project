@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTZZA</title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+          crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/css/join.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Header -->
+<header id="header">
+    <div class="header-top">
+        <div class="logo">
+            <a href="index"> <img src="/img/logo.png">
+            </a>
+        </div>
+        <div class="search">
+            <form action="results" method="GET">
+                <input class="search-bar form-control" type="text"
+                       placeholder="Search images" name="q"> <input
+                    class="search-btn form-control" type="submit" value="검색">
+            </form>
+        </div>
+        <!-- 로그인시 다른 페이지 필요 -->
+        <ul class="member-menu">
+            <li><a href="login">로그인</a></li>
+            <li><a href="join">회원가입</a></li>
+        </ul>
+        <a href="#" class="toggle-btn" onclick="toggleMenu()"> <i
+                class="fas fa-bars"></i>
+        </a>
+    </div>
+    <ul class="main-menu">
+        <li><a class="categ-menu" href="">테마별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">무한도전</a></li>
+                <li><a href="">정치·사회</a></li>
+                <li><a href="">가수·연예인</a></li>
+                <li><a href="">예능</a></li>
+                <li><a href="">Meme</a></li>
+            </ul></li>
+        <li><a class="categ-menu" href="">상황별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">시험</a></li>
+                <li><a href="">회사</a></li>
+                <li><a href="">주식</a></li>
+                <li><a href="">연애</a></li>
+                <li><a href="">학교</a></li>
+            </ul></li>
+        <li><a class="categ-menu" href="">짤 등록</a></li>
+        <li><a class="categ-menu" href="">짤 만들기</a></li>
+        <li><a class="categ-menu" href="./notice">게시판</a>
+            <ul class="sub-menu">
+                <li><a href="./notice">공지사항</a></li>
+                <li><a href="./board">자유게시판</a></li>
+            </ul></li>
+    </ul>
+</header>
+<main id="main">
+    <div class="register">
+        <h1>회원가입</h1>
+        <form method="post" th:action>
+            <div class="flex">
+                <ul class="itembox">
+                    <li class="item center">아이디</li>
+                    <li class="item"><input type="text" id="userID" name="loginId"
+                                            placeholder="아이디를 입력하세요." autofocus required></li>
+                    <li class="item">
+                        <button type="button" id="id-check" class="check">중복확인</button>
+                    </li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center">비밀번호</li>
+                    <li class="item"><input type="password" id="password1"
+                                            name="password" placeholder="비밀번호를 입력하세요." required></li>
+                    <li class="item"></li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center">비밀번호 확인</li>
+                    <li class="item"><input type="password" id="password2"
+                                            placeholder="비밀번호를 입력하세요." required></li>
+                    <li class="item">
+                        <div class="matching-pw"></div>
+                    </li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center">닉네임</li>
+                    <li class="item"><input type="text" id="userName"
+                                            name="name" required></li>
+                    <li class="item">
+                        <button type="button" id="name-check" class="check">중복확인</button>
+                    </li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center">E-mail</li>
+                    <li class="email-box">
+                        <input class="front-email" type="text" name="email" required>
+                        <span>@</span>
+                        <input class="behind-email" type="text" name="email2" id="email2" required readonly></li>
+                    <li class="item">
+                        <select id="select">
+                            <option value="" disabled selected>선택하세요</option>
+                            <option value="naver.com" id="naver.com">naver.com</option>
+                            <option value="google.com" id="google.com">google.com</option>
+                            <option value="hanmail.net" id="hanmail.net">hanmail.net</option>
+                            <option value="directly">직접 입력</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center"></li>
+                    <li class="item">
+                        <button type="submit" class="submit">가입하기</button>
+                    </li>
+                    <li class="item"></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>
