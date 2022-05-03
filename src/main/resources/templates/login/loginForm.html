@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,19 +74,19 @@
         <h1>
             <a href="index">UTZZA</a>
         </h1>
-        <form method="post" th:action th:object="${loginForm}">
+        <form method="post" th:action>
             <p>
-                <input type="text" th:field="*{loginId}" id="loginId" placeholder="아이디">
+                <input type="text" name="username" id="loginId" placeholder="아이디">
             </p>
             <p>
-                <input type="password" th:field="*{password}" id="password" placeholder="비밀번호" >
+                <input type="password" name="password" id="password" placeholder="비밀번호" >
             </p>
-            <p>
+            <p class="id-save">
                 <input type="checkbox" name="" id="save-check">
                 <label class="save-lb" for="save-check">아이디 저장</label>
             </p>
-            <p th:if="${#fields.hasGlobalErrors()}">
-                <div class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</div>
+            <p sec:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null">
+                <div class="field-error" sec:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">오류 메시지</div>
             </p>
             <input class="login-btn" type="submit" value="로그인">
         </form>

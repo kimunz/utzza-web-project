@@ -2,9 +2,11 @@ package com.oiji.springweb.entity;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Data
 public class UserEntity implements UserDetails {
@@ -13,10 +15,11 @@ public class UserEntity implements UserDetails {
     private String password;
     private String name;
     private String email;
+    private String auth;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(this.auth));
     }
 
     @Override

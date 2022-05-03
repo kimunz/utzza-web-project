@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,11 +28,19 @@
         </div>
 
         <!-- 마이페이지 -->
-
-        <ul class="member-menu">
-            <li><a href="login">로그인</a></li>
-            <li><a href="join">회원가입</a></li>
+        <ul class="member-menu" sec:authorize="isAnonymous()">
+            <li><a href="login" th:href="@{/login}">로그인</a></li>
+            <li><a href="join" th:href="@{/signUp}">회원가입</a></li>
         </ul>
+        <ul class="member-menu" sec:authorize="isAuthenticated()">
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button class="logout-btn" type="submit">로그아웃</button>
+                </form>
+            </li>
+            <li><a href="mypage">마이페이지</a></li>
+        </ul>
+
         <a href="#" class="toggle-btn" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
         </a>

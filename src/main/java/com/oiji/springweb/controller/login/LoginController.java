@@ -4,6 +4,7 @@ import com.oiji.springweb.controller.SessionConst;
 import com.oiji.springweb.dto.login.LoginForm;
 import com.oiji.springweb.dto.user.User;
 import com.oiji.springweb.service.login.LoginService;
+import com.oiji.springweb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,13 +23,14 @@ import javax.validation.Valid;
 public class LoginController {
 
     private final LoginService loginService;
+    private final UserService userService;
 
-    @GetMapping("/login")
+    //@GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
         return "login/loginForm";
     }
 
-    @PostMapping("/login")
+    //@PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
                         HttpServletRequest request) {
 
@@ -47,7 +49,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/logout")
+    //@PostMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session != null) {
@@ -56,13 +58,14 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @GetMapping("/signUp")
+    //@GetMapping("/signUp")
     public String signUpForm() {
         return "user/signUp";
     }
 
-    @PostMapping("/signUp")
-    public String signUp() {
+    //@PostMapping("/signUp")
+    public String signUp(@ModelAttribute User user) {
+        userService.save(user);
         return "redirect:/login";
     }
 }
