@@ -24,8 +24,18 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
+    public String loginForm() {
         return "login/loginForm";
+    }
+
+    @PostMapping("/login")
+    public String login() {
+        return "login/loginForm";
+    }
+
+    @PostMapping("/logout")
+    public String logout() {
+        return "redirect:/";
     }
 
     @GetMapping("/signUp")

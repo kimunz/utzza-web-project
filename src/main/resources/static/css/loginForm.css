@@ -176,7 +176,7 @@ body{
     font-size: 15px;
 }
 
-#main .container p:nth-child(3){
+#main .container .id-save{
     position: relative;
     text-align: left;
 }

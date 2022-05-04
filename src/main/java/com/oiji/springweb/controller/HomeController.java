@@ -1,7 +1,7 @@
 package com.oiji.springweb.controller;
 
 import com.oiji.springweb.dto.image.Image;
-import com.oiji.springweb.dto.member.Member;
+import com.oiji.springweb.dto.user.User;
 import com.oiji.springweb.service.image.FileStore;
 import com.oiji.springweb.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class HomeController {
     @GetMapping("/")
     public String loginHome(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
-                    Member loginMember, Model model) {
+                    User loginMember, Model model) {
 
         List<Image> list = imageService.getHomeImageList();
         model.addAttribute("list", list);
