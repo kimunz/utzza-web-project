@@ -15,6 +15,9 @@ public interface UserMapper {
     @Select("SELECT * FROM MEMBER WHERE LOGIN_ID = #{loginId}")
     Optional<UserEntity> findByLoginId(String loginId);
 
+    @Select("SELECT * FROM MEMBER WHERE NAME = #{name}")
+    Optional<UserEntity> findByName(String name);
+
     @Insert("INSERT INTO MEMBER VALUES(#{user.loginId},#{user.password},#{user.email},#{user.name},#{user.auth})")
     void save(@Param("user")User user);
 

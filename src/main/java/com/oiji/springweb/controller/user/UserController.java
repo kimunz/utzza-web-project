@@ -1,20 +1,12 @@
 package com.oiji.springweb.controller.user;
 
-import com.oiji.springweb.dto.login.LoginForm;
 import com.oiji.springweb.dto.user.User;
-import com.oiji.springweb.service.login.LoginService;
 import com.oiji.springweb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -25,12 +17,12 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginForm() {
-        return "login/loginForm";
+        return "user/loginForm";
     }
 
     @PostMapping("/login")
     public String login() {
-        return "login/loginForm";
+        return "user/loginForm";
     }
 
     @PostMapping("/logout")
@@ -47,5 +39,21 @@ public class UserController {
     public String signUp(@ModelAttribute User user) {
         userService.save(user);
         return "redirect:/login";
+    }
+
+    @ResponseBody
+    @PostMapping("/auth/loginId")
+    public String confirmLoginId(String loginId) {
+        if (userService.existsLoginId(loginId))
+            return "fail";
+        return "success";
+    }
+
+    @ResponseBody
+    @PostMapping("/auth/name")
+    public String confirmName(String name) {
+        if (userService.existsName(name))
+            return "fail";
+        return "success";
     }
 }

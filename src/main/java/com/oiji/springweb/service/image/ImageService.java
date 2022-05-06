@@ -18,4 +18,9 @@ public class ImageService {
         return list;
     }
 
+    public List<Image> getImageList(String query, int page) {
+        List<Image> list = imageDao.getImageList(query, page);
+        return list;
+    }
+
 }

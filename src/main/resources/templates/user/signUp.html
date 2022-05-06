@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +13,7 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
           crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/join.css">
+    <link type="text/css" rel="stylesheet" href="/css/signUp.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
@@ -18,7 +21,7 @@
 <header id="header">
     <div class="header-top">
         <div class="logo">
-            <a href="index"> <img src="/img/logo.png">
+            <a href="index"> <img src="/images/logo.png">
             </a>
         </div>
         <div class="search">
@@ -30,8 +33,8 @@
         </div>
         <!-- 로그인시 다른 페이지 필요 -->
         <ul class="member-menu">
-            <li><a href="login">로그인</a></li>
-            <li><a href="join">회원가입</a></li>
+            <li><a th:href="@{/login}">로그인</a></li>
+            <li><a th:href="@{/signUp}">회원가입</a></li>
         </ul>
         <a href="#" class="toggle-btn" onclick="toggleMenu()"> <i
                 class="fas fa-bars"></i>
@@ -66,33 +69,34 @@
 <main id="main">
     <div class="register">
         <h1>회원가입</h1>
-        <form method="post" th:action>
+        <form method="post" th:action onsubmit="return validate()">
             <div class="flex">
                 <ul class="itembox">
                     <li class="item center">아이디</li>
-                    <li class="item"><input type="text" id="userID" name="loginId"
-                                            placeholder="아이디를 입력하세요." autofocus required></li>
+                    <li class="item"><input type="text" id="loginId" name="loginId" placeholder="아이디를 입력하세요." autofocus required></li>
                     <li class="item">
                         <button type="button" id="id-check" class="check">중복확인</button>
                     </li>
                 </ul>
                 <ul class="itembox">
                     <li class="item center">비밀번호</li>
-                    <li class="item"><input type="password" id="password1"
-                                            name="password" placeholder="비밀번호를 입력하세요." required></li>
+                    <li class="item">
+                        <input type="password" id="password1" name="password" placeholder="비밀번호를 입력하세요." required></li>
                     <li class="item"></li>
                 </ul>
                 <ul class="itembox">
                     <li class="item center">비밀번호 확인</li>
-                    <li class="item"><input type="password" id="password2"
-                                            placeholder="비밀번호를 입력하세요." required></li>
                     <li class="item">
-                        <div class="matching-pw"></div>
+                        <input type="password" id="password2" placeholder="비밀번호를 입력하세요." required></li>
+                    <li class="item">
+                        <div class="pw-check"></div>
                     </li>
                 </ul>
                 <ul class="itembox">
                     <li class="item center">닉네임</li>
-                    <li class="item"><input type="text" id="userName" name="name" required></li>
+                    <li class="item">
+                        <input type="text" id="name" name="name" required>
+                    </li>
                     <li class="item">
                         <button type="button" id="name-check" class="check">중복확인</button>
                     </li>
@@ -100,17 +104,7 @@
                 <ul class="itembox">
                     <li class="item center">E-mail</li>
                     <li class="email-box">
-                        <input class="front-email" type="text" name="email" required>
-                        <span>@</span>
-                        <input class="behind-email" type="text" name="email2" id="email2" required readonly></li>
-                    <li class="item">
-                        <select id="select">
-                            <option value="" disabled selected>선택하세요</option>
-                            <option value="naver.com" id="naver.com">naver.com</option>
-                            <option value="google.com" id="google.com">google.com</option>
-                            <option value="hanmail.net" id="hanmail.net">hanmail.net</option>
-                            <option value="directly">직접 입력</option>
-                        </select>
+                        <input class="email" type="text" name="email" required>
                     </li>
                 </ul>
                 <ul class="itembox">
@@ -124,6 +118,116 @@
         </form>
     </div>
 </main>
+
+<script th:inline="javascript">
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    var checkedId = false;
+    var checkedPw = false;
+    var checkedName = false;
+    var checkedEmail = false;
+
+    function validate() {
+
+        if (!checkedId) {
+            alert("아이디 중복확인을 완료해주세요.");
+            return false;
+        }
+        if (!checkedPw) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+        if (!checkedName) {
+            alert("닉네임 중복확인을 완료해주세요.");
+            return false;
+        }
+    }
+
+    $("#loginId").keyup(function() {
+        checkedId = false;
+    })
+    $("#password1").keyup(function() {
+        checkedPw = false;
+        $(".pw-check").html("");
+    })
+    $("#password2").keyup(function() {
+        if ($("#password1").val() != $("#password2").val()) {
+            checkedPw = false;
+            $(".pw-check").html("비밀번호 불일치");
+            $(".pw-check").attr("style", "color: #ff0000");
+        } else {
+            checkedPw = true;
+            $(".pw-check").html("비밀번호 일치");
+            $(".pw-check").attr("style", "color: #03C75A");
+        }
+    })
+    $("#name").keyup(function() {
+        checkedName = false;
+    })
+
+    $("#id-check").on("click", function() {
+        var loginId = $("#loginId").val();
+        if (loginId == "")
+            alert("아이디를 입력해주세요.");
+        else {
+            existsLoginId(loginId);
+        }
+    })
+
+    function existsLoginId(loginId) {
+        var data = {
+            loginId : loginId
+        };
+        $.ajax({
+            type : "post",
+            url : "auth/loginId",
+            data : data,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success : function(result) {
+                if (result == "fail") {
+                    alert("이미 사용중인 아이디입니다.");
+                } else {
+                    checkedId = true;
+                    alert("사용 가능한 아이디입니다.");
+                }
+            }
+        });
+    }
+
+    $("#name-check").on("click", function() {
+        var name = $("#name").val();
+        if (name == "")
+            alert("닉네임을 입력해주세요.");
+        else
+            nameCheck(name);
+    })
+
+    function nameCheck(name) {
+        var data = {
+            name : name
+        };
+        $.ajax({
+            type : "post",
+            url : "/auth/name",
+            data : data,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success : function(result) {
+                if (result == "true") {
+                    alert("이미 사용중인 닉네임입니다.");
+                } else {
+                    checkedName = true;
+                    alert("사용 가능한 닉네임입니다.");
+                }
+            }
+        });
+    }
+
+</script>
 
 </body>
 </html>

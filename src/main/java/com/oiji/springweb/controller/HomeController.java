@@ -1,9 +1,9 @@
 package com.oiji.springweb.controller;
 
 import com.oiji.springweb.dto.image.Image;
-import com.oiji.springweb.dto.user.User;
 import com.oiji.springweb.service.image.FileStore;
 import com.oiji.springweb.service.image.ImageService;
+import com.oiji.springweb.service.image.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -23,31 +23,23 @@ public class HomeController {
     private final ImageService imageService;
     private final FileStore fileStore;
 
-    //@GetMapping("/")
+    @GetMapping("/")
     public String home(Model model) {
         List<Image> list = imageService.getHomeImageList();
         model.addAttribute("list", list);
         return "home";
     }
 
-    @GetMapping("/")
-    public String loginHome(
-            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
-                    User loginMember, Model model) {
-
-        List<Image> list = imageService.getHomeImageList();
-        model.addAttribute("list", list);
-
-        if (loginMember == null) {
-            return "home";
-        }
-        model.addAttribute("member", loginMember);
-        return "loginHome";
+    @ResponseBody
+    @GetMapping("/storage/{imgPath}")
+    public Resource loadImage(@PathVariable String imgPath) throws MalformedURLException {
+        return new UrlResource("file:" + fileStore.getFullPath(imgPath));
     }
 
     @ResponseBody
-    @GetMapping("/images/{imgPath}")
-    public Resource loadImage(@PathVariable String imgPath) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.getFullPath(imgPath));
+    @GetMapping("/ajax/more")
+    public String moreList(String query, int page) {
+
+
     }
 }
