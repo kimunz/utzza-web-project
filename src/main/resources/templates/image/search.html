@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/results.css">
+    <link type="text/css" rel="stylesheet" href="/css/search.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -14,27 +14,31 @@
 <header id="header">
     <div class="header-top">
         <div class="logo">
-            <a href="./index">
-                <img src="../../static/images/logo.png">
+            <a href="/">
+                <img src="/images/logo.png">
             </a>
         </div>
         <div class="search">
-            <form action="results" method="GET">
+            <form action="/search" method="GET">
                 <input class="search-bar form-control" type="text" placeholder="Search images" name="q">
                 <input class="search-btn form-control" type="submit" value="검색">
             </form>
         </div>
+
         <!-- 마이페이지 -->
-        <ul class="member-menu">
-            <c:if test="<%=userID == null%>">
-                <li><a href="login">로그인</a></li>
-                <li><a href="join">회원가입</a></li>
-            </c:if>
-            <c:if test="<%=userID != null%>">
-                <li><a href="logoutAction">로그아웃</a></li>
-                <li><a href="mypage">마이페이지</a></li>
-            </c:if>
+        <ul class="member-menu" sec:authorize="isAnonymous()">
+            <li><a href="login" th:href="@{/login}">로그인</a></li>
+            <li><a href="join" th:href="@{/signUp}">회원가입</a></li>
         </ul>
+        <ul class="member-menu" sec:authorize="isAuthenticated()">
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button class="logout-btn" type="submit">로그아웃</button>
+                </form>
+            </li>
+            <li><a href="mypage">마이페이지</a></li>
+        </ul>
+
         <a href="#" class="toggle-btn" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
         </a>
@@ -83,22 +87,16 @@
             <span>- ${query}에 대한 검색결과</span>
         </h2>
         <div id="row" class="row">
-            <c:forEach var="n" items="${list}">
-                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                    <div class="content">
-                        <a href="/view?id=${n.id}">
-                            <img src="/images/${n.img_Loc}">
-                        </a>
-                        <div class="keyword">
-                            <c:forEach var="key" items="${n.title}" begin="0" end="2">
-                                <a href="#">
-                                    ${key}
-                                </a>
-                            </c:forEach>
-                        </div>
+            <div th:each="n : ${list}" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+                <div class="content">
+                    <a th:href="/view?id=${n.id}">
+                        <img th:src="|/storage/${n.imgPath}|">
+                    </a>
+                    <div class="keyword">
+                        <a th:each="key, i : ${n.title}" th:if="${i.count le 3}" href="./results?q=${key}" th:text="${key}"></a>
                     </div>
                 </div>
-            </c:forEach>
+            </div>
         </div>
         <div class="next-page">
             <div class="more-text" onclick="nextPage()">

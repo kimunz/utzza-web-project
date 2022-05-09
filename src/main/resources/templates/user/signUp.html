@@ -21,7 +21,7 @@
 <header id="header">
     <div class="header-top">
         <div class="logo">
-            <a href="index"> <img src="/images/logo.png">
+            <a href="/"> <img src="/images/logo.png">
             </a>
         </div>
         <div class="search">
@@ -202,10 +202,10 @@
         if (name == "")
             alert("닉네임을 입력해주세요.");
         else
-            nameCheck(name);
+            existsName(name);
     })
 
-    function nameCheck(name) {
+    function existsName(name) {
         var data = {
             name : name
         };
@@ -217,7 +217,7 @@
                 xhr.setRequestHeader(header, token);
             },
             success : function(result) {
-                if (result == "true") {
+                if (result == "fail") {
                     alert("이미 사용중인 닉네임입니다.");
                 } else {
                     checkedName = true;

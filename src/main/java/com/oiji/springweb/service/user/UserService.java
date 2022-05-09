@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean existsName(String name) {
-        if (!userMapper.findByLoginId(name).isEmpty())
+        if (!userMapper.findByName(name).isEmpty())
             return true;
         return false;
     }
