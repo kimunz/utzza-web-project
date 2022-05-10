@@ -1,6 +1,7 @@
 package com.oiji.springweb.service.image;
 
 import com.oiji.springweb.dto.image.Image;
+import com.oiji.springweb.entity.ImageEntity;
 import com.oiji.springweb.mapper.ImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,22 +13,23 @@ import java.util.List;
 public class ImageService {
 
     private final ImageMapper imageMapper;
-    private int start, end;
+    private int start = 0;
+    private int end = 0;
 
-    public Image getImageById(String id) {
-        Image image = imageMapper.getImageById(id);
+    public ImageEntity getImageById(String id) {
+        ImageEntity image = imageMapper.getImageById(id);
         return image;
     }
 
-    public List<Image> getHomeImageList(String query, int page) {
+    public List<ImageEntity> getHomeImageList(String query, int page) {
         setPage(page);
-        List<Image> list = imageMapper.getImageList("", start, end);
+        List<ImageEntity> list = imageMapper.getImageList("", start, end);
         return list;
     }
 
-    public List<Image> getImageList(String query, int page) {
+    public List<ImageEntity> getImageList(String query, int page) {
         setPage(page);
-        List<Image> list = imageMapper.getImageList(query, start, end);
+        List<ImageEntity> list = imageMapper.getImageList(query, start, end);
         return list;
     }
 

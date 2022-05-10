@@ -18,8 +18,8 @@
             </a>
         </div>
         <div class="search">
-            <form action="/search" method="GET">
-                <input class="search-bar form-control" type="text" placeholder="Search images" name="q">
+            <form action="/search" method="GET" th:action="@{/search}">
+                <input class="search-bar form-control" type="text" placeholder="Search for images" name="q">
                 <input class="search-btn form-control" type="submit" value="검색">
             </form>
         </div>
@@ -84,14 +84,10 @@
     <div class="container">
         <div class="keyword">
             <span>#</span>
-            <div th:each="key : ${img.title}">
-                <a href="#">
-                    ${key}
-                </a>
-            </div>
+            <a th:each="key : ${image.title}" href="#" th:text="${key}">키워드</a>
         </div>
         <div class="content">
-            <img src="/images/${img.imgPath}">
+            <img th:src="|/storage/${image.imgPath}|">
         </div>
     </div>
 </main>

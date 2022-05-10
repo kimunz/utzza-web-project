@@ -82,8 +82,13 @@ body{
     height: 100%;
 }
 
-#header .header-top .member-meu li{
+#header .header-top .member-menu li{
     margin: 0 10px;
+}
+
+#header .header-top .member-menu li .logout-btn{
+    background: inherit;
+    border: none;
 }
 
 #header .header-top .toggle-btn{
@@ -138,7 +143,6 @@ body{
 }
 
 /* main 로그인 화면*/
-
 
 .register{
     width: 600px;
@@ -222,8 +226,6 @@ body{
     color: #2b2e4a;
     background: white;
 }
-
-
 
 @media screen and (max-width: 1200px) {
 	#header {

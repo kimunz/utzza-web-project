@@ -1,6 +1,7 @@
 package com.oiji.springweb.controller.image;
 
 import com.oiji.springweb.dto.image.Image;
+import com.oiji.springweb.entity.ImageEntity;
 import com.oiji.springweb.service.image.FileStore;
 import com.oiji.springweb.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +28,14 @@ public class ImageController {
 
     @GetMapping("/view")
     public String detailedImage(@RequestParam String id, Model model) {
-        Image image = imageService.getImageById(id);
+        ImageEntity image = imageService.getImageById(id);
         model.addAttribute("image", image);
-        return "";
+        return "image/view";
     }
 
     @GetMapping("/search")
     public String search(@RequestParam String q, Model model) {
-        List<Image> list = imageService.getImageList(q, 1);
+        List<ImageEntity> list = imageService.getImageList(q, 1);
         model.addAttribute("list", list);
         return "image/search";
     }
@@ -42,23 +43,25 @@ public class ImageController {
     @ResponseBody
     @GetMapping("/ajax/list")
     public String moreList(@RequestParam String query, int page) {
-        List<Image> list = imageService.getImageList(query, page);
+        List<ImageEntity> list = imageService.getImageList(query, page);
         JSONArray jary = new JSONArray();
 
         if(list.isEmpty()) {
             jary.put("none");
         }
         else {
-            for(Image li : list) {
+            for(ImageEntity img : list) {
                 JSONObject json = new JSONObject();
+
                 JSONArray titleArr = new JSONArray();
-                for(String t: li.getTitle()) {
+                for(String t: img.getTitle()) {
                     titleArr.put(t);
                 }
-                json.put("id", li.getId());
+
+                json.put("id", img.getId());
                 json.put("title", titleArr);
-                json.put("imgPath", li.getImgPath());
-                json.put("hit", li.getHit());
+                json.put("imgPath", img.getImgPath());
+                json.put("hit", img.getHit());
                 jary.put(json);
             }
         }
