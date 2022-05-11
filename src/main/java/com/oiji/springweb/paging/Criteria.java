@@ -10,9 +10,6 @@ public class Criteria {
     /** 페이지당 출력할 데이터 개수 */
     private int records;
 
-    /** 화면 하단에 출력할 페이지 사이즈 */
-    private int pageSize;
-
     /** 검색 키워드 */
     private String query;
 
@@ -20,12 +17,13 @@ public class Criteria {
     private String field;
 
     public Criteria() {
-        this.page = 1;
-        this.records = 10;
-        this.pageSize = 5;
+        this(1, 10, "", "title");
     }
 
-    public int getStartPage() {
-        return (page - 1) * records;
+    public Criteria(int page, int records, String query, String field) {
+        this.page = page;
+        this.records = records;
+        this.query = query;
+        this.field = field;
     }
 }

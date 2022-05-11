@@ -15,12 +15,12 @@ public class NoticeService {
     private final NoticeMapper noticeMapper;
 
     public List<Notice> findAll(Criteria criteria) {
-        List<Notice> list = noticeMapper.getNoticeList();
+        List<Notice> list = noticeMapper.getNoticeList(criteria);
         return list;
     }
 
     public int getNoticeCount(Criteria criteria) {
-        int count = noticeMapper.getNoticeCount();
+        int count = noticeMapper.getNoticeCount(criteria);
         return count;
     }
 }

@@ -106,18 +106,14 @@
                 <form class="form-inline">
                     <fieldset>
                         <select class="form-control input-sm" name="f">
-                            <option ${(param.f == "title")?"selected":""} value="title">제목</option>
-                            <option ${(param.f == "writer_Id")?"selected":""} value="writer_Id">작성자</option>
+                            <option ${(param.f == "title")?"selected":""} th:value="title">제목</option>
+                            <option ${(param.f == "writer_Id")?"selected":""} th:value="writer_Id">작성자</option>
                         </select>
                         <input class="form-control input-sm" type="text" name="t" value="${param.t}">
                         <input class="form-control input-sm" type="submit" value="검색">
                     </fieldset>
                 </form>
             </div>
-
-            <c:set var="page" value="${(empty param.p)?1:param.p}"/>
-            <c:set var="startNum" value="${page-(page-1)%5}"/>
-            <c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10), '.')}"/>
 
             <table class="table">
                 <thead>
@@ -130,17 +126,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="n" items="${list}">
-                    <tr>
-                        <td>${n.id}</td>
+                <th:block th:each="notice : ${list}">
+                    <tr th:object="${notice}">
+                        <td th:text="*{id}">번호</td>
                         <td class="title">
-                            <a href="./notice/detail?id=${n.id}&p=${(empty param.p)?1:param.p}&f=${param.f}&t=${param.t}">${n.title}</a>
+                            <a th:text="*{title}" href="./notice/detail?id=${n.id}&p=${(empty param.p)?1:param.p}&f=${param.f}&t=${param.t}">제목</a>
                         </td>
-                        <td>${n.writerId}</td>
-                        <td>${n.regdate}</td>
-                        <td>${n.hit}</td>
+                        <td th:text="*{writerId}"></td>
+                        <td th:text="*{regdate}"></td>
+                        <td th:text="*{hit}"></td>
                     </tr>
-                </c:forEach>
+                </th:block>
                 </tbody>
             </table>
 
@@ -148,31 +144,18 @@
                 <div><span>${(empty param.p)?1:param.p}</span> / ${lastNum} pages</div>
             </div>
 
-            <div class="pager">
+            <div class="pager" th:object="${pageMaker}">
                 <div class="nav-btn">
-                    <c:if test="${startNum-5>0}">
-                        <a href="?p=${startNum-5}&f=${param.f}&t=${param.t}">이전</a>
-                    </c:if>
-                    <c:if test="${startNum-5<=0}">
-                        <span class="btn-prev" onclick="alert('이전 페이지가 없습니다.');">이전</span>
-                    </c:if>
-                </div>
+                    <a th:if="*{prev}" class="changePage"></a>
 
-                <ul>
-                    <c:forEach var="i" begin="0" end="4">
-                        <c:if test="${(startNum+i) <= lastNum}">
-                            <li><a href="?p=${startNum+i}&f=${param.f}&t=${param.t}">${startNum+i}</a></li>
-                        </c:if>
-                    </c:forEach>
-                </ul>
+                    <th:block th:each="num : ${#numbers.sequence(pageMaker.getStartPage(), pageMaker.getEndPage())}">
+                        <code th:if="${pageMaker.criteria.getPage == num}" th:text="${num}"></code>
+                        <a class="changePage" th:unless="${pageMaker.criteria.getPage() == num}" th:href="${num}">
+                            <code th:text="${num}"></code>
+                        </a>
+                    </th:block>
 
-                <div class="nav-btn">
-                    <c:if test="${startNum+5<lastNum}">
-                        <a href="?p=${startNum+5}&f=${param.f}&t=${param.t}">다음</a>
-                    </c:if>
-                    <c:if test="${startNum+5>lastNum}">
-                        <span class="btn-next" onclick="alert('다음 페이지가 없습니다.');">다음</span>
-                    </c:if>
+                    <a th:if="*{next}" class="changePage"></a>
                 </div>
             </div>
         </div>
