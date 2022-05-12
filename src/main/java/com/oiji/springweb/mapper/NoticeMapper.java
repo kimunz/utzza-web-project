@@ -11,10 +11,7 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
 
-    @Select("SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE #{c.field}" +
-            "LIKE '%'|| #{c.query} ||'%' ORDER BY REGDATE DESC)N) " +
-            "WHERE NUM BETWEEN (#{c.page} - 1) * #{c.records} AND #{c.page} * #{c.records}")
-    List<Notice> getNoticeList(@Param("c") Criteria criteria);
+    List<Notice> getNoticeList(Criteria criteria);
 
     @Select("SELECT COUNT(ID) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE " +
             "#{c.field} LIKE '%'|| #{c.query} ||'%' ORDER BY REGDATE DESC)N)")

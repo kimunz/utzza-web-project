@@ -105,11 +105,11 @@
             <div class="notice-search">
                 <form class="form-inline">
                     <fieldset>
-                        <select class="form-control input-sm" name="f">
-                            <option ${(param.f == "title")?"selected":""} th:value="title">제목</option>
-                            <option ${(param.f == "writer_Id")?"selected":""} th:value="writer_Id">작성자</option>
+                        <select class="form-control input-sm" name="field">
+                            <option th:selected="${pageMaker.criteria.getField() eq 'title'}"  th:value="title">제목</option>
+                            <option th:selected="${pageMaker.criteria.getField() eq 'writerId'}" th:value="writerId">작성자</option>
                         </select>
-                        <input class="form-control input-sm" type="text" name="t" value="${param.t}">
+                        <input class="form-control input-sm" type="text" name="query" th:value="${pageMaker.criteria.getQuery()}">
                         <input class="form-control input-sm" type="submit" value="검색">
                     </fieldset>
                 </form>
@@ -130,7 +130,7 @@
                     <tr th:object="${notice}">
                         <td th:text="*{id}">번호</td>
                         <td class="title">
-                            <a th:text="*{title}" href="./notice/detail?id=${n.id}&p=${(empty param.p)?1:param.p}&f=${param.f}&t=${param.t}">제목</a>
+                            <a th:text="*{title}" th:href="@{/notice/view(id=${id})}">제목</a>
                         </td>
                         <td th:text="*{writerId}"></td>
                         <td th:text="*{regdate}"></td>
@@ -141,12 +141,12 @@
             </table>
 
             <div class="indexer">
-                <div><span>${(empty param.p)?1:param.p}</span> / ${lastNum} pages</div>
+                <div><span th:text="${pageMaker.criteria.getPage() == 1? 1 : pageMaker.criteria.getPage()}">page</span> / <span th:text="${pageMaker.getEndPage()}"></span></div>
             </div>
 
             <div class="pager" th:object="${pageMaker}">
                 <div class="nav-btn">
-                    <a th:if="*{prev}" class="changePage"></a>
+                    <a th:if="*{prev}" class="changePage"><code>&lt;</code></a>
 
                     <th:block th:each="num : ${#numbers.sequence(pageMaker.getStartPage(), pageMaker.getEndPage())}">
                         <code th:if="${pageMaker.criteria.getPage == num}" th:text="${num}"></code>
@@ -155,7 +155,7 @@
                         </a>
                     </th:block>
 
-                    <a th:if="*{next}" class="changePage"></a>
+                    <a th:if="*{next}" class="changePage"><code>&gt;</code></a>
                 </div>
             </div>
         </div>

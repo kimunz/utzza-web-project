@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oiji.springweb.mapper.NoticeMapper">
+    <resultMap id="getNoticeListResult" type="com.oiji.springweb.dto.article.Notice" >
+        <result property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="writerId" column="writerId" />
+        <result property="content" column="content" jdbcType="CLOB" javaType="java.lang.String" />
+        <result property="regdate" column="regdate" />
+        <result property="hit" column="hit" />
+        <result property="files" column="files" />
+    </resultMap>
+
+    <select id="getNoticeList" parameterType="com.oiji.springweb.paging.Criteria" resultMap="getNoticeListResult">
+        SELECT ID, TITLE, WRITERID, CONTENT, REGDATE, HIT, FILES
+        FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE ${field}
+        LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N)
+        WHERE NUM BETWEEN (#{page} - 1) * #{records} AND #{page} * #{records}
+    </select>
+</mapper>

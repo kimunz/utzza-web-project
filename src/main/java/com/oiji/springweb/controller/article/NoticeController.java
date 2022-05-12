@@ -24,13 +24,8 @@ public class NoticeController {
     @GetMapping("/notice")
     public String getNoticeListPage(@ModelAttribute Criteria criteria, Model model) {
 
-        log.info("criteria={}", criteria.getPage());
         List<Notice> list = noticeService.findAll(criteria);
         int count = noticeService.getNoticeCount(criteria);
-
-        for (Notice notice : list) {
-            log.info("notice={}", notice.getTitle());
-        }
 
         model.addAttribute("list", list);
         model.addAttribute("pageMaker", new PaginationInfo(criteria, count, 5));
