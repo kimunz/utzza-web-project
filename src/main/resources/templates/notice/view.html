@@ -6,7 +6,7 @@
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/notice.css">
+    <link type="text/css" rel="stylesheet" href="/css/notice-view.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -96,74 +96,36 @@
             </ul>
         </aside>
         <div class="content">
-
-            <h3>
-                <i class="fas fa-bullhorn"></i>
-                공지사항
-            </h3>
-            <hr>
-            <div class="notice-search">
-                <form th:action="@{/notice}" th:method="get" class="form-inline">
-                    <fieldset>
-                        <select class="form-control input-sm" name="field">
-                            <option th:selected="${pageMaker.criteria.getField() eq 'title'}"  th:value="title">제목</option>
-                            <option th:selected="${pageMaker.criteria.getField() eq 'writerId'}" th:value="writerId">작성자</option>
-                        </select>
-                        <input class="form-control input-sm" type="text" name="query" th:value="${pageMaker.criteria.getQuery()}">
-                        <input class="form-control input-sm" type="submit" value="검색">
-                    </fieldset>
-                </form>
+            <div class="sub-title">
+                <span>공지사항</span>
             </div>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <td class="w60">번호</td>
-                    <td>제목</td>
-                    <td class="w100">작성자</td>
-                    <td class="w100">작성일</td>
-                    <td class="w60">조회수</td>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="notice : ${list}">
-                    <tr th:object="${notice}">
-                        <td th:text="*{id}">번호</td>
-                        <td class="title">
-                            <a th:text="*{title}" th:href="@{/notice/view(id=*{id})}">제목</a>
-                        </td>
-                        <td th:text="*{writerId}"></td>
-                        <td th:text="*{regdate}"></td>
-                        <td th:text="*{hit}"></td>
-                    </tr>
-                </th:block>
-                </tbody>
-            </table>
-
-            <div class="indexer">
-                <div><span th:text="${pageMaker.criteria.getPage() == 1? 1 : pageMaker.criteria.getPage()}">page</span> / <span th:text="${pageMaker.getEndPage()}"></span></div>
+            <div class="content-info">
+                <strong class="title" th:text="${notice.title}"></strong>
+                <div class="info-desc">
+                    <span class="txt-item" th:text="${notice.writerId}"></span>
+                    <span class="txt-item" th:text="${notice.regdate}"></span>
+                    <span class="txt-item" th:text="|조회 ${notice.hit}|"></span>
+                </div>
             </div>
+            <div class="bbs-contents" th:text="${notice.content}"></div>
 
-            <div class="pager" th:object="${pageMaker}">
-                <div class="nav-btn">
-                    <a th:if="*{prev}" class="changePage"><code>&lt;</code></a>
-
-                    <th:block th:each="num : ${#numbers.sequence(pageMaker.getStartPage(), pageMaker.getEndPage())}">
-                        <code th:if="${pageMaker.criteria.getPage == num}" th:text="${num}"></code>
-                        <a class="changePage" th:unless="${pageMaker.criteria.getPage() == num}"
-                           th:href="@{/notice(page=${num}, field=${pageMaker.criteria.field}, query=${pageMaker.criteria.query})}">
-                            <code th:text="${num}"></code>
-                        </a>
+            <div class="nav-btn">
+                <div class="area1">
+                    <a th:href="@{/notice?p=${param.p}&f=${param.f}&t=${param.t}}">목록</a>
+                </div>
+                <div class="area2">
+                    <th:block>
+                        <a href="detail?id=">이전글</a>
                     </th:block>
-
-                    <a th:if="*{next}" class="changePage"><code>&gt;</code></a>
+                    <th:block>
+                        <a href="detail?id=">다음글</a>
+                    </th:block>
                 </div>
             </div>
         </div>
     </div>
 </main>
-
-<script>
+    <script>
      var menu = document.querySelector(".main-menu");
 
      function toggleMenu(){

@@ -11,11 +11,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -38,6 +38,20 @@ public class ImageController {
         List<ImageEntity> list = imageService.getImageList(q, 1);
         model.addAttribute("list", list);
         return "image/search";
+    }
+
+    @GetMapping("/upload")
+    public String uploadForm() {
+        return "image/uploadForm";
+    }
+
+    @PostMapping("/upload")
+    public String saveImage(@RequestParam MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            file.transferTo(new File(fileStore.getFullPath(fileName)));
+        }
+        return "image/uploadForm";
     }
 
     @ResponseBody

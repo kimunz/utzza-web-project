@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/style.css">
+    <link type="text/css" rel="stylesheet" href="/css/uploadForm.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
-    <script src="/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
@@ -16,19 +14,23 @@
 <header id="header">
     <div class="header-top">
         <div class="logo">
-            <a href="index">
-<!--                <img src="/images/logo.png">-->
+            <a href="/">
+                <img src="/images/logo.png">
             </a>
         </div>
         <div class="search">
-            <form action="results" method="GET" th:action="@{/search}">
+            <form action="/search" method="GET" th:action="@{/search}">
                 <input class="search-bar form-control" type="text" placeholder="Search for images" name="q">
                 <input class="search-btn form-control" type="submit" value="검색">
             </form>
         </div>
 
         <!-- 마이페이지 -->
-        <ul class="member-menu">
+        <ul class="member-menu" sec:authorize="isAnonymous()">
+            <li><a href="login" th:href="@{/login}">로그인</a></li>
+            <li><a href="join" th:href="@{/signUp}">회원가입</a></li>
+        </ul>
+        <ul class="member-menu" sec:authorize="isAuthenticated()">
             <li>
                 <form th:action="@{/logout}" method="post">
                     <button class="logout-btn" type="submit">로그아웃</button>
@@ -36,6 +38,7 @@
             </li>
             <li><a href="mypage">마이페이지</a></li>
         </ul>
+
         <a href="#" class="toggle-btn" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
         </a>
@@ -68,10 +71,10 @@
             <a class="categ-menu" href="">짤 만들기</a>
         </li>
         <li>
-            <a class="categ-menu" href="./notice">게시판</a>
+            <a class="categ-menu" href="/notice">게시판</a>
             <ul class="sub-menu">
-                <li><a href="./notice">공지사항</a></li>
-                <li><a href="./board">자유게시판</a></li>
+                <li><a href="/notice">공지사항</a></li>
+                <li><a href="/board">자유게시판</a></li>
             </ul>
         </li>
     </ul>
@@ -80,42 +83,36 @@
 <!-- main -->
 <main id="main">
     <div class="container">
-        <h2>
-            BEST
-        </h2>
-        <hr>
-        <div id="row" class="row">
-            <div th:each="n : ${list}" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                <div class="content">
-                    <a href="/view?id=${n.id}">
-                        <img th:src="|/images/${n.imgPath}|">
-                    </a>
-                    <div class="keyword">
-                        <a th:each="key, i : ${n.title}" th:if="${i.count le 3}" href="./results?q=${key}" th:text="${key}"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="next-page">
-            <div class="more-text" onclick="nextPage()">
-            		<span>
-            			더보기
-            			<i class="fas fa-chevron-down"></i>
-            		</span>
-            </div>
-        </div>
-        <div class="banner">
-            <img src="../../static/images/banner.png">
-        </div>
+        <form class="upload-info" th:action method="post" enctype="multipart/form-data">
+            <img src="/images/zzal.png" id="prevImage" class="prevImage">
+            <input type="file" id="selectImg" name="selectImg" class="selectImg">
+            <ul>
+                <li><input class="form-control" type="text"></li>
+                <li><input class="form-control" type="text"></li>
+                <li><input class="form-control" type="text"></li>
+                <li><input class="form-control" type="text"></li>
+                <li><input class="form-control" type="text"></li>
+            </ul>
+            <input class="upload-btn form-control" type="submit">
+        </form>
     </div>
 </main>
 
-<script>
-     var menu = document.querySelector(".main-menu");
+<script type="text/javascript">
+    $("#selectImg").on("change", function(){
+        readURL(this);
+    })
 
-     function toggleMenu(){
-         menu.classList.toggle('active');
-     }
+    function readURL(input){
+        if (input.files && input.files[0]){
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#prevImage').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
+
 </body>
 </html>
