@@ -1,5 +1,6 @@
 package com.oiji.springweb.controller;
 
+import com.oiji.springweb.dto.image.Image;
 import com.oiji.springweb.entity.ImageEntity;
 import com.oiji.springweb.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        List<ImageEntity> list = imageService.getHomeImageList("", 1);
+        List<Image> list = imageService.getHomeImageList();
         model.addAttribute("list", list);
         return "home";
     }

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTZZA</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/css/board-view.css">
+    <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- Header -->
+<header id="header">
+    <div class="header-top">
+        <div class="logo">
+            <a href="/">
+                <img src="/images/logo.png">
+            </a>
+        </div>
+        <div class="search">
+            <form action="/search" method="GET" th:action="@{/search}">
+                <input class="search-bar form-control" type="text" placeholder="Search for images" name="q">
+                <input class="search-btn form-control" type="submit" value="검색">
+            </form>
+        </div>
+
+        <!-- 마이페이지 -->
+        <ul class="member-menu" sec:authorize="isAnonymous()">
+            <li><a href="login" th:href="@{/login}">로그인</a></li>
+            <li><a href="join" th:href="@{/signUp}">회원가입</a></li>
+        </ul>
+        <ul class="member-menu" sec:authorize="isAuthenticated()">
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button class="logout-btn" type="submit">로그아웃</button>
+                </form>
+            </li>
+            <li><a href="mypage">마이페이지</a></li>
+        </ul>
+
+        <a href="#" class="toggle-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </a>
+    </div>
+
+    <ul class="main-menu">
+        <li>
+            <a class="categ-menu" href="">테마별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">무한도전</a></li>
+                <li><a href="">정치·사회</a></li>
+                <li><a href="">가수·연예인</a></li>
+                <li><a href="">예능</a></li>
+                <li><a href="">Meme</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="categ-menu" href="">상황별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">시험</a></li>
+                <li><a href="">회사</a></li>
+                <li><a href="">주식</a></li>
+                <li><a href="">연애</a></li>
+                <li><a href="">학교</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="categ-menu" href="/upload">짤 등록</a>
+        </li>
+        <li>
+            <a class="categ-menu" href="">짤 만들기</a>
+        </li>
+        <li>
+            <a class="categ-menu" href="/notice">게시판</a>
+            <ul class="sub-menu">
+                <li><a href="/notice">공지사항</a></li>
+                <li><a href="/board">자유게시판</a></li>
+            </ul>
+        </li>
+    </ul>
+</header>
+
+<!-- main -->
+<main id="main">
+    <div class="container">
+        <aside class="side-menu">
+            <h2>
+                게시판
+            </h2>
+            <ul>
+                <li><a href="/notice">공지사항</a></li>
+                <li><a href="/board"><strong>자유게시판</strong></a></li>
+            </ul>
+        </aside>
+        <!--          본문           -->
+        <div class="content" th:object="${board}">
+            <div class="sub-title">
+                <div class="categ-name">
+                    <span>자유게시판</span>
+                </div>
+                <sec:authentication property="principal" var="userInfo" />
+                    <div class="b-fn" th:if="${writerId == userInfo.name}">
+                        <a class="b-edit" th:href="@{/board/edit(id=${id})}">수정</a>
+                        <a class="b-delete" th:href="@{/board/delete(id=${id})}">삭제</a>
+                    </div>
+            </div>
+            <div class="content-info">
+                <strong class="title" th:text="${title}"></strong>
+                <div class="info-desc">
+                    <span class="txt-item" th:text="${writerId}"></span>
+                    <span class="txt-item" th:text="${#dates.format(regDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span class="txt-item" th:text="|조회 ${hit}|"></span> <span class="txt-item" th:text="|댓글 ${replyCount}|"></span>
+                </div>
+            </div>
+            <div class="bbs-contents" th:text="${content}"></div>
+
+            <div class="reply">
+                <table><!-- 댓글 목록이 들어가는 곳 -->
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+                <form>
+                    <input type="hidden" id="board-id" value="${id}">
+                    <input type="hidden" id="username" value="<%=userName%>">
+                </form>
+
+                <div class="write-text" th:sec="isAuthenticated()">
+                    <div class="text-box">
+                        <textarea id="replytext" maxlength="300"></textarea>
+                    </div>
+                    <div class="reply-reg">
+                        <button type="button" class="reg-btn">등록</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-btn">
+                <div class="area1">
+                    <a th:href="@{/board( page=${param.page}, field=${param.field}, query=${param.query} )} ">목록</a>
+                </div>
+                <div class="area2">
+                    <a th:if="${prevBid != 0}" th:href="@{/board/view(id=${prevBid})}">이전글</a>
+                    <a th:if="${nextBid != 0}" th:href="@{/board/view(id=${nextBid})}">다음글</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+	var rid = '';
+	var mode = 'insert';
+	function listReply() {
+		var param = "id=" + $("#board-id").val();
+		$.ajax({
+			type : "get",
+			url : "/reply/list",
+			data : param,
+
+			success : function(jary) {
+				var content = "";
+				var replies = jary;
+				$.each(replies, function(index, r) {
+					content += "<tr><td>"
+							+ "<div class='top-area'><div class='r-writer'>" + r.writerId + "</div>";
+
+					if($("#username").val() == r.writerId)
+						content	+= "<div class='r-fn'><button type='button' class='r-update' onclick='updateClick(" + 'rid' + r.id + ")'><i class='far fa-edit'></i></button>"
+								+ "<button type='button' class='r-delete' onclick='deleteClick(" + 'rid' + r.id + ")'><i class='far fa-trash-alt'></i></button></div>";
+
+					content	+= "</div>" + "<div id='rid" + r.id + "' class='r-content'>"
+							+ r.content + "</div>"
+							+ "<div class='r-regdate'>" + r.regdate
+							+ "</div></td></tr>";
+
+				});
+				$("#tbody").html(content);
+			},
+			error : function(request, status, error) {
+				console.log("code:" + request.status + "\n"
+						+ "message:" + request.responseText + "\n"
+						+ "error:" + error);
+
+			}
+		});
+	}
+
+	function updateClick(replyId){
+		mode = 'update';
+		$("#replytext").val(replyId.textContent);
+		var rid_ = replyId.id;
+		rid = rid_.split('rid')[1];
+	}
+
+	function deleteClick(replyId){
+		if (confirm("정말 삭제하시겠습니까?") == true){
+			var rid_ = replyId.id;
+			rid = rid_.split('rid')[1];
+			var id = rid;
+			var data = {id : id};
+			$.ajax({
+				type : "post",
+				url : "/reply/delete",
+				data : data,
+				success : function() {
+					listReply();
+				}
+			});
+		}
+		else{
+		    return;
+		}
+	}
+
+	$(function() {
+		listReply();
+		$(".reg-btn").on("click", function() {
+			var replytext = $("#replytext").val();
+			if(mode == 'insert'){
+				var userName = $("#username").val();
+				var id = $("#board-id").val();
+				var data = {
+					userName : userName,
+					id : id,
+					content : replytext
+				};
+				$.ajax({
+					type : "post",
+					url : "/reply/insert.do",
+					data : data,
+					success : function() {
+						listReply();
+						$("#replytext").val("");
+					}
+				});
+			}else if(mode == 'update'){
+				var id = rid;
+				var data = {
+					id : id,
+					content : replytext
+				};
+				$.ajax({
+					type : "post",
+					url : "/reply/update.do",
+					data : data,
+					success : function() {
+						listReply();
+						$("#replytext").val("");
+						mode = 'insert';
+					}
+				});
+			}
+		});
+	});
+</script>
+
+<script>
+     var menu = document.querySelector(".main-menu");
+
+     function toggleMenu(){
+         menu.classList.toggle('active');
+     }
+    </script>
+
+</body>
+</html>

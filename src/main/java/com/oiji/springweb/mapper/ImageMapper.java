@@ -2,6 +2,7 @@ package com.oiji.springweb.mapper;
 
 import com.oiji.springweb.dto.image.Image;
 import com.oiji.springweb.entity.ImageEntity;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -18,4 +19,6 @@ public interface ImageMapper {
 
     @Select("SELECT * FROM IMAGE WHERE ID = #{id}")
     ImageEntity getImageById(String id);
+
+    void insertImage(@Param("title") String title, @Param("imgPath") String imgPath);
 }

@@ -48,8 +48,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    //@Bean
-    /*public AuthenticationFailureHandler failureHandler() {
-        return new CustomAuthFailureHandler("username", "/login");
-    }*/
 }

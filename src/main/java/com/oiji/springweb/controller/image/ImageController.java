@@ -5,6 +5,7 @@ import com.oiji.springweb.entity.ImageEntity;
 import com.oiji.springweb.service.image.FileStore;
 import com.oiji.springweb.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.Resource;
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ImageController {
@@ -28,14 +31,14 @@ public class ImageController {
 
     @GetMapping("/view")
     public String detailedImage(@RequestParam String id, Model model) {
-        ImageEntity image = imageService.getImageById(id);
+        Image image = imageService.getImageById(id);
         model.addAttribute("image", image);
         return "image/view";
     }
 
     @GetMapping("/search")
     public String search(@RequestParam String q, Model model) {
-        List<ImageEntity> list = imageService.getImageList(q, 1);
+        List<Image> list = imageService.getImageList(q, 1);
         model.addAttribute("list", list);
         return "image/search";
     }
@@ -46,25 +49,26 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public String saveImage(@RequestParam MultipartFile file) throws IOException {
-        if (!file.isEmpty()) {
-            String fileName = file.getOriginalFilename();
-            file.transferTo(new File(fileStore.getFullPath(fileName)));
-        }
-        return "image/uploadForm";
+    public String saveImage(@RequestParam("file") MultipartFile file, @RequestParam String[] keyword) throws IOException {
+        String imgPath = fileStore.storeImage(file);
+
+        String title = String.join(" ", keyword);
+        imageService.addImage(title, imgPath);
+
+        return "redirect:/upload";
     }
 
     @ResponseBody
     @GetMapping("/ajax/list")
     public String moreList(@RequestParam String query, int page) {
-        List<ImageEntity> list = imageService.getImageList(query, page);
+        List<Image> list = imageService.getImageList(query, page);
         JSONArray jary = new JSONArray();
 
         if(list.isEmpty()) {
             jary.put("none");
         }
         else {
-            for(ImageEntity img : list) {
+            for(Image img : list) {
                 JSONObject json = new JSONObject();
 
                 JSONArray titleArr = new JSONArray();

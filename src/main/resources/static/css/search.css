@@ -155,7 +155,7 @@ body{
 
 #main .container h2{
     margin-left: 20px;
-    --margin-bottom: 20px;
+    margin-bottom: 20px;
     color: var(--text-color);
     font-size: 24px;
 }

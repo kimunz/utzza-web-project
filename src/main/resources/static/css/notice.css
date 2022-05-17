@@ -164,7 +164,7 @@ hr{
 	height: 550px;
     width: 200px;
     background: var(--bright-color);
-    color: highlighttext;
+    color: var(--background-color);
 }
 
 #main .container .side-menu h2{

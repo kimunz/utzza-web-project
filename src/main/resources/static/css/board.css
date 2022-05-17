@@ -21,6 +21,12 @@ body{
 	font-family: 'Noto Sans KR', sans-serif, noto;
 }
 
+hr{
+	border: 2px solid var(--yellow-color);
+    margin: 10px 0;
+    width: 125px;
+}
+
 #header{
     width: 1100px;
     margin: 0 auto;
@@ -151,47 +157,106 @@ body{
 
 #main .container{
     position: relative;
+    display: flex;
+}
+
+#main .container .side-menu{
+	height: 550px;
+    width: 200px;
+    background: var(--bright-color);
+    color: var(--background-color);
+}
+
+#main .container .side-menu h2{
+    font-size: 18px;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid white;
+}
+
+#main .container .side-menu ul{
+	margin: 10px auto;
+	font-size: 16px;
+}
+
+#main .container .side-menu ul li{
+	margin-left: 20px;
+	padding: 2px;
+}
+
+/* 공지사항 게시판 영역 */
+
+#main .container .content{
+    position: relative;
+	width: 100%;
+	margin: 0 30px;
+}
+
+#main .container .content .board-search{
+	text-align: right;
+}
+
+#main .container .content .table{
+	margin: 10px auto;
+	background: white;
+}
+
+#main .container .content .table thead{
 	text-align: center;
 }
 
-#main .upload-info{
-    width: 800px;
-    margin: 0 auto;
-    text-align: center;
+.w60{
+	width: 60px;
 }
 
-#main .upload-info .prevImage{
-    margin: 10px auto;
-    width: 300px;
-    height: 300px;
-    border: 1px solid var(--light-accent-color);
-    object-fit: cover;
+.w100{
+	width: 100px;
 }
 
-#main .upload-info .selectImg{
-    margin: 10px auto 30px;
+#main .container .content .table td{
+	display: table-cell;
+	text-align: center;
 }
 
-#main .upload-info ul{
-    display: flex;
-    margin-bottom: 20px;
+#main .container .content .table .title{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: left;
+	padding-left: 10px;
 }
 
-#main .upload-info li{
-    margin-right: 10px;
-}
-
-#main .upload-btn{
-    width: 100px;
-    margin: 0 auto;
-    background: var(--bright-color);
+#main .container .content .write-btn{
+	position: absolute;
+	left: 0;
+	padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #333;
+    border-radius: 4px;
     color: var(--text-color);
+    background-color: #fff;
 }
 
-#main .upload-btn:hover{
-    background: white;
+#main .container .content .indexer{
+	text-align: right;
+	right: 0;
 }
 
+#main .container .content .pager{
+	display: flex;
+	justify-content: center;
+}
+
+#main .container .content .pager .nav-btn{
+	line-height: 32px;
+}
+
+#main .container .content .pager .btn-prev,
+#main .container .content .pager .btn-next
+{
+	cursor: pointer;
+}
 
 @media screen and (max-width: 1200px) {
 	#header {

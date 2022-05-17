@@ -1,6 +1,9 @@
 package com.oiji.springweb.entity;
 
+import com.oiji.springweb.dto.image.Image;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ImageEntity {
@@ -47,5 +50,9 @@ public class ImageEntity {
         this.title = title.split(" ");
         this.imgPath = imgPath;
         this.hit = hit;
+    }
+
+    public Image toDto() {
+        return new Image(getId(), getTitle(), getImgPath(), getHit());
     }
 }

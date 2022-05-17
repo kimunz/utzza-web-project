@@ -65,7 +65,7 @@
             </ul>
         </li>
         <li>
-            <a class="categ-menu" href="">짤 등록</a>
+            <a class="categ-menu" href="/upload">짤 등록</a>
         </li>
         <li>
             <a class="categ-menu" href="">짤 만들기</a>
@@ -84,16 +84,16 @@
 <main id="main">
     <div class="container">
         <h2>
-            <span>- ${query}에 대한 검색결과</span>
+            <span th:text="|- ${param.q}에 대한 검색결과|"></span>
         </h2>
         <div id="row" class="row">
             <div th:each="n : ${list}" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
                 <div class="content">
-                    <a th:href="/view?id=${n.id}">
+                    <a th:href="|/view?id=${n.id}|">
                         <img th:src="|/storage/${n.imgPath}|">
                     </a>
                     <div class="keyword">
-                        <a th:each="key, i : ${n.title}" th:if="${i.count le 3}" href="./results?q=${key}" th:text="${key}"></a>
+                        <a th:each="key, i : ${n.title}" th:if="${i.count le 3}" th:href="|/search?q=${key}|" th:text="${key}"></a>
                     </div>
                 </div>
             </div>

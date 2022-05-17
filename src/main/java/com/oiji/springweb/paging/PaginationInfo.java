@@ -18,7 +18,7 @@ public class PaginationInfo {
         this.criteria = criteria;
         this.pageSize = pageSize;
         this.totalRecords = totalRecords;
-        totalPages = totalRecords / criteria.getRecords() + 1;
+        totalPages = (int) (Math.ceil(totalRecords * 1.0 / criteria.getRecords()));
 
         endPage = (int)(Math.ceil(criteria.getPage() * 1.0 / pageSize)) * pageSize;
         startPage = endPage - (pageSize-1);

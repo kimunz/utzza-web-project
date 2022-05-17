@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,21 +17,27 @@ public class ImageService {
     private int start = 0;
     private int end = 0;
 
-    public ImageEntity getImageById(String id) {
-        ImageEntity image = imageMapper.getImageById(id);
+    public Image getImageById(String id) {
+        Image image = imageMapper.getImageById(id).toDto();
         return image;
     }
 
-    public List<ImageEntity> getHomeImageList(String query, int page) {
-        setPage(page);
-        List<ImageEntity> list = imageMapper.getImageList("", start, end);
+    public List<Image> getHomeImageList() {
+        setPage(1);
+        List<Image> list = imageMapper.getImageList("", start, end)
+                            .stream().map(ImageEntity::toDto).collect(Collectors.toList());
         return list;
     }
 
-    public List<ImageEntity> getImageList(String query, int page) {
+    public List<Image> getImageList(String query, int page) {
         setPage(page);
-        List<ImageEntity> list = imageMapper.getImageList(query, start, end);
+        List<Image> list = imageMapper.getImageList(query, start, end)
+                .stream().map(ImageEntity::toDto).collect(Collectors.toList());
         return list;
+    }
+
+    public void addImage(String title, String imgPath){
+        imageMapper.insertImage(title, imgPath);
     }
 
     private void setPage(int page) {

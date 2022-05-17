@@ -68,7 +68,7 @@
             </ul>
         </li>
         <li>
-            <a class="categ-menu" href="">짤 등록</a>
+            <a class="categ-menu" href="/upload">짤 등록</a>
         </li>
         <li>
             <a class="categ-menu" href="">짤 만들기</a>
@@ -133,7 +133,7 @@
                             <a th:text="*{title}" th:href="@{/notice/view(id=*{id})}">제목</a>
                         </td>
                         <td th:text="*{writerId}"></td>
-                        <td th:text="*{regdate}"></td>
+                        <td th:text="*{regDate}"></td>
                         <td th:text="*{hit}"></td>
                     </tr>
                 </th:block>

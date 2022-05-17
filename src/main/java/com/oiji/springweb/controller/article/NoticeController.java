@@ -1,17 +1,15 @@
 package com.oiji.springweb.controller.article;
 
 import com.oiji.springweb.dto.article.Notice;
-import com.oiji.springweb.entity.NoticeEntity;
 import com.oiji.springweb.paging.Criteria;
 import com.oiji.springweb.paging.PaginationInfo;
-import com.oiji.springweb.service.notice.NoticeService;
+import com.oiji.springweb.service.article.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class NoticeController {
     @GetMapping("/notice")
     public String getNoticeListPage(@ModelAttribute Criteria criteria, Model model) {
 
-        List<NoticeEntity> list = noticeService.findAll(criteria);
+        List<Notice> list = noticeService.findAll(criteria);
         int count = noticeService.getNoticeCount(criteria);
 
         model.addAttribute("list", list);
@@ -38,8 +36,10 @@ public class NoticeController {
     @GetMapping("/notice/view")
     public String getNoticeViewPage(@RequestParam int id, Model model) {
 
-        NoticeEntity notice = noticeService.findById(id);
+        Notice notice = noticeService.findById(id);
         model.addAttribute("notice", notice);
+
+        log.info(notice.toString());
         return "notice/view";
     }
 }
