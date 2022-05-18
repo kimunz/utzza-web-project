@@ -1,0 +1,373 @@
+@import url('reset.css');
+
+:root{
+	--text-color: #1f1e30;
+    --background-color: #f8f5fa;
+    --accent-color: #50606f;
+    --light-accent-color: #A6A198;
+    --bright-color: #c4e1ff;
+    --yellow-color: #FCE38A;
+    --error-color: #ff003e;
+}
+
+@font-face{
+	font-family:noto;
+    src:local(※), url(NotoSansKR-Regular.otf) format(‘otf’);
+}
+
+body{
+	overflow-y: scroll;
+    background: var(--background-color);
+	font-family: 'Noto Sans KR', sans-serif, noto;
+}
+
+hr{
+    margin: 10px 0 0 0;
+}
+
+#header{
+    width: 1100px;
+    margin: 0 auto;
+}
+
+#header .header-top{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 80px;
+    margin-top: 20px;
+    color: var(--accent-color);
+}
+
+#header .header-top .logo{
+    position: relative;
+    width: 130px;
+    text-align: left;
+}
+
+#header .header-top .logo img{
+	height: 60px;
+}
+
+#header .header-top .search {
+    position: relative;
+    margin: 0 auto;
+}
+
+#header .header-top .search .search-bar{
+    height: 50px;
+    width: 700px;
+    padding-left: 10px;
+    font-size: 18px;
+    float: left;
+    color: var(--accent-color);
+    border-radius: 0.1em;
+}
+
+#header .header-top .search .search-bar:focus{
+	outline: none;
+	box-shadow: none;
+}
+
+#header .header-top .search .search-btn{
+	height: 50px;
+    width: 60px;
+    font-size: 15px;
+    float: left;
+    cursor: pointer;
+    background: var(--bright-color);
+    color: var(--text-color);
+    border-radius: 0.1em;
+}
+
+#header .header-top .member-menu{
+    display: flex;
+    margin-right: 10px;
+    height: 100%;
+}
+
+#header .header-top .member-menu li{
+    margin: 0 10px;
+}
+
+#header .header-top .member-menu li .logout-btn{
+    background: inherit;
+    border: none;
+}
+
+#header .header-top .toggle-btn{
+	font-size: 30px;
+	color: var(--accent-color);
+	display: none;
+}
+
+#header .main-menu{
+    display: flex;
+    position: relative;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 15px;
+    padding: 5px 0;
+    background: var(--accent-color);
+    height: 32px;
+}
+
+#header .main-menu li .categ-menu{
+    font-size: 16px;
+    color: white;;
+    padding: 15px 10px;
+}
+
+
+#header .main-menu li:hover .categ-menu{
+    color: var(--background-color);
+}
+
+#header .main-menu li .sub-menu{
+    display: none;
+    position: absolute;
+    top: 32px;
+    width: 170px;
+    background: white;
+    border: 1px solid var(--light-accent-color);
+    z-index: 1;
+}
+
+#header .main-menu li:hover .sub-menu{
+    display: block;
+}
+
+#header .main-menu li .sub-menu li a{
+    display: block;
+    padding: 10px;
+}
+
+#header .main-menu li .sub-menu li:hover{
+    background: var(--yellow-color);
+}
+
+/* main 영역 */
+#main {
+    position: relative;
+    top: 60px;
+    width: 100%;
+}
+
+#main .container{
+    position: relative;
+    display: flex;
+}
+
+#main .container .side-menu{
+	height: 550px;
+    width: 200px;
+    background: var(--accent-color);
+    color: var(--background-color);
+}
+
+#main .container .side-menu h2{
+    font-size: 18px;
+    padding: 20px;
+    text-align: center;
+}
+
+#main .container .side-menu ul{
+	margin: 10px auto;
+	font-size: 16px;
+}
+
+#main .container .side-menu ul li{
+	margin-left: 20px;
+	padding: 2px;
+}
+
+/* 공지사항 게시판 영역 */
+
+#main .container .content{
+	position: relative;
+    height: 100%;
+	width: 100%;
+	margin: 0 30px;
+	padding: 15px 25px;
+	background: white;
+}
+
+#main .container .content .sub-title{
+	display: flex;
+	color: #a6a6a6;
+	font-size: 13px;
+	justify-content: space-between;
+}
+
+#main .container .content .sub-title .categ-name{
+	position: relative;
+	left: 2px;
+}
+
+#main .container .content .sub-title .b-fn .b-edit,
+#main .container .content .sub-title .b-fn .b-delete
+{
+	text-decoration: underline;
+	margin-left: 10px;
+}
+
+#main .container .content .content-info{
+	margin-top: 4px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #f8f8f8;
+}
+
+#main .container .content .content-info .title{
+	font-weight: 400;
+	font-size: 20px;
+}
+
+#main .container .content .content-info .info-desc{
+	position: relative;
+	left: 2px;
+	margin-top: 10px;
+}
+
+#main .container .content .content-info .info-desc .txt-item{
+	margin-right: 7px;
+}
+
+#main .container .content .bbs-contents{
+	padding: 40px 0;
+	font-size: 15px;
+	border-bottom: 1px solid #f8f8f8;
+}
+
+#main .container .content .reply{
+	margin: 10px -25px 0;
+	background: #f8f8f8;
+}
+
+#main .container .content .reply table{
+	width: 100%;
+}
+
+#main .container .content .reply td{
+	padding: 10px 25px;
+	border-bottom: 2px solid white;
+}
+
+#main .container .content .reply .top-area{
+	display: flex;
+	justify-content: space-between;
+	color: #a6a6a6;
+}
+
+#main .container .content .reply .top-area .r-fn button{
+	border: none;
+	background: none;
+	padding: 0 3px;
+	margin-left: 10px;
+}
+
+#main .container .content .reply .r-content{
+	font-size: 16px;
+}
+
+#main .container .content .reply .r-regDate{
+	color: #a6a6a6;
+
+}
+
+#main .container .content .reply .write-text{
+	padding: 20px 25px;
+	display: flex;
+}
+
+#main .container .content .reply .write-text .text-box{
+	display: inline-block;
+	width: 100%;
+	padding: 5px;
+	background: white;
+	border: 1px solid #d5d5d5;
+	border-radius: 3px;
+}
+
+#main .container .content .reply #replytext{
+	height: 83px;
+	width: 100%;
+	padding: 5px;
+	resize: none;
+	border: none;
+}
+
+#main .container .content .reply .reply-reg{
+	display: inline-block;
+	align-items: center;
+	text-align: right;
+}
+
+#main .container .content .reply .reg-btn{
+	width: 60px;
+	height: 100%;
+	border: 1px solid #d5d5d5;
+	border-collapse: collapse;
+}
+
+#main .container .content .nav-btn{
+	display: flex;
+	padding-top: 10px;
+}
+
+#main .container .content .nav-btn .area1{
+	width: 50%;
+}
+
+#main .container .content .nav-btn .area2{
+	width: 50%;
+	text-align: right;
+}
+
+#main .container .content .nav-btn a{
+	display: inline-block;
+	margin-right: 10px;
+	padding: 8px 10px;
+	border-radius: 4px;
+	background: #efefef;
+}
+
+#main .container .content .nav-btn a:hover{
+	background: #d5d5d5;
+}
+
+@media screen and (max-width: 1200px) {
+	#header {
+		width: 970px;
+	}
+
+	#header .header-top .search .search-bar{
+	    width: 600px;
+	}
+}
+
+@media screen and (max-width: 992px) {
+	#header {
+		width: 800px;
+	}
+
+	#header .header-top .search .search-bar{
+	    width: 500px;
+	}
+
+	#header .header-top .member-menu{
+		display: none;
+	}
+
+	#header .header-top .toggle-btn{
+		display: block;
+	}
+
+	#header .main-menu{
+		display: none;
+		width: 200px;
+	}
+
+	#header .main-menu.active{
+        display: block;
+    }
+}

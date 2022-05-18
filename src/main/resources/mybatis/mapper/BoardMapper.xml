@@ -15,9 +15,9 @@
 
     <select id="getBoardList" parameterType="com.oiji.springweb.paging.Criteria" resultMap="getBoardListResult">
         SELECT A.ID, A.TITLE, A.WRITERID, A.CONTENT, A.REGDATE, A.HIT, A.FILES,
-        (SELECT COUNT(B.ID) FROM REPLY B WHERE A.ID = B.BOARD_ID)REPLYCOUNT
+        (SELECT COUNT(B.ID) FROM REPLY B WHERE A.ID = B.BOARDID)REPLYCOUNT
         FROM (SELECT * FROM (SELECT ROWNUM NUM, N.* FROM
-        (SELECT * FROM Board WHERE ${field} LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N )
+        (SELECT * FROM BOARD WHERE ${field} LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N )
         WHERE NUM BETWEEN (#{page} - 1) * #{records} + 1 AND #{page} * #{records})A
     </select>
 
@@ -35,7 +35,7 @@
     </resultMap>
 
     <select id="getBoardById" parameterType="int" resultMap="getBoardResult">
-        SELECT B.ID, B.TITLE, B.WRITERID, B.CONTENT, B.REGDATE, B.HIT, B.FILES, B.PREVBID, B.NEXTBID, (SELECT COUNT(ID) FROM REPLY WHERE BOARD_ID = #{id})REPLYCOUNT FROM
+        SELECT B.ID, B.TITLE, B.WRITERID, B.CONTENT, B.REGDATE, B.HIT, B.FILES, B.PREVBID, B.NEXTBID, (SELECT COUNT(ID) FROM REPLY WHERE BOARDID = #{id})REPLYCOUNT FROM
         (SELECT ID, TITLE, WRITERID, CONTENT, REGDATE, HIT, FILES,
         LEAD(ID, 1, 0) OVER (ORDER BY ID DESC) AS PREVBID,
         LAG(ID, 1, 0) OVER (ORDER BY ID DESC) AS NEXTBID FROM BOARD)B WHERE B.ID = #{id}

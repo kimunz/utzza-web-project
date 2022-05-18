@@ -60,7 +60,7 @@ public class ImageController {
 
     @ResponseBody
     @GetMapping("/ajax/list")
-    public String moreList(@RequestParam String query, int page) {
+    public String moreList(@RequestParam String query, @RequestParam int page) {
         List<Image> list = imageService.getImageList(query, page);
         JSONArray jary = new JSONArray();
 

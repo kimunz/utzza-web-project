@@ -101,21 +101,21 @@
                 <div class="categ-name">
                     <span>자유게시판</span>
                 </div>
-                <sec:authentication property="principal" var="userInfo" />
-                    <div class="b-fn" th:if="${writerId == userInfo.name}">
+                <sec:authentication property="principal.name" var="userName" />
+                    <div class="b-fn" th:if="${board.writerId == userName}">
                         <a class="b-edit" th:href="@{/board/edit(id=${id})}">수정</a>
                         <a class="b-delete" th:href="@{/board/delete(id=${id})}">삭제</a>
                     </div>
             </div>
             <div class="content-info">
-                <strong class="title" th:text="${title}"></strong>
+                <strong class="title" th:text="*{title}"></strong>
                 <div class="info-desc">
-                    <span class="txt-item" th:text="${writerId}"></span>
-                    <span class="txt-item" th:text="${#dates.format(regDate, 'yyyy-MM-dd HH:mm')}"></span>
-                    <span class="txt-item" th:text="|조회 ${hit}|"></span> <span class="txt-item" th:text="|댓글 ${replyCount}|"></span>
+                    <span class="txt-item" th:text="*{writerId}"></span>
+                    <span class="txt-item" th:text="*{#dates.format(regDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span class="txt-item" th:text="|조회 *{hit}|"></span> <span class="txt-item" th:text="|댓글 *{replyCount}|"></span>
                 </div>
             </div>
-            <div class="bbs-contents" th:text="${content}"></div>
+            <div class="bbs-contents" th:text="*{content}"></div>
 
             <div class="reply">
                 <table><!-- 댓글 목록이 들어가는 곳 -->
@@ -123,11 +123,11 @@
                     </tbody>
                 </table>
                 <form>
-                    <input type="hidden" id="board-id" value="${id}">
+                    <input type="hidden" id="board-id" th:value="*{id}">
                     <input type="hidden" id="username" value="<%=userName%>">
                 </form>
 
-                <div class="write-text" th:sec="isAuthenticated()">
+                <div class="write-text" sec:authorize="isAuthenticated()">
                     <div class="text-box">
                         <textarea id="replytext" maxlength="300"></textarea>
                     </div>
@@ -142,8 +142,8 @@
                     <a th:href="@{/board( page=${param.page}, field=${param.field}, query=${param.query} )} ">목록</a>
                 </div>
                 <div class="area2">
-                    <a th:if="${prevBid != 0}" th:href="@{/board/view(id=${prevBid})}">이전글</a>
-                    <a th:if="${nextBid != 0}" th:href="@{/board/view(id=${nextBid})}">다음글</a>
+                    <a th:if="*{prevBid != 0}" th:href="@{/board/view(id=*{prevBid})}">이전글</a>
+                    <a th:if="*{nextBid != 0}" th:href="@{/board/view(id=*{nextBid})}">다음글</a>
                 </div>
             </div>
         </div>
@@ -153,15 +153,16 @@
 	var rid = '';
 	var mode = 'insert';
 	function listReply() {
-		var param = "id=" + $("#board-id").val();
+		var param = "boardId=" + $("#board-id").val();
 		$.ajax({
 			type : "get",
+			dataType: "json",
 			url : "/reply/list",
 			data : param,
 
-			success : function(jary) {
+			success : function(jsonArray) {
 				var content = "";
-				var replies = jary;
+				var replies = jsonArray;
 				$.each(replies, function(index, r) {
 					content += "<tr><td>"
 							+ "<div class='top-area'><div class='r-writer'>" + r.writerId + "</div>";
@@ -172,7 +173,7 @@
 
 					content	+= "</div>" + "<div id='rid" + r.id + "' class='r-content'>"
 							+ r.content + "</div>"
-							+ "<div class='r-regdate'>" + r.regdate
+							+ "<div class='r-regDate'>" + r.regDate
 							+ "</div></td></tr>";
 
 				});
@@ -182,7 +183,6 @@
 				console.log("code:" + request.status + "\n"
 						+ "message:" + request.responseText + "\n"
 						+ "error:" + error);
-
 			}
 		});
 	}
@@ -228,7 +228,7 @@
 				};
 				$.ajax({
 					type : "post",
-					url : "/reply/insert.do",
+					url : "/reply/insert",
 					data : data,
 					success : function() {
 						listReply();
@@ -243,7 +243,7 @@
 				};
 				$.ajax({
 					type : "post",
-					url : "/reply/update.do",
+					url : "/reply/update",
 					data : data,
 					success : function() {
 						listReply();
@@ -262,7 +262,7 @@
      function toggleMenu(){
          menu.classList.toggle('active');
      }
-    </script>
+</script>
 
 </body>
 </html>

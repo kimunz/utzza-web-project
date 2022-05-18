@@ -4,5 +4,7 @@
 <configuration>
     <mappers>
         <mapper resource="NoticeMapper.xml"/>
+        <mapper resource="BoardMapper.xml"/>
+        <mapper resource="ImageMapper.xml"/>
     </mappers>
 </configuration>

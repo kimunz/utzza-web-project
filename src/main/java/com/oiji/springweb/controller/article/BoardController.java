@@ -22,7 +22,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/board")
-    public String getBoardListPage(@ModelAttribute Criteria criteria, Model model){
+    public String getBoardListPage(@ModelAttribute Criteria criteria, Model model) {
 
         List<Board> list = boardService.getBoardList(criteria);
         int count = boardService.getBoardCount(criteria);
@@ -33,11 +33,12 @@ public class BoardController {
     }
 
     @GetMapping("/board/view")
-    public String getBoardViewPage(@ModelAttribute Criteria criteria, @RequestParam int id, Model model){
+    public String getBoardViewPage(@ModelAttribute Criteria criteria, @RequestParam int id, Model model) {
 
         Board board = boardService.getBoardById(id);
         model.addAttribute("board", board);
 
         return "board/view";
     }
+
 }
