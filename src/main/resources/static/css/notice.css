@@ -163,7 +163,7 @@ hr{
 #main .container .side-menu{
 	height: 550px;
     width: 200px;
-    background: var(--bright-color);
+    background: var(--accent-color);
     color: var(--background-color);
 }
 
@@ -171,7 +171,6 @@ hr{
     font-size: 18px;
     padding: 20px;
     text-align: center;
-    border-bottom: 1px solid white;
 }
 
 #main .container .side-menu ul{

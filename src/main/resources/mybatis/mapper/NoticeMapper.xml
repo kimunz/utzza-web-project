@@ -31,12 +31,13 @@
         <result property="nextNid" column="nextNid" />
     </resultMap>
 
-    <select id="getNoticeById" parameterType="int" resultMap="getNoticeResult">
+    <select id="getNoticeById" resultMap="getNoticeResult">
         SELECT N.ID, N.TITLE, N.WRITERID, N.CONTENT, N.REGDATE, N.HIT, N.FILES, N.PREVNID, N.NEXTNID FROM
         (SELECT ID, TITLE, WRITERID, CONTENT, REGDATE, HIT, FILES,
         LEAD(ID, 1, 0) OVER (ORDER BY ID DESC) AS PREVNID,
         LAG(ID, 1, 0) OVER (ORDER BY ID DESC) AS NEXTNID
-        FROM NOTICE)N WHERE N.ID = #{id}
+        FROM (SELECT * FROM NOTICE WHERE ${criteria.field} LIKE '%'|| #{criteria.query} ||'%' ORDER BY REGDATE DESC))N
+        WHERE N.ID = #{id}
     </select>
 
     <select id="getNoticeCount" parameterType="com.oiji.springweb.paging.Criteria" resultType="int">

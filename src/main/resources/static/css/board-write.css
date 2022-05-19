@@ -22,9 +22,7 @@ body{
 }
 
 hr{
-	border: 2px solid var(--yellow-color);
-    margin: 10px 0;
-    width: 125px;
+    margin: 10px 0 0 0;
 }
 
 #header{
@@ -185,80 +183,58 @@ hr{
 
 /* 공지사항 게시판 영역 */
 
-#main .container .content{
-    position: relative;
+#main .container .write-box{
+	position: relative;
+    height: 100%;
 	width: 100%;
 	margin: 0 30px;
-}
-
-#main .container .content .board-search{
-	text-align: right;
-}
-
-#main .container .content .table{
-	margin: 10px auto;
+	padding: 15px 25px;
 	background: white;
 }
 
-#main .container .content .table thead{
+#main .container .title-box{
+	width: 100%;
+}
+
+#main .container .title-box .title{
+	width: 100%;
+	height: 40px;
+	border: none;
+	border-bottom: 1px solid #d5d5d5;
+	padding: 5px;
+}
+
+#main .container .file-box{
+	width: 100%;
+	margin-top: 10px;
+}
+
+#main .container .content-box .content{
+	width: 100%;
+	height: 300px;
+	padding: 10px;
+	border: 1px solid #d5d5d5;
+	resize: none;
+	margin-top: 20px;
+}
+
+#main .container .btn-area{
+	margin-top: 15px;
 	text-align: center;
 }
 
-.w60{
-	width: 60px;
-}
-
-.w100{
-	width: 100px;
-}
-
-#main .container .content .table td{
-	display: table-cell;
-	text-align: center;
-}
-
-#main .container .content .table .title{
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	text-align: left;
-	padding-left: 10px;
-}
-
-#main .container .content .write-btn{
-	position: absolute;
-	left: 0;
-	padding: 6px 12px;
-    font-size: 14px;
-    cursor: pointer;
+#main .container .btn-area button{
+	margin-left: 10px;
+	width: 50px;
+	height: 30px;
     border: 1px solid #ccc;
     border-radius: 4px;
     color: #333;
     background-color: #fff;
 }
 
-#main .container .content .write-btn:hover{
+#main .container .btn-area button:hover{
     background-color: #F6F6F6;
-}
-
-#main .container .content .indexer{
-	text-align: right;
-	right: 0;
-}
-
-#main .container .content .pager{
-	display: flex;
-	justify-content: center;
-}
-
-#main .container .content .pager .nav-btn{
-	line-height: 32px;
-}
-
-#main .container .content .pager .btn-prev,
-#main .container .content .pager .btn-next
-{
-	cursor: pointer;
 }
 
 @media screen and (max-width: 1200px) {

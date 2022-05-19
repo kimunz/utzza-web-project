@@ -111,11 +111,13 @@
 
             <div class="nav-btn">
                 <div class="area1">
-                    <a th:href="@{/notice(page=${param.page}, field=${param.field}, text=${param.text})}">목록</a>
+                    <a th:href="@{/notice(page=${param.page}, field=${param.field}, query=${param.query})}">목록</a>
                 </div>
                 <div class="area2">
-                    <a th:if="*{prevNid != 0}" th:href="@{/notice/view(id=*{prevNid})}">이전글</a>
-                    <a th:if="*{nextNid != 0}" th:href="@{/notice/view(id=*{nextNid})}">다음글</a>
+                    <a th:if="*{prevNid != 0}"
+                       th:href="@{/notice/view(id=*{prevNid}, page=${param.page}, field=${param.field}, query=${param.query})}">이전글</a>
+                    <a th:if="*{nextNid != 0}"
+                       th:href="@{/notice/view(id=*{nextNid}, page=${param.page}, field=${param.field}, query=${param.query})}">다음글</a>
                 </div>
             </div>
         </div>

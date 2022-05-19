@@ -22,7 +22,7 @@ public class NoticeService {
         return noticeMapper.getNoticeCount(criteria);
     }
 
-    public Notice findById(int id) {
-        return noticeMapper.getNoticeById(id);
+    public Notice findById(Criteria criteria, int id) {
+        return noticeMapper.getNoticeById(criteria, id);
     }
 }

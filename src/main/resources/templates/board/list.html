@@ -129,7 +129,8 @@
                     <tr th:object="${board}">
                         <td th:text="*{id}">번호</td>
                         <td class="title">
-                            <a th:text="*{title}" th:href="@{/board/view(id=*{id})}">제목</a>
+                            <a th:text="*{title}"
+                               th:href="@{/board/view(id=*{id}, page=${pageMaker.criteria.getPage()}, field=${pageMaker.criteria.getField()}, query=${pageMaker.criteria.getQuery()})}">제목</a>
                             <span style="color:#FF75A0;" th:text="|[*{replyCount}]|"></span>
                         </td>
                         <td th:text="*{writerId}"></td>
@@ -142,7 +143,7 @@
 
             <th:block sec:authorize="isAuthenticated()">
                 <div class="write-btn">
-                    <a href="board/write">글쓰기</a>
+                    <a th:href="@{/board/write}">글쓰기</a>
                 </div>
             </th:block>
 

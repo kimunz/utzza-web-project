@@ -3,6 +3,7 @@ package com.oiji.springweb.mapper;
 import com.oiji.springweb.dto.article.Notice;
 import com.oiji.springweb.paging.Criteria;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface NoticeMapper {
 
     int getNoticeCount(Criteria criteria);
 
-    Notice getNoticeById(int id);
+    Notice getNoticeById(@Param("criteria") Criteria criteria, @Param("id") int id);
 }

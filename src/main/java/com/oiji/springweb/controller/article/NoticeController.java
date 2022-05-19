@@ -34,12 +34,11 @@ public class NoticeController {
     }
 
     @GetMapping("/notice/view")
-    public String getNoticeViewPage(@RequestParam int id, Model model) {
+    public String getNoticeViewPage(@RequestParam int id, @ModelAttribute Criteria criteria, Model model) {
 
-        Notice notice = noticeService.findById(id);
+        Notice notice = noticeService.findById(criteria, id);
         model.addAttribute("notice", notice);
 
-        log.info(notice.toString());
         return "notice/view";
     }
 }

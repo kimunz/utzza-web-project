@@ -6,4 +6,19 @@
         SELECT * FROM REPLY WHERE BOARDID = #{boardId}
     </select>
 
+    <insert id="addReply" parameterType="com.oiji.springweb.dto.article.Reply">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            SELECT REPLY_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO REPLY(ID, CONTENT, WRITERID, BOARDID) VALUES(#{id}, #{content}, #{writerId}, #{boardId})
+    </insert>
+
+    <update id="editReply">
+        UPDATE REPLY SET CONTENT = #{content} WHERE ID = #{id}
+    </update>
+
+    <delete id="removeReply">
+        DELETE FROM REPLY WHERE ID = #{id}
+    </delete>
+
 </mapper>

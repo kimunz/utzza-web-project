@@ -16,4 +16,16 @@ public class ReplyService {
     public List<Reply> getReply(int boardId) {
         return replyMapper.getReply(boardId);
     }
+
+    public int addReply(Reply reply) {
+        return replyMapper.addReply(reply);
+    }
+
+    public int editReply(int id, String content) {
+        return replyMapper.editReply(id, content);
+    }
+
+    public int removeReply(int id) {
+        return replyMapper.removeReply(id);
+    }
 }

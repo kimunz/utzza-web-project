@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,11 +101,12 @@
                 <div class="categ-name">
                     <span>자유게시판</span>
                 </div>
-                <sec:authentication property="principal.name" var="userName" />
-                    <div class="b-fn" th:if="${board.writerId == userName}">
+                <th:block sec:authorize="isAuthenticated()">
+                    <div class="b-fn" th:if="${board.writerId eq user?.name}">
                         <a class="b-edit" th:href="@{/board/edit(id=${id})}">수정</a>
                         <a class="b-delete" th:href="@{/board/delete(id=${id})}">삭제</a>
                     </div>
+                </th:block>
             </div>
             <div class="content-info">
                 <strong class="title" th:text="*{title}"></strong>
@@ -115,7 +116,7 @@
                     <span class="txt-item" th:text="|조회 *{hit}|"></span> <span class="txt-item" th:text="|댓글 *{replyCount}|"></span>
                 </div>
             </div>
-            <div class="bbs-contents" th:text="*{content}"></div>
+            <div class="bbs-contents" th:utext="*{content}"></div>
 
             <div class="reply">
                 <table><!-- 댓글 목록이 들어가는 곳 -->
@@ -124,7 +125,7 @@
                 </table>
                 <form>
                     <input type="hidden" id="board-id" th:value="*{id}">
-                    <input type="hidden" id="username" value="<%=userName%>">
+                    <input type="hidden" id="username" th:value="${user?.name}">
                 </form>
 
                 <div class="write-text" sec:authorize="isAuthenticated()">
@@ -139,11 +140,13 @@
 
             <div class="nav-btn">
                 <div class="area1">
-                    <a th:href="@{/board( page=${param.page}, field=${param.field}, query=${param.query} )} ">목록</a>
+                    <a th:href="@{/board(page=${param.page}, field=${param.field}, query=${param.query})} ">목록</a>
                 </div>
                 <div class="area2">
-                    <a th:if="*{prevBid != 0}" th:href="@{/board/view(id=*{prevBid})}">이전글</a>
-                    <a th:if="*{nextBid != 0}" th:href="@{/board/view(id=*{nextBid})}">다음글</a>
+                    <a th:if="*{prevBid != 0}"
+                       th:href="@{/board/view(id=*{prevBid}, page=${param.page}, field=${param.field}, query=${param.query})}">이전글</a>
+                    <a th:if="*{nextBid != 0}"
+                       th:href="@{/board/view(id=*{nextBid}, page=${param.page}, field=${param.field}, query=${param.query})}">다음글</a>
                 </div>
             </div>
         </div>
@@ -202,6 +205,7 @@
 			var data = {id : id};
 			$.ajax({
 				type : "post",
+				dataType: "json",
 				url : "/reply/delete",
 				data : data,
 				success : function() {
@@ -217,17 +221,18 @@
 	$(function() {
 		listReply();
 		$(".reg-btn").on("click", function() {
-			var replytext = $("#replytext").val();
+			var content = $("#replytext").val();
 			if(mode == 'insert'){
-				var userName = $("#username").val();
-				var id = $("#board-id").val();
+				var writerId = $("#username").val();
+				var boardId = $("#board-id").val();
 				var data = {
-					userName : userName,
-					id : id,
-					content : replytext
+					content : content,
+					writerId : writerId,
+					boardId : boardId
 				};
 				$.ajax({
 					type : "post",
+				    dataType: "json",
 					url : "/reply/insert",
 					data : data,
 					success : function() {
@@ -239,10 +244,11 @@
 				var id = rid;
 				var data = {
 					id : id,
-					content : replytext
+					content : content
 				};
 				$.ajax({
 					type : "post",
+				    dataType: "json",
 					url : "/reply/update",
 					data : data,
 					success : function() {

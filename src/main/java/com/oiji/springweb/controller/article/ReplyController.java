@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,11 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReplyController {
 
-    private final ReplyService service;
+    private final ReplyService replyService;
 
     @GetMapping("/list")
     public String getReply(@RequestParam int boardId) {
-        List<Reply> replies = service.getReply(boardId);
+        List<Reply> replies = replyService.getReply(boardId);
         DateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         JSONArray jsonArray = new JSONArray();
 
@@ -42,21 +39,22 @@ public class ReplyController {
         return jsonArray.toString();
     }
 
-    @GetMapping("/insert")
-    public String addReply() {
-
-        return "";
+    @PostMapping("/insert")
+    public void addReply(String content, String writerId, int boardId) {
+        Reply reply = new Reply();
+        reply.setContent(content);
+        reply.setWriterId(writerId);
+        reply.setBoardId(boardId);
+        replyService.addReply(reply);
     }
 
-    @GetMapping("/update")
-    public String editReply() {
-
-        return "";
+    @PostMapping("/update")
+    public void editReply(int id, String content) {
+        replyService.editReply(id, content);
     }
 
-    @GetMapping("/delete")
-    public String removeReply() {
-
-        return "";
+    @PostMapping("/delete")
+    public void removeReply(int id) {
+        replyService.removeReply(id);
     }
 }

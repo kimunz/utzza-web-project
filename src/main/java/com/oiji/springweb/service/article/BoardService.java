@@ -18,11 +18,16 @@ public class BoardService {
         return boardMapper.getBoardList(criteria);
     }
 
-    public Board getBoardById(int id) {
-        return boardMapper.getBoardById(id);
+    public Board getBoardById(Criteria criteria, int id) {
+        return boardMapper.getBoardById(criteria, id);
     }
 
     public int getBoardCount(Criteria criteria) {
         return boardMapper.getBoardCount(criteria);
+    }
+
+    public int addBoard(Board board) {
+        board.setContent(board.getContent().replace("\r\n", "<br>"));
+        return boardMapper.addBoard(board);
     }
 }

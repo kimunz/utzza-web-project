@@ -34,15 +34,24 @@
         <result property="replyCount" column="replyCount" />
     </resultMap>
 
-    <select id="getBoardById" parameterType="int" resultMap="getBoardResult">
+    <select id="getBoardById" resultMap="getBoardResult">
         SELECT B.ID, B.TITLE, B.WRITERID, B.CONTENT, B.REGDATE, B.HIT, B.FILES, B.PREVBID, B.NEXTBID, (SELECT COUNT(ID) FROM REPLY WHERE BOARDID = #{id})REPLYCOUNT FROM
         (SELECT ID, TITLE, WRITERID, CONTENT, REGDATE, HIT, FILES,
         LEAD(ID, 1, 0) OVER (ORDER BY ID DESC) AS PREVBID,
-        LAG(ID, 1, 0) OVER (ORDER BY ID DESC) AS NEXTBID FROM BOARD)B WHERE B.ID = #{id}
+        LAG(ID, 1, 0) OVER (ORDER BY ID DESC) AS NEXTBID
+        FROM (SELECT * FROM BOARD WHERE ${criteria.field} LIKE '%'|| #{criteria.query} ||'%' ORDER BY REGDATE DESC))B
+        WHERE B.ID = #{id}
     </select>
 
     <select id="getBoardCount" parameterType="com.oiji.springweb.paging.Criteria" resultType="int">
         SELECT COUNT(ID) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM BOARD WHERE
         ${field} LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N)
     </select>
+
+    <insert id="addBoard" parameterType="com.oiji.springweb.dto.article.Board">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            SELECT BOARD_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BOARD(ID, TITLE, WRITERID, CONTENT) VALUES(#{id}, #{title}, #{writerId}, #{content})
+    </insert>
 </mapper>
