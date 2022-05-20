@@ -21,8 +21,8 @@ public class ReplyService {
         return replyMapper.addReply(reply);
     }
 
-    public int editReply(int id, String content) {
-        return replyMapper.editReply(id, content);
+    public int editReply(Reply reply) {
+        return replyMapper.editReply(reply);
     }
 
     public int removeReply(int id) {

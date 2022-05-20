@@ -45,12 +45,14 @@ public class ReplyController {
     }
 
     @PostMapping("/update")
-    public void editReply(int id, String content) {
-        replyService.editReply(id, content);
+    public String editReply(@RequestBody Reply reply) {
+        replyService.editReply(reply);
+        return "success";
     }
 
     @PostMapping("/delete")
-    public void removeReply(int id) {
+    public String removeReply(@RequestParam int id) {
         replyService.removeReply(id);
+        return "success";
     }
 }

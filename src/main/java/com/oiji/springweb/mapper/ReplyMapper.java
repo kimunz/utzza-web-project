@@ -13,7 +13,7 @@ public interface ReplyMapper {
 
     int addReply(Reply reply);
 
-    int editReply(@Param("id") int id, @Param("content") String content);
+    int editReply(Reply reply);
 
     int removeReply(int id);
 }

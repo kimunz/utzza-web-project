@@ -211,13 +211,15 @@
 			var rid_ = replyId.id;
 			rid = rid_.split('rid')[1];
 			var id = rid;
-			var data = {id : id};
 			$.ajax({
 				type : "post",
-				dataType: "json",
+				dataType: "text",
 				url : "/reply/delete",
-				data : data,
-				success : function() {
+				data : {id : id},
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+				success : function(result) {
 					listReply();
 				}
 			});
@@ -256,13 +258,17 @@
 				var id = rid;
 				$.ajax({
 					type : "post",
+					contentType: "application/json; charset=utf-8",
 				    dataType: "text",
 					url : "/reply/update",
-					data : {
+					data : JSON.stringify({
                         id : id,
                         content : content
-				    },
-					success : function() {
+				    }),
+				    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+					success : function(result) {
 						listReply();
 						$("#replytext").val("");
 						mode = 'insert';
