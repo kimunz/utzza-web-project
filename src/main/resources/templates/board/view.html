@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTZZA</title>
@@ -153,15 +156,21 @@
     </div>
 </main>
 <script>
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
 	var rid = '';
 	var mode = 'insert';
+
 	function listReply() {
-		var param = "boardId=" + $("#board-id").val();
+		var boardId = $("#board-id").val();
 		$.ajax({
 			type : "get",
 			dataType: "json",
 			url : "/reply/list",
-			data : param,
+			data : {
+			    boardId : boardId
+			},
 
 			success : function(jsonArray) {
 				var content = "";
@@ -225,32 +234,34 @@
 			if(mode == 'insert'){
 				var writerId = $("#username").val();
 				var boardId = $("#board-id").val();
-				var data = {
-					content : content,
-					writerId : writerId,
-					boardId : boardId
-				};
 				$.ajax({
 					type : "post",
-				    dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					dataType: "text",
 					url : "/reply/insert",
-					data : data,
-					success : function() {
-						listReply();
-						$("#replytext").val("");
+					data : JSON.stringify({
+					    content : content,
+					    writerId : writerId,
+					    boardId : boardId
+					}),
+					beforeSend: function(xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+					success : function(result) {
+                        listReply();
+                        $("#replytext").val("");
 					}
 				});
 			}else if(mode == 'update'){
 				var id = rid;
-				var data = {
-					id : id,
-					content : content
-				};
 				$.ajax({
 					type : "post",
-				    dataType: "json",
+				    dataType: "text",
 					url : "/reply/update",
-					data : data,
+					data : {
+                        id : id,
+                        content : content
+				    },
 					success : function() {
 						listReply();
 						$("#replytext").val("");

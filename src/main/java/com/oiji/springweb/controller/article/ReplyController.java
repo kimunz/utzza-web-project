@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
@@ -40,12 +39,9 @@ public class ReplyController {
     }
 
     @PostMapping("/insert")
-    public void addReply(String content, String writerId, int boardId) {
-        Reply reply = new Reply();
-        reply.setContent(content);
-        reply.setWriterId(writerId);
-        reply.setBoardId(boardId);
+    public String addReply(@RequestBody Reply reply) {
         replyService.addReply(reply);
+        return "success";
     }
 
     @PostMapping("/update")
