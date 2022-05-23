@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/notice-view.css">
+    <link type="text/css" rel="stylesheet" href="/css/board-edit.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -91,45 +94,38 @@
                 게시판
             </h2>
             <ul>
-                <li><a href="/notice"><strong>공지사항</strong></a></li>
-                <li><a href="/board">자유게시판</a></li>
+                <li><a href="/notice">공지사항</a></li>
+                <li><a href="/board"><strong>자유게시판</strong></a></li>
             </ul>
         </aside>
-        <div class="content" th:object="${notice}">
-            <div class="sub-title">
-                <span>공지사항</span>
-            </div>
-            <div class="content-info">
-                <strong class="title" th:text="*{title}"></strong>
-                <div class="info-desc">
-                    <span class="txt-item" th:text="*{writerId}"></span>
-                    <span class="txt-item" th:text="*{regDate}"></span>
-                    <span class="txt-item" th:text="|조회 *{hit}|"></span>
+        <!--          본문           -->
+        <div class="write-box">
+            <form method="post" th:action="@{/board/edit}" th:object="${board}">
+                <input type="hidden" name="id" th:value="*{id}">
+                <div class="title-box">
+                    <input type="text" class="title" name="title" placeholder="제목을 입력하세요." th:value="*{title}">
                 </div>
-            </div>
-            <div class="bbs-contents" th:utext="*{content}"></div>
-
-            <div class="nav-btn">
-                <div class="area1">
-                    <a th:href="@{/notice(page=${param.page}, field=${param.field}, query=${param.query})}">목록</a>
+                <div class="file-box">
+                    <input type="file" name="files">
                 </div>
-                <div class="area2">
-                    <a th:if="*{prevNid != 0}"
-                       th:href="@{/notice/view(id=*{prevNid}, page=${param.page}, field=${param.field}, query=${param.query})}">이전글</a>
-                    <a th:if="*{nextNid != 0}"
-                       th:href="@{/notice/view(id=*{nextNid}, page=${param.page}, field=${param.field}, query=${param.query})}">다음글</a>
+                <div class="content-box">
+                    <textarea name="content" class="content" th:text="*{content}"></textarea>
                 </div>
-            </div>
+                <div class="btn-area">
+                    <button type="button" onclick="history.back(-1);">취소</button>
+                    <button type="submit">등록</button>
+                </div>
+            </form>
         </div>
     </div>
 </main>
-    <script>
+<script>
      var menu = document.querySelector(".main-menu");
 
      function toggleMenu(){
          menu.classList.toggle('active');
      }
-    </script>
+</script>
 
 </body>
 </html>

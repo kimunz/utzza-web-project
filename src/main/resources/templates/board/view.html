@@ -106,8 +106,8 @@
                 </div>
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="b-fn" th:if="${board.writerId eq user?.name}">
-                        <a class="b-edit" th:href="@{/board/edit(id=${id})}">수정</a>
-                        <a class="b-delete" th:href="@{/board/delete(id=${id})}">삭제</a>
+                        <a class="b-edit" th:href="@{/board/edit(id=*{id})}">수정</a>
+                        <a class="b-delete" th:href="@{/board/delete(id=*{id})}">삭제</a>
                     </div>
                 </th:block>
             </div>

@@ -54,4 +54,12 @@
         </selectKey>
         INSERT INTO BOARD(ID, TITLE, WRITERID, CONTENT) VALUES(#{id}, #{title}, #{writerId}, #{content})
     </insert>
+
+    <update id="editBoard" parameterType="com.oiji.springweb.dto.article.Board">
+        UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content} WHERE ID = #{id}
+    </update>
+
+    <delete id="removeBoard">
+        DELETE FROM BOARD WHERE ID = #{id}
+    </delete>
 </mapper>

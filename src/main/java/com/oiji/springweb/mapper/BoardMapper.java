@@ -17,4 +17,6 @@ public interface BoardMapper {
     Board getBoardById(@Param("criteria") Criteria criteria, @Param("id") int id);
 
     int addBoard(Board board);
+
+    int editBoard(Board board);
 }
