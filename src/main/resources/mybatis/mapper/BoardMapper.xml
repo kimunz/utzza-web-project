@@ -59,7 +59,7 @@
         UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content} WHERE ID = #{id}
     </update>
 
-    <delete id="removeBoard">
+    <delete id="removeBoard" parameterType="int">
         DELETE FROM BOARD WHERE ID = #{id}
     </delete>
 </mapper>

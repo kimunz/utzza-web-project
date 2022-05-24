@@ -106,8 +106,10 @@
                 </div>
                 <th:block sec:authorize="isAuthenticated()">
                     <div class="b-fn" th:if="${board.writerId eq user?.name}">
-                        <a class="b-edit" th:href="@{/board/edit(id=*{id})}">수정</a>
-                        <a class="b-delete" th:href="@{/board/delete(id=*{id})}">삭제</a>
+                        <button class="b-edit" th:href="@{/board/edit(id=*{id})}">수정</button>
+                        <form method="post" th:action="@{/board/remove(id=*{id}, writerId=*{writerId})}">
+                            <button class= "b-remove" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                        </form>
                     </div>
                 </th:block>
             </div>

@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 
 @Slf4j
@@ -50,7 +48,6 @@ public class BoardController {
     public String writeBoardForm(@AuthenticationPrincipal UserEntity user, Model model) {
 
         model.addAttribute("user", user);
-
         return "board/write";
     }
 
@@ -58,13 +55,19 @@ public class BoardController {
     public String writeBoard(@ModelAttribute Board board) {
 
         boardService.addBoard(board);
-
         return "redirect:/board";
     }
 
     @GetMapping("/board/edit")
-    public String editBoardForm(@RequestParam int id, @ModelAttribute Criteria criteria, Model model) {
+    public String editBoardForm(@RequestParam int id,
+                                @ModelAttribute Criteria criteria,
+                                @AuthenticationPrincipal UserEntity user,
+                                Model model) {
+
         Board board = boardService.getBoardById(criteria, id);
+        if (user == null || !user.getName().equals(board.getWriterId())) {
+            return "message/auth";
+        }
         board.setContent(board.getContent().replace("<br>", "\r\n"));
         model.addAttribute("board", board);
         return "board/edit";
@@ -73,6 +76,18 @@ public class BoardController {
     @PostMapping("/board/edit")
     public String editBoard(@ModelAttribute Board board) {
         boardService.editBoard(board);
+        return "redirect:/board";
+    }
+
+    @PostMapping("/board/remove")
+    public String removeBoard(@RequestParam int id,
+                              @RequestParam String writerId,
+                              @AuthenticationPrincipal UserEntity user) {
+
+        if (user == null || !user.getName().equals(writerId)) {
+            return "message/auth";
+        }
+        boardService.removeBoard(id);
         return "redirect:/board";
     }
 }

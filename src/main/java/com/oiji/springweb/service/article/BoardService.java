@@ -35,4 +35,8 @@ public class BoardService {
         board.setContent(board.getContent().replace("\r\n", "<br>"));
         return boardMapper.editBoard(board);
     }
+
+    public int removeBoard(int id) {
+        return boardMapper.removeBoard(id);
+    }
 }
