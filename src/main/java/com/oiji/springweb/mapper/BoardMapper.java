@@ -21,4 +21,6 @@ public interface BoardMapper {
     int editBoard(Board board);
 
     int removeBoard(int id);
+
+    void updateBoardHit(int id);
 }

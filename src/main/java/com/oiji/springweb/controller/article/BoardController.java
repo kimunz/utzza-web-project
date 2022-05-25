@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Slf4j
@@ -35,9 +39,27 @@ public class BoardController {
     }
 
     @GetMapping("/board/view")
-    public String getBoardViewPage(@RequestParam int id, @ModelAttribute Criteria criteria, @AuthenticationPrincipal UserEntity user, Model model) {
+    public String getBoardViewPage(@RequestParam int id, @ModelAttribute Criteria criteria,
+                                   HttpServletRequest request, HttpServletResponse response,
+                                   @AuthenticationPrincipal UserEntity user, Model model) {
 
         Board board = boardService.getBoardById(criteria, id);
+
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("cookie"+id)) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+        if(oldCookie == null) {
+            Cookie newCookie = new Cookie("cookie"+id, "[" + id + "]");
+            response.addCookie(newCookie);
+            boardService.updateBoardHit(id);
+        }
+
         model.addAttribute("board", board);
         model.addAttribute("user", user);
 
