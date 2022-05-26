@@ -25,4 +25,8 @@ public class NoticeService {
     public Notice findById(Criteria criteria, int id) {
         return noticeMapper.getNoticeById(criteria, id);
     }
+
+    public void updateNoticeHit(int id) {
+        noticeMapper.updateNoticeHit(id);
+    }
 }

@@ -1,12 +1,12 @@
 var page = 2;
-var query = searchParam('query');
+var query = searchParam('q');
 
 function nextPage(){
     $.ajax({
         url : "/ajax/list",
         type : "get",
         dataType : "json",
-        data : {"query" : query,
+        data : {"q" : query,
                 "page" : page},
 
         success : function(jary) {

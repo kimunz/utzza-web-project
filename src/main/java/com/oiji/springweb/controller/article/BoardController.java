@@ -43,22 +43,24 @@ public class BoardController {
                                    HttpServletRequest request, HttpServletResponse response,
                                    @AuthenticationPrincipal UserEntity user, Model model) {
 
-        Board board = boardService.getBoardById(criteria, id);
-
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
+        /*이전에 생성한 쿠키가 있는지 확인*/
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("cookie"+id)) {
+                if (cookie.getName().equals("board"+id)) {
                     oldCookie = cookie;
                 }
             }
         }
+        /*이전에 본 기록이 없을 때*/
         if(oldCookie == null) {
-            Cookie newCookie = new Cookie("cookie"+id, "[" + id + "]");
+            Cookie newCookie = new Cookie("board"+id, "[" + id + "]");
             response.addCookie(newCookie);
             boardService.updateBoardHit(id);
         }
+
+        Board board = boardService.getBoardById(criteria, id);
 
         model.addAttribute("board", board);
         model.addAttribute("user", user);

@@ -15,4 +15,6 @@ public interface NoticeMapper {
     int getNoticeCount(Criteria criteria);
 
     Notice getNoticeById(@Param("criteria") Criteria criteria, @Param("id") int id);
+
+    void updateNoticeHit(int id);
 }

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Slf4j
@@ -34,7 +37,28 @@ public class NoticeController {
     }
 
     @GetMapping("/notice/view")
-    public String getNoticeViewPage(@RequestParam int id, @ModelAttribute Criteria criteria, Model model) {
+    public String getNoticeViewPage(@RequestParam int id,
+                                    @ModelAttribute Criteria criteria,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    Model model) {
+
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        /*이전에 생성한 쿠키가 있는지 확인*/
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("notice"+id)) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+        /*이전에 본 기록이 없을 때*/
+        if(oldCookie == null) {
+            Cookie newCookie = new Cookie("notice"+id, "[" + id + "]");
+            response.addCookie(newCookie);
+            noticeService.updateNoticeHit(id);
+        }
 
         Notice notice = noticeService.findById(criteria, id);
         model.addAttribute("notice", notice);

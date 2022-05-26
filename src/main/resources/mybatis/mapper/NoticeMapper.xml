@@ -44,4 +44,8 @@
         SELECT COUNT(ID) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE
         ${field} LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N)
     </select>
+
+    <update id="updateNoticeHit" parameterType="int">
+        UPDATE NOTICE SET HIT=HIT+1 WHERE ID = #{id}
+    </update>
 </mapper>

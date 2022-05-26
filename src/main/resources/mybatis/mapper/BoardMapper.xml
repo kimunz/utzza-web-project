@@ -62,4 +62,8 @@
     <delete id="removeBoard" parameterType="int">
         DELETE FROM BOARD WHERE ID = #{id}
     </delete>
+
+    <update id="updateBoardHit" parameterType="int">
+        UPDATE BOARD SET HIT=HIT+1 WHERE ID = #{id}
+    </update>
 </mapper>

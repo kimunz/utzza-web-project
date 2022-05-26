@@ -1,7 +1,6 @@
 package com.oiji.springweb.controller.image;
 
 import com.oiji.springweb.dto.image.Image;
-import com.oiji.springweb.entity.ImageEntity;
 import com.oiji.springweb.service.image.FileStore;
 import com.oiji.springweb.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -60,8 +57,8 @@ public class ImageController {
 
     @ResponseBody
     @GetMapping("/ajax/list")
-    public String moreList(@RequestParam String query, @RequestParam int page) {
-        List<Image> list = imageService.getImageList(query, page);
+    public String moreList(@RequestParam String q, @RequestParam int page) {
+        List<Image> list = imageService.getImageList(q, page);
         JSONArray jary = new JSONArray();
 
         if(list.isEmpty()) {
