@@ -67,11 +67,14 @@
 <main id="main">
     <div class="register">
         <h1>회원가입</h1>
-        <form method="post" th:action onsubmit="return validate()">
+        <form method="post" th:action onsubmit="return validate()" th:object="${user}">
             <div class="flex">
                 <ul class="itembox">
                     <li class="item center">아이디</li>
-                    <li class="item"><input type="text" id="loginId" name="loginId" placeholder="아이디를 입력하세요." autofocus required></li>
+                    <li class="item">
+                        <input type="text" th:field="*{loginId}" placeholder="아이디를 입력하세요." autofocus required>
+                        <div class="field-error" th:errors="*{loginId}"></div>
+                    </li>
                     <li class="item">
                         <button type="button" id="id-check" class="check">중복확인</button>
                     </li>
@@ -79,7 +82,9 @@
                 <ul class="itembox">
                     <li class="item center">비밀번호</li>
                     <li class="item">
-                        <input type="password" id="password1" name="password" placeholder="비밀번호를 입력하세요." required></li>
+                        <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요." required>
+                        <div class="field-error" th:errors="*{password}"></div>
+                    </li>
                     <li class="item"></li>
                 </ul>
                 <ul class="itembox">
@@ -93,7 +98,8 @@
                 <ul class="itembox">
                     <li class="item center">닉네임</li>
                     <li class="item">
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" th:field="*{name}" required>
+                        <div class="field-error" th:errors="*{name}"></div>
                     </li>
                     <li class="item">
                         <button type="button" id="name-check" class="check">중복확인</button>
@@ -102,7 +108,8 @@
                 <ul class="itembox">
                     <li class="item center">E-mail</li>
                     <li class="email-box">
-                        <input class="email" type="text" name="email" required>
+                        <input class="email" type="text" th:field="*{email}" required>
+                        <div class="field-error" th:errors="*{email}"></div>
                     </li>
                 </ul>
                 <ul class="itembox">
@@ -145,12 +152,12 @@
     $("#loginId").keyup(function() {
         checkedId = false;
     })
-    $("#password1").keyup(function() {
+    $("#password").keyup(function() {
         checkedPw = false;
         $(".pw-check").html("");
     })
     $("#password2").keyup(function() {
-        if ($("#password1").val() != $("#password2").val()) {
+        if ($("#password").val() != $("#password2").val()) {
             checkedPw = false;
             $(".pw-check").html("비밀번호 불일치");
             $(".pw-check").attr("style", "color: #ff0000");
