@@ -30,9 +30,9 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        return userMapper.findByLoginId(loginId)
-                .orElseThrow(() -> new UsernameNotFoundException((loginId)));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userMapper.findByLoginId(username)
+                .orElseThrow(() -> new UsernameNotFoundException((username)));
     }
 
     public void save(User user) {

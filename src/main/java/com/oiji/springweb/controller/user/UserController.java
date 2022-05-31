@@ -1,15 +1,19 @@
 package com.oiji.springweb.controller.user;
 
 import com.oiji.springweb.dto.user.User;
+import com.oiji.springweb.entity.UserEntity;
 import com.oiji.springweb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 
 @Slf4j
@@ -51,6 +55,13 @@ public class UserController {
 
         userService.save(user);
         return "redirect:/login";
+    }
+
+    @GetMapping("/myPage")
+    public String myPage(@AuthenticationPrincipal UserEntity user, Model model) {
+        log.info("userName={}",user.getUsername());
+        model.addAttribute("user", user);
+        return "user/myPage";
     }
 
     @ResponseBody

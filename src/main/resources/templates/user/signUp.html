@@ -73,20 +73,20 @@
                     <li class="item center">아이디</li>
                     <li class="item">
                         <input type="text" th:field="*{loginId}" placeholder="아이디를 입력하세요." autofocus required>
-                        <div class="field-error" th:errors="*{loginId}"></div>
                     </li>
                     <li class="item">
                         <button type="button" id="id-check" class="check">중복확인</button>
                     </li>
                 </ul>
+                <div class="field-error" th:errors="*{loginId}"></div>
                 <ul class="itembox">
                     <li class="item center">비밀번호</li>
                     <li class="item">
                         <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요." required>
-                        <div class="field-error" th:errors="*{password}"></div>
                     </li>
                     <li class="item"></li>
                 </ul>
+                <div class="field-error" th:errors="*{password}"></div>
                 <ul class="itembox">
                     <li class="item center">비밀번호 확인</li>
                     <li class="item">
@@ -99,19 +99,19 @@
                     <li class="item center">닉네임</li>
                     <li class="item">
                         <input type="text" th:field="*{name}" required>
-                        <div class="field-error" th:errors="*{name}"></div>
                     </li>
                     <li class="item">
                         <button type="button" id="name-check" class="check">중복확인</button>
                     </li>
                 </ul>
+                <div class="field-error" th:errors="*{name}"></div>
                 <ul class="itembox">
                     <li class="item center">E-mail</li>
                     <li class="email-box">
                         <input class="email" type="text" th:field="*{email}" required>
-                        <div class="field-error" th:errors="*{email}"></div>
                     </li>
                 </ul>
+                <div class="field-error" th:errors="*{email}"></div>
                 <ul class="itembox">
                     <li class="item center"></li>
                     <li class="item">

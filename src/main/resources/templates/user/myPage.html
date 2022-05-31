@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTZZA</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/css/myPage.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Header -->
+<header id="header">
+    <div class="header-top">
+        <div class="logo">
+            <a href="/"> <img src="/images/logo.png">
+            </a>
+        </div>
+        <div class="search">
+            <form action="/search" method="GET" th:action="@{/search}">
+                <input class="search-bar form-control" type="text" placeholder="Search for images" name="q">
+                <input class="search-btn form-control" type="submit" value="검색">
+            </form>
+        </div>
+
+        <!-- 마이페이지 -->
+        <ul class="member-menu" sec:authorize="isAnonymous()">
+            <li><a href="login" th:href="@{/login}">로그인</a></li>
+            <li><a href="join" th:href="@{/signUp}">회원가입</a></li>
+        </ul>
+        <ul class="member-menu" sec:authorize="isAuthenticated()">
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button class="logout-btn" type="submit">로그아웃</button>
+                </form>
+            </li>
+            <li><a href="mypage">마이페이지</a></li>
+        </ul>
+
+        <a href="#" class="toggle-btn" onclick="toggleMenu()"> <i
+                class="fas fa-bars"></i>
+        </a>
+    </div>
+
+    <ul class="main-menu">
+        <li><a class="categ-menu" href="">테마별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">무한도전</a></li>
+                <li><a href="">정치·사회</a></li>
+                <li><a href="">가수·연예인</a></li>
+                <li><a href="">예능</a></li>
+                <li><a href="">Meme</a></li>
+            </ul></li>
+        <li><a class="categ-menu" href="">상황별 짤</a>
+            <ul class="sub-menu">
+                <li><a href="">시험</a></li>
+                <li><a href="">회사</a></li>
+                <li><a href="">주식</a></li>
+                <li><a href="">연애</a></li>
+                <li><a href="">학교</a></li>
+            </ul></li>
+        <li><a class="categ-menu" href="/upload">짤 등록</a></li>
+        <li><a class="categ-menu" href="./notice">게시판</a>
+            <ul class="sub-menu">
+                <li><a href="./notice">공지사항</a></li>
+                <li><a href="./board">자유게시판</a></li>
+            </ul>
+        </li>
+    </ul>
+</header>
+
+<!-- main -->
+<main id="main">
+    <div class="register">
+        <h1>마이페이지</h1>
+        <form method="post" th:action th:object="${user}">
+            <div class="flex">
+                <ul class="itembox">
+                    <li class="item center">아이디</li>
+                    <li class="item">
+                        <div class="fix" th:text="*{username}"></div>
+                    </li>
+                    <li class="item"></li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center">비밀번호</li>
+                    <li class="item">
+                        <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요." required>
+                    </li>
+                    <li class="item"></li>
+                </ul>
+                <div class="field-error" th:errors="*{password}"></div>
+                <ul class="itembox">
+                    <li class="item center">비밀번호 확인</li>
+                    <li class="item">
+                        <input type="password" id="password2" placeholder="비밀번호를 입력하세요." required></li>
+                    <li class="item">
+                        <div class="pw-check"></div>
+                    </li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center">닉네임</li>
+                    <li class="item">
+                        <div class="fix" th:text="*{name}"></div>
+                    </li>
+                    <li class="item"></li>
+                </ul>
+                <ul class="itembox">
+                    <li class="item center">E-mail</li>
+                    <li class="email-box">
+                        <input class="email" type="text" th:field="*{email}" required>
+                    </li>
+                </ul>
+                <div class="field-error" th:errors="*{email}"></div>
+                <ul class="itembox">
+                    <li class="item center"></li>
+                    <li class="item">
+                        <button type="submit" class="submit">가입하기</button>
+                    </li>
+                    <li class="item"></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</main>
+
+
+</body>
+</html>

@@ -12,8 +12,8 @@ import java.util.Optional;
 @Mapper
 public interface UserMapper {
 
-    @Select("SELECT * FROM MEMBER WHERE LOGIN_ID = #{loginId}")
-    Optional<UserEntity> findByLoginId(String loginId);
+    @Select("SELECT * FROM MEMBER WHERE LOGIN_ID = #{username}")
+    Optional<UserEntity> findByLoginId(String username);
 
     @Select("SELECT * FROM MEMBER WHERE NAME = #{name}")
     Optional<UserEntity> findByName(String name);
