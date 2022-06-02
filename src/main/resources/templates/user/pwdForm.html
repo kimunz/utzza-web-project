@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/myPage.css">
+    <link type="text/css" rel="stylesheet" href="/css/pwdForm.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
@@ -78,46 +78,39 @@
 <!-- main -->
 <main id="main">
     <div class="register">
-        <h1>마이페이지</h1>
-        <form method="post" th:action th:object="${user}">
+        <h1>비밀번호 변경</h1>
+        <form method="post" th:action>
             <div class="flex">
                 <ul class="itembox">
-                    <li class="item center">아이디</li>
+                    <li class="item center">현재 비밀번호</li>
                     <li class="item">
-                        <input type="text" th:field="*{username}" disabled>
+                        <input type="text" required>
                     </li>
                     <li class="item"></li>
                 </ul>
 
                 <ul class="itembox">
-                    <li class="item center">비밀번호</li>
+                    <li class="item center">새 비밀번호</li>
                     <li class="item">
-                        <div class="modify-pwd" style="text-decoration: underline">
-                            <a th:href="@{/myPage/pwd}">비밀번호 변경</a>
-                        </div>
+                        <input type="password" required>
                     </li>
                     <li class="item"></li>
                 </ul>
+                <div class="field-error" ></div>
 
                 <ul class="itembox">
-                    <li class="item center">닉네임</li>
+                    <li class="item center">새 비밀번호 확인</li>
                     <li class="item">
-                        <input type="text" th:field="*{name}" disabled>
+                        <input type="password" required></li>
+                    <li class="item">
+                        <div class="pw-check"></div>
                     </li>
-                    <li class="item"></li>
                 </ul>
 
-                <ul class="itembox">
-                    <li class="item center">E-mail</li>
-                    <li class="email-box">
-                        <input class="email" type="text" th:field="*{email}" required>
-                    </li>
-                </ul>
-                <div class="field-error" th:errors="*{email}"></div>
                 <ul class="itembox">
                     <li class="item center"></li>
                     <li class="item">
-                        <button type="submit" class="submit">회원정보 변경</button>
+                        <button type="submit" class="submit">확인</button>
                     </li>
                     <li class="item"></li>
                 </ul>

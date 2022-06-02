@@ -1,5 +1,6 @@
 package com.oiji.springweb.dto.user;
 
+import com.oiji.springweb.entity.UserEntity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

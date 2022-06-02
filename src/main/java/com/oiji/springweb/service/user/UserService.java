@@ -41,4 +41,8 @@ public class UserService implements UserDetailsService {
         user.setAuth("ROLE_USER");
         userMapper.save(user);
     }
+
+    public void modifyInfo(User user) {
+        userMapper.modifyInfo(user);
+    }
 }

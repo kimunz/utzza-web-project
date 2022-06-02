@@ -59,9 +59,29 @@ public class UserController {
 
     @GetMapping("/myPage")
     public String myPage(@AuthenticationPrincipal UserEntity user, Model model) {
-        log.info("userName={}",user.getUsername());
         model.addAttribute("user", user);
         return "user/myPage";
+    }
+
+    @PostMapping("/myPage")
+    public String modifyInfo(@Valid @ModelAttribute User user, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "user/myPage";
+        }
+
+        userService.modifyInfo(user);
+        return "redirect:/myPage";
+    }
+
+    @GetMapping("/myPage/pwd")
+    public String changePwdForm() {
+        return "user/pwdForm";
+    }
+
+    @PostMapping("/myPage/pwd")
+    public String changePwd() {
+        return "redirect:/myPage";
     }
 
     @ResponseBody
