@@ -1,11 +1,9 @@
 package com.oiji.springweb.mapper;
 
+import com.oiji.springweb.dto.user.PasswordInfo;
 import com.oiji.springweb.dto.user.User;
 import com.oiji.springweb.entity.UserEntity;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.Optional;
 
@@ -21,5 +19,9 @@ public interface UserMapper {
     @Insert("INSERT INTO MEMBER VALUES(#{user.loginId},#{user.password},#{user.email},#{user.name},#{user.auth})")
     void save(@Param("user")User user);
 
-    void modifyInfo(User user);
+    @Update("UPDATE MEMBER SET EMAIL = #{user.email} WHERE LOGINID = #{loginId}")
+    void modifyInfo(@Param("loginId") String loginId, @Param("user") User user);
+
+    @Update("UPDATE MEMBER SET PASSWORD = #{pInfo.newPwd} WHERE LOGINID = #{loginId}")
+    void changePassword(@Param("loginId") String loginId, @Param("pInfo") PasswordInfo passwordInfo);
 }

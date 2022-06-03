@@ -84,7 +84,7 @@
                 <ul class="itembox">
                     <li class="item center">아이디</li>
                     <li class="item">
-                        <input type="text" th:field="*{username}" disabled>
+                        <input type="text" class="fix" th:field="*{loginId}" readonly>
                     </li>
                     <li class="item"></li>
                 </ul>
@@ -92,17 +92,19 @@
                 <ul class="itembox">
                     <li class="item center">비밀번호</li>
                     <li class="item">
+                        <input type="password" th:field="*{password}">
+                    </li>
+                    <li class="item">
                         <div class="modify-pwd" style="text-decoration: underline">
                             <a th:href="@{/myPage/pwd}">비밀번호 변경</a>
                         </div>
                     </li>
-                    <li class="item"></li>
                 </ul>
 
                 <ul class="itembox">
                     <li class="item center">닉네임</li>
                     <li class="item">
-                        <input type="text" th:field="*{name}" disabled>
+                        <input type="text" class="fix" th:field="*{name}" readonly>
                     </li>
                     <li class="item"></li>
                 </ul>
@@ -114,6 +116,7 @@
                     </li>
                 </ul>
                 <div class="field-error" th:errors="*{email}"></div>
+
                 <ul class="itembox">
                     <li class="item center"></li>
                     <li class="item">

@@ -1,5 +1,6 @@
 package com.oiji.springweb.entity;
 
+import com.oiji.springweb.dto.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +19,18 @@ public class UserEntity implements UserDetails {
     private String name;
     private String email;
     private String auth;
+
+    public User toDto(){
+        return new User(loginId, "", name, email, auth);
+    }
+
+    public UserEntity(String loginId, String password, String name, String email, String auth) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.auth = auth;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

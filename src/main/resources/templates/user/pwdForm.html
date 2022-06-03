@@ -79,12 +79,12 @@
 <main id="main">
     <div class="register">
         <h1>비밀번호 변경</h1>
-        <form method="post" th:action>
+        <form method="post" th:object="${pInfo}" onsubmit="return validate()" th:action>
             <div class="flex">
                 <ul class="itembox">
                     <li class="item center">현재 비밀번호</li>
                     <li class="item">
-                        <input type="text" required>
+                        <input type="password" id="password" name="password" required>
                     </li>
                     <li class="item"></li>
                 </ul>
@@ -92,16 +92,16 @@
                 <ul class="itembox">
                     <li class="item center">새 비밀번호</li>
                     <li class="item">
-                        <input type="password" required>
+                        <input type="password" th:field="*{newPwd}" required>
                     </li>
                     <li class="item"></li>
                 </ul>
-                <div class="field-error" ></div>
+                <div class="field-error" th:errors="*{newPwd}"></div>
 
                 <ul class="itembox">
                     <li class="item center">새 비밀번호 확인</li>
                     <li class="item">
-                        <input type="password" required></li>
+                        <input type="password" id="newPwd2" required></li>
                     <li class="item">
                         <div class="pw-check"></div>
                     </li>
@@ -110,7 +110,7 @@
                 <ul class="itembox">
                     <li class="item center"></li>
                     <li class="item">
-                        <button type="submit" class="submit">확인</button>
+                        <button type="submit" class="submit">변경</button>
                     </li>
                     <li class="item"></li>
                 </ul>
@@ -118,6 +118,36 @@
         </form>
     </div>
 </main>
+
+<script th:inline="javascript">
+    var checkedPw = false;
+
+    function validate() {
+        if (!checkedPw) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+    }
+    $("#newPwd").keyup(function() {
+        checkedPw = false;
+        $(".pw-check").html("");
+    })
+    $("#newPwd2").keyup(function() {
+        if ($("#newPwd").val() != $("#newPwd2").val()) {
+            checkedPw = false;
+            $(".pw-check").html("비밀번호 불일치");
+            $(".pw-check").attr("style", "color: #ff0000");
+        } else if ($("#newPwd").val() == "" && $("#newPwd2").val() == ""){
+            checkedPw = false;
+            $(".pw-check").html();
+        }
+        else {
+            checkedPw = true;
+            $(".pw-check").html("비밀번호 일치");
+            $(".pw-check").attr("style", "color: #03C75A");
+        }
+    })
+</script>
 
 </body>
 </html>
