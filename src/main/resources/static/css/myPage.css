@@ -211,7 +211,7 @@ body{
     background: white;
 }
 .register .field-error{
-    width: 280px;
+    width: 255px;
     margin: 0 auto;
     color: var(--error-color);
     text-align: left;

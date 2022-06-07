@@ -22,6 +22,6 @@ public interface UserMapper {
     @Update("UPDATE MEMBER SET EMAIL = #{user.email} WHERE LOGINID = #{loginId}")
     void modifyInfo(@Param("loginId") String loginId, @Param("user") User user);
 
-    @Update("UPDATE MEMBER SET PASSWORD = #{pInfo.newPwd} WHERE LOGINID = #{loginId}")
-    void changePassword(@Param("loginId") String loginId, @Param("pInfo") PasswordInfo passwordInfo);
+    @Update("UPDATE MEMBER SET PASSWORD = #{newPwd} WHERE LOGINID = #{loginId}")
+    void changePassword(@Param("loginId") String loginId, @Param("newPwd") String newPwd);
 }

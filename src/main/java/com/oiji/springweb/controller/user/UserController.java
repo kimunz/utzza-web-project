@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,7 +58,6 @@ public class UserController {
     public String signUp(@Valid @ModelAttribute User user, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
             return "user/signUp";
         }
 
@@ -74,15 +75,20 @@ public class UserController {
     public String modifyInfo(@Valid @ModelAttribute User user, BindingResult bindingResult,
                              @AuthenticationPrincipal UserEntity userEntity) {
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        if (!bCryptPasswordEncoder.matches(user.getPassword(), userEntity.getPassword())) {
+            bindingResult.reject("passwordError", "비밀번호가 맞지 않습니다.");
+        }
+
         if (bindingResult.hasErrors()) {
-            log.error("error={}", bindingResult);
             return "user/myPage";
         }
         userService.modifyInfo(userEntity.getUsername(), user);
-        log.info("userPwd={}", userEntity.getPassword());
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getLoginId(), user.getPassword()));
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                user.getLoginId(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return "redirect:/myPage";
@@ -96,16 +102,23 @@ public class UserController {
 
     @PostMapping("/myPage/pwd")
     public String changePwd(@AuthenticationPrincipal UserEntity user,
-                            @Valid @ModelAttribute PasswordInfo passwordInfo,
+                            @Valid @ModelAttribute(name = "pInfo") PasswordInfo passwordInfo,
                             BindingResult bindingResult) {
 
-        if (!user.getPassword().equals(passwordInfo.getPassword())) {
-            return "user/pwdForm";
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        if (!bCryptPasswordEncoder.matches(passwordInfo.getPassword(), user.getPassword())) {
+            bindingResult.reject("passwordError", "비밀번호가 맞지 않습니다.");
         }
         if (bindingResult.hasErrors()) {
             return "user/pwdForm";
         }
-        userService.changePassword(user.getUsername(), passwordInfo);
+        userService.changePassword(user.getUsername(), bCryptPasswordEncoder.encode(passwordInfo.getNewPwd()));
+
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                user.getLoginId(), passwordInfo.getNewPwd()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return "redirect:/myPage";
     }

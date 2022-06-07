@@ -1,6 +1,5 @@
 package com.oiji.springweb.service.user;
 
-import com.oiji.springweb.dto.user.PasswordInfo;
 import com.oiji.springweb.dto.user.User;
 import com.oiji.springweb.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,7 @@ public class UserService implements UserDetailsService {
         userMapper.modifyInfo(loginId, user);
     }
 
-    public void changePassword(String loginId, PasswordInfo passwordInfo) {
-        userMapper.changePassword(loginId, passwordInfo);
+    public void changePassword(String loginId, String newPwd) {
+        userMapper.changePassword(loginId, newPwd);
     }
 }
