@@ -5,9 +5,10 @@
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/uploadForm.css">
+    <link type="text/css" rel="stylesheet" href="/css/theme.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/loadList.js"></script>
 </head>
 <body>
 <!-- Header -->
@@ -68,7 +69,7 @@
             <a class="categ-menu" href="/upload">짤 등록</a>
         </li>
         <li>
-            <a class="categ-menu" href="/notice">게시판</a>
+            <a class="categ-menu" href="./notice">게시판</a>
             <ul class="sub-menu">
                 <li><a href="/notice">공지사항</a></li>
                 <li><a href="/board">자유게시판</a></li>
@@ -80,36 +81,39 @@
 <!-- main -->
 <main id="main">
     <div class="container">
-        <form class="upload-info" th:action method="post" enctype="multipart/form-data">
-            <img src="/images/zzal.png" id="prevImage" class="prevImage">
-            <input type="file" id="selectImg" name="file" class="selectImg">
-            <ul>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
+        <h2>
+            <span th:text="|테마별 짤|"></span>
+        </h2>
+        <div>
+            <ul class="flex-menu">
+                <li><a th:href="@{theme?item=무한도전}">무한도전</a></li>
+                <li><a th:href="@{theme?item=정치사회}">정치·사회</a></li>
+                <li><a th:href="@{theme?item=가수연예인}">가수·연예인</a></li>
+                <li><a th:href="@{theme?item=예능}">예능</a></li>
+                <li><a th:href="@{theme?item=meme}">Meme</a></li>
             </ul>
-            <input class="upload-btn form-control" type="submit" value="등록">
-        </form>
+        </div>
+        <div id="row" class="row">
+            <div th:each="n : ${list}" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+                <div class="content">
+                    <a th:href="|/view?id=${n.id}|">
+                        <img th:src="|/storage/${n.imgPath}|">
+                    </a>
+                    <div class="keyword">
+                        <a th:each="key, i : ${n.title}" th:if="${i.count le 3}" th:href="|/search?q=${key}|" th:text="${key}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="next-page">
+            <div class="more-text" onclick="nextPage()">
+            		<span>
+            			더보기
+            			<i class="fas fa-chevron-down"></i>
+            		</span>
+            </div>
+        </div>
     </div>
 </main>
-
-<script type="text/javascript">
-    $("#selectImg").on("change", function(){
-        readURL(this);
-    })
-
-    function readURL(input){
-        if (input.files && input.files[0]){
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#prevImage').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
-
 </body>
 </html>

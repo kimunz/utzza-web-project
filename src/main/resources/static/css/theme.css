@@ -160,6 +160,23 @@ body{
     font-size: 24px;
 }
 
+#main .container .flex-menu{
+    display: flex;
+    margin: 30px 30px 20px;
+}
+
+#main .container .flex-menu li{
+    margin-right: 20px;
+}
+
+#main .container .flex-menu li a{
+    padding: 2px 5px;
+    font-size: 15px;
+    background: white;
+	border-radius: 1rem;
+	border: 1px solid var(--light-accent-color);
+}
+
 #main .container .row{
 	margin: 0;
 }

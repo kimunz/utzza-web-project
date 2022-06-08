@@ -222,6 +222,7 @@ hr{
 	display: flex;
 	align-items: center;
 	border: 1px solid #bbbbbb;
+	background: #efefef;
 	width: 90%;
 	height: 40px;
 	margin: 20px auto;
