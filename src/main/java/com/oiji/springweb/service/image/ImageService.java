@@ -36,6 +36,20 @@ public class ImageService {
         return list;
     }
 
+    public List<Image> getImageListByTheme(String theme, int page) {
+        setPage(page);
+        List<Image> list = imageMapper.getImageListByTheme(theme, start, end)
+                .stream().map(ImageEntity::toDto).collect(Collectors.toList());
+        return list;
+    }
+
+    public List<Image> getImageListByContext(String context, int page) {
+        setPage(page);
+        List<Image> list = imageMapper.getImageListByContext(context, start, end)
+                .stream().map(ImageEntity::toDto).collect(Collectors.toList());
+        return list;
+    }
+
     public void addImage(String title, String imgPath){
         imageMapper.insertImage(title, imgPath);
     }
@@ -44,4 +58,5 @@ public class ImageService {
         start = 1 + (page - 1) * 32;
         end = page * 32;
     }
+
 }

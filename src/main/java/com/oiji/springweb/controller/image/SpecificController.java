@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -20,17 +21,17 @@ public class SpecificController {
 
     @GetMapping("/theme")
     public String themeImage(@RequestParam String item, Model model) {
-        List<Image> list = imageService.getImageList(item, 1);
+        List<Image> list = imageService.getImageListByTheme(item, 1);
         model.addAttribute("list", list);
 
         return "image/theme";
     }
 
-    @GetMapping("/situation")
-    public String situationImage(@RequestParam String item, Model model) {
-        List<Image> list = imageService.getImageList(item, 1);
+    @GetMapping("/context")
+    public String contextImage(@RequestParam String item, Model model) {
+        List<Image> list = imageService.getImageListByContext(item, 1);
         model.addAttribute("list", list);
 
-        return "image/situation";
+        return "image/context";
     }
 }
