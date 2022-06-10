@@ -12,11 +12,15 @@
                 ID,
                 TITLE,
                 IMGPATH,
-                HIT)
+                HIT,
+                THEME,
+                CONTEXT)
         VALUES(
                 #{id},
                 #{title},
                 #{imgPath},
-                0)
+                0,
+                #{theme},
+                #{context})
     </insert>
 </mapper>

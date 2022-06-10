@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,11 +47,22 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public String saveImage(@RequestParam("file") MultipartFile file, @RequestParam String[] keyword) throws IOException {
-        String imgPath = fileStore.storeImage(file);
+    public String saveImage(@RequestParam("file") MultipartFile file,
+                            @RequestParam String theme,
+                            @RequestParam String context,
+                            @RequestParam String[] keyword,
+                            BindingResult bindingResult) throws IOException {
 
+        if (theme.equals("none") && context.equals("none")) {
+            bindingResult.reject("categoryError", "하나 이상의 카테고리를 선택해주세요.");
+        }
+        if (bindingResult.hasErrors()) {
+            return "image/uploadForm";
+        }
+
+        String imgPath = fileStore.storeImage(file);
         String title = String.join(" ", keyword);
-        imageService.addImage(title, imgPath);
+        imageService.addImage(title, imgPath, theme, context);
 
         return "redirect:/upload";
     }

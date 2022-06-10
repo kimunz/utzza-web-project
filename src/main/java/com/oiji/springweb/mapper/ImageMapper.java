@@ -31,6 +31,6 @@ public interface ImageMapper {
     @Select("SELECT ID, TITLE, IMGPATH, HIT FROM IMAGE WHERE ID = #{id}")
     ImageEntity getImageById(String id);
 
-    void insertImage(@Param("title") String title, @Param("imgPath") String imgPath);
+    void insertImage(@Param("title") String title, @Param("imgPath") String imgPath, @Param("theme") String theme, @Param("context") String context);
 
 }

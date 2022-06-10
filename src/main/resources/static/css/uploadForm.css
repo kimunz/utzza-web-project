@@ -172,6 +172,10 @@ body{
     margin: 10px auto 30px;
 }
 
+#main .upload-info .select-bar{
+    margin-bottom: 10px;
+}
+
 #main .upload-info ul{
     display: flex;
     margin-bottom: 20px;

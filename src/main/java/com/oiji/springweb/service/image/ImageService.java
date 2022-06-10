@@ -50,8 +50,8 @@ public class ImageService {
         return list;
     }
 
-    public void addImage(String title, String imgPath){
-        imageMapper.insertImage(title, imgPath);
+    public void addImage(String title, String imgPath, String theme, String context){
+        imageMapper.insertImage(title, imgPath, theme, context);
     }
 
     private void setPage(int page) {
