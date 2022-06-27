@@ -54,6 +54,10 @@ public class ImageService {
         imageMapper.insertImage(title, imgPath, theme, context);
     }
 
+    public void updateImageHit(String id) {
+        imageMapper.updateImageHit(id);
+    }
+
     private void setPage(int page) {
         start = 1 + (page - 1) * 32;
         end = page * 32;

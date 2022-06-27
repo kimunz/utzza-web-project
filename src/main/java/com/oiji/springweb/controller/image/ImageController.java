@@ -29,6 +29,7 @@ public class ImageController {
 
     @GetMapping("/view")
     public String detailedImage(@RequestParam String id, Model model) {
+        imageService.updateImageHit(id);
         Image image = imageService.getImageById(id);
         model.addAttribute("image", image);
         return "image/view";
@@ -50,15 +51,14 @@ public class ImageController {
     public String saveImage(@RequestParam("file") MultipartFile file,
                             @RequestParam String theme,
                             @RequestParam String context,
-                            @RequestParam String[] keyword,
-                            BindingResult bindingResult) throws IOException {
+                            @RequestParam String[] keyword) throws IOException {
 
-        if (theme.equals("none") && context.equals("none")) {
+        /*if (theme.equals("none") && context.equals("none")) {
             bindingResult.reject("categoryError", "하나 이상의 카테고리를 선택해주세요.");
         }
         if (bindingResult.hasErrors()) {
             return "image/uploadForm";
-        }
+        }*/
 
         String imgPath = fileStore.storeImage(file);
         String title = String.join(" ", keyword);

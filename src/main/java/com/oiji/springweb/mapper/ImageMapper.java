@@ -1,13 +1,10 @@
 package com.oiji.springweb.mapper;
 
-import com.oiji.springweb.dto.image.Image;
 import com.oiji.springweb.entity.ImageEntity;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.Collection;
 import java.util.List;
 
 @Mapper
@@ -33,4 +30,5 @@ public interface ImageMapper {
 
     void insertImage(@Param("title") String title, @Param("imgPath") String imgPath, @Param("theme") String theme, @Param("context") String context);
 
+    void updateImageHit(String id);
 }
