@@ -168,6 +168,10 @@ body{
 	position: relative;
 	text-align: center;
 	white-space: nowrap;
+    height: 220px;
+    width: 220px;
+    margin: 10px auto;
+    overflow: hidden;
 }
 
 #main .container .content>a{
@@ -177,7 +181,6 @@ body{
     width: 220px;
     overflow: hidden;
     border-radius: 1rem;
-    margin: 10px auto;
 }
 
 #main .container .content img {
@@ -192,7 +195,6 @@ body{
 	bottom: 10px;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 1;
 	overflow: hidden;
 	font-size: 15px;
 }
