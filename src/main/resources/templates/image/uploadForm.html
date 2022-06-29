@@ -80,11 +80,11 @@
 <!-- main -->
 <main id="main">
     <div class="container">
-        <form class="upload-info" th:action method="post" enctype="multipart/form-data">
+        <form class="upload-info" th:action method="post" onsubmit="return validate()" enctype="multipart/form-data">
             <img src="/images/zzal.png" id="prevImage" class="prevImage">
-            <input type="file" id="selectImg" name="file" class="selectImg">
+            <input type="file" id="selectImg" name="file" class="selectImg" required>
             <div class="select-bar">
-                <select class="form-select" name="theme">
+                <select id="theme" class="form-select" name="theme">
                     <option value="none">== 해당 없음 ==</option>
                     <option value="a01">동물</option>
                     <option value="a02">만화</option>
@@ -92,7 +92,7 @@
                     <option value="a04">유명인·연예인</option>
                     <option value="a05">Meme</option>
                 </select>
-                <select class="form-select" name="context">
+                <select id="context" class="form-select" name="context">
                     <option value="none">== 해당 없음 ==</option>
                     <option value="b01">기쁨</option>
                     <option value="b02">분노</option>
@@ -101,12 +101,12 @@
                     <option value="b05">사랑</option>
                 </select>
             </div>
-            <ul>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
-                <li><input class="form-control" type="text" name="keyword"></li>
+            <ul class="keyword-box">
+                <li><input class="form-control" type="text" name="keyword" maxlength="8" required></li>
+                <li><input class="form-control" type="text" name="keyword" maxlength="8" required></li>
+                <li><input class="form-control" type="text" name="keyword" maxlength="8" required></li>
+                <li><input class="form-control" type="text" name="keyword" maxlength="8" required></li>
+                <li><input class="form-control" type="text" name="keyword" maxlength="8" required></li>
             </ul>
             <input class="upload-btn form-control" type="submit" value="등록">
         </form>
@@ -127,6 +127,14 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    function validate(){
+        if($("#theme").val() == "none" && $("#context").val() == "none") {
+            alert("카테고리는 최소한 하나를 선택해야 합니다.");
+            return false;
+        }
+    }
+
 </script>
 
 </body>

@@ -176,12 +176,12 @@ body{
     margin-bottom: 10px;
 }
 
-#main .upload-info ul{
+#main .upload-info .keyword-box{
     display: flex;
     margin-bottom: 20px;
 }
 
-#main .upload-info li{
+#main .upload-info .keyword-box li{
     margin-right: 10px;
 }
 

@@ -20,8 +20,8 @@
                 #{title},
                 #{imgPath},
                 0,
-                #{theme},
-                #{context})
+                #{theme, jdbcType=VARCHAR},
+                #{context, jdbcType=VARCHAR})
     </insert>
 
     <update id="updateImageHit">

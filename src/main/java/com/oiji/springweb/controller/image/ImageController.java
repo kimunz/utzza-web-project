@@ -49,16 +49,16 @@ public class ImageController {
 
     @PostMapping("/upload")
     public String saveImage(@RequestParam("file") MultipartFile file,
-                            @RequestParam String theme,
-                            @RequestParam String context,
+                            @RequestParam(required = false) String theme,
+                            @RequestParam(required = false) String context,
                             @RequestParam String[] keyword) throws IOException {
 
-        /*if (theme.equals("none") && context.equals("none")) {
-            bindingResult.reject("categoryError", "하나 이상의 카테고리를 선택해주세요.");
+        if (theme.equals("none")) {
+            theme = null;
         }
-        if (bindingResult.hasErrors()) {
-            return "image/uploadForm";
-        }*/
+        if (context.equals("none")) {
+            context = null;
+        }
 
         String imgPath = fileStore.storeImage(file);
         String title = String.join(" ", keyword);

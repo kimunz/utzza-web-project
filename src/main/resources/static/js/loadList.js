@@ -25,9 +25,9 @@ function nextPage(){
                             "<img src='/storage/"+item.imgPath+"'>"+
                         "</a>"+
                         "<div class='keyword'>"+
-                            "<a href='#'>"+item.title[0]+"</a>"+
-                            "<a href='#'>"+item.title[1]+"</a>"+
-                            "<a href='#'>"+item.title[2]+"</a>"+
+                            "<a href='/search?q="+item.title[0]+"'>"+item.title[0]+"</a>"+
+                            "<a href='/search?q="+item.title[1]+"'>"+item.title[1]+"</a>"+
+                            "<a href='/search?q="+item.title[2]+"'>"+item.title[2]+"</a>"+
                         "</div>"+
                     "</div>"+
                 "</div>";
