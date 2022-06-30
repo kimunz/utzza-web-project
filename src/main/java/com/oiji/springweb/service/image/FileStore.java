@@ -30,13 +30,13 @@ public class FileStore {
         return storeFileName;
     }
 
-    private String createStoreFileName(String originalFileName) {
+    public String createStoreFileName(String originalFileName) {
         String ext = extractExt(originalFileName);
         String uuid = UUID.randomUUID().toString();
         return uuid + "." + ext;
     }
 
-    private String extractExt(String originalFileName) {
+    public String extractExt(String originalFileName) {
         int pos = originalFileName.lastIndexOf(".");
         return originalFileName.substring(pos + 1);
     }

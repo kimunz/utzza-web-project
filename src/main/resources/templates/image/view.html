@@ -80,11 +80,13 @@
 <main id="main">
     <div class="container">
         <div class="keyword">
-            <span>#</span>
-            <a th:each="key : ${image.title}" href="#" th:text="${key}">키워드</a>
+            <a th:each="key : ${image.title}" th:href="|/search?q=${key}|" th:text="${key}">키워드</a>
         </div>
         <div class="content">
             <img th:src="|/storage/${image.imgPath}|">
+            <a class="download" th:href="|/download/${image.imgPath}|">
+                <img src="/images/download_icon.png">
+            </a>
         </div>
     </div>
 </main>

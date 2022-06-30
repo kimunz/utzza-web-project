@@ -154,18 +154,13 @@ body{
 	text-align: center;
 }
 
-#main .container .keyword span{
-	font-size: 20px;
-	color: var(--light-accent-color);
-}
-
 #main .container .keyword a{
     margin-right: 5px;
 	display: inline-block;
 	padding: 5px;
 	color: var(--text-color);
 	background: var(--yellow-color);
-	font-size: 20px;
+	font-size: 15px;
 }
 
 #main .container .keyword a:hover{
@@ -180,6 +175,18 @@ body{
 
 #main .container .content img {
     height: 400px;
+}
+
+#main .container .content .download{
+    display: block;
+    margin: 20px auto;
+    width: 50px;
+    height: 50px;
+}
+
+#main .container .content .download img{
+    width: 50px;
+    height: 50px;
 }
 
 @media screen and (max-width: 1200px) {
