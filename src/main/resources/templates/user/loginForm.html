@@ -79,12 +79,12 @@
             <p>
                 <input type="password" name="password" id="password" placeholder="비밀번호" >
             </p>
-            <p class="id-save">
-                <input type="checkbox" name="" id="save-check">
-                <label class="save-lb" for="save-check">아이디 저장</label>
+            <p class="login-remember">
+                <input type="checkbox" name="remember-me" id="remember-me">
+                <label class="save-lb" for="remember-me">로그인 상태 유지</label>
             </p>
             <p th:if="${errorMessage} != null">
-                <div class="field-error" th:text="${errorMessage}">오류 메시지</div>
+                <div class="field-error" th:text="${errorMessage}"></div>
             </p>
             <input class="login-btn" type="submit" value="로그인">
 

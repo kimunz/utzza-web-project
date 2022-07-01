@@ -176,27 +176,28 @@ body{
     font-size: 15px;
 }
 
-#main .container .id-save{
+#main .container .login-remember{
     position: relative;
+    margin-top: 3px;
+    margin-left: 3px;
     text-align: left;
 }
 
-#main .container p #save-check{
+#main .container p #remember-me{
     height: 20px;
     width: 20px;
-    --margin-left: 10px;
     margin-top: 1px;
 }
 
 #main .container p .save-lb{
     position: absolute;
     margin-left: 10px;
-    color: var(--light-accent-color);
-    font-weight: 500;
+    color: #777777;
+    font-weight: 400;
 }
 
 #main .container .field-error{
-    margin-top: 10px;
+    margin-top: 5px;
     color: var(--error-color);
     text-align: left;
     padding: 5px;
@@ -206,7 +207,7 @@ body{
 #main .container .login-btn{
     height: 54px;
     width: 400px;
-    margin-top: 15px;
+    margin-top: 10px;
     border: none;
     background: var(--bright-color);
     font-size: 15px;
