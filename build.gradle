@@ -26,7 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation group: 'org.json', name: 'json', version: '20220320'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
