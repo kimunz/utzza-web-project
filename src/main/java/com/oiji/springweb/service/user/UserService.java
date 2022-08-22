@@ -18,13 +18,13 @@ public class UserService implements UserDetailsService {
     private final UserMapper userMapper;
 
     public boolean existsLoginId(String loginId) {
-        if (!userMapper.findByLoginId(loginId).isEmpty())
+        if (userMapper.findByLoginId(loginId).isPresent())
             return true;
         return false;
     }
 
     public boolean existsName(String name) {
-        if (!userMapper.findByName(name).isEmpty())
+        if (userMapper.findByName(name).isPresent())
             return true;
         return false;
     }
