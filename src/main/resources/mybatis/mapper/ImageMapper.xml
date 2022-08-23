@@ -3,25 +3,36 @@
 
 <mapper namespace="com.oiji.springweb.mapper.ImageMapper">
 
+    <select id="getImageList" resultType="com.oiji.springweb.entity.ImageEntity">
+        SELECT A.ID, A.TITLE, A.IMGPATH, A.HIT FROM (SELECT * FROM IMAGE WHERE TITLE LIKE CONCAT('%',#{query},'%') ORDER BY HIT DESC LIMIT #{start}, 32)A
+    </select>
+
+    <select id="getImageListByTheme" resultType="com.oiji.springweb.entity.ImageEntity">
+        SELECT A.ID, A.TITLE, A.IMGPATH, A.HIT FROM (SELECT * FROM IMAGE WHERE THEME = #{theme} ORDER BY HIT DESC LIMIT #{start}, 32)A
+    </select>
+
+    <select id="getImageListByContext" resultType="com.oiji.springweb.entity.ImageEntity">
+        SELECT A.ID, A.TITLE, A.IMGPATH, A.HIT FROM (SELECT * FROM IMAGE WHERE WHERE CONTEXT = #{context} ORDER BY HIT DESC LIMIT #{start}, 32)A
+    </select>
+
+    <select id="getImageById" resultType="com.oiji.springweb.entity.ImageEntity">
+        SELECT ID, TITLE, IMGPATH, HIT FROM IMAGE WHERE ID = #{id}
+    </select>
+
     <insert id="insertImage">
-        <selectKey keyProperty="id"  resultType="int" order="BEFORE">
-            SELECT IMAGE_SEQ.NEXTVAL FROM DUAL
-        </selectKey>
         INSERT INTO IMAGE
             (
-                ID,
                 TITLE,
                 IMGPATH,
                 HIT,
                 THEME,
                 CONTEXT)
         VALUES(
-                #{id},
                 #{title},
                 #{imgPath},
                 0,
-                #{theme, jdbcType=VARCHAR},
-                #{context, jdbcType=VARCHAR})
+                #{theme},
+                #{context})
     </insert>
 
     <update id="updateImageHit">

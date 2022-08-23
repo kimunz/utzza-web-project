@@ -98,9 +98,10 @@ public class ImageController {
     }
 
     @ResponseBody
-    @GetMapping("/storage/{imgPath}")
-    public Resource loadImage(@PathVariable String imgPath) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.getFullPath(imgPath));
+    @GetMapping("/storage/{version}/{imgName}")
+    public Resource loadImage(@PathVariable String version,
+                              @PathVariable String imgName) throws MalformedURLException {
+        return new UrlResource(fileStore.getFullPath(version+"/"+imgName));
     }
 
     @GetMapping("/download/{imgPath}")
