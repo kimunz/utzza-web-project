@@ -2,57 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oiji.springweb.mapper.BoardMapper">
-    <resultMap id="getBoardListResult" type="com.oiji.springweb.dto.article.Board" >
-        <result property="id" column="id" />
-        <result property="title" column="title" />
-        <result property="writerId" column="writerId" />
-        <result property="content" column="content" jdbcType="CLOB" javaType="java.lang.String" />
-        <result property="regDate" column="regDate" />
-        <result property="hit" column="hit" />
-        <result property="files" column="files" />
-        <result property="replyCount" column="replyCount" />
-    </resultMap>
 
-    <select id="getBoardList" parameterType="com.oiji.springweb.paging.Criteria" resultMap="getBoardListResult">
+    <select id="getBoardList" parameterType="com.oiji.springweb.paging.Criteria" resultType="com.oiji.springweb.dto.article.Board">
         SELECT A.ID, A.TITLE, A.WRITERID, A.CONTENT, A.REGDATE, A.HIT, A.FILES,
         (SELECT COUNT(B.ID) FROM REPLY B WHERE A.ID = B.BOARDID)REPLYCOUNT
-        FROM (SELECT * FROM (SELECT ROWNUM NUM, N.* FROM
-        (SELECT * FROM BOARD WHERE ${field} LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N )
-        WHERE NUM BETWEEN (#{page} - 1) * #{records} + 1 AND #{page} * #{records})A
+        FROM (SELECT * FROM BOARD WHERE ${field} LIKE CONCAT('%',#{query},'%') ORDER BY REGDATE DESC
+        LIMIT #{rowNum}, #{records})A
     </select>
 
-    <resultMap id="getBoardResult" type="com.oiji.springweb.dto.article.Board" >
-        <result property="id" column="id" />
-        <result property="title" column="title" />
-        <result property="writerId" column="writerId" />
-        <result property="content" column="content" jdbcType="CLOB" javaType="java.lang.String" />
-        <result property="regDate" column="regDate" />
-        <result property="hit" column="hit" />
-        <result property="files" column="files" />
-        <result property="prevBid" column="prevBid" />
-        <result property="nextBid" column="nextBid" />
-        <result property="replyCount" column="replyCount" />
-    </resultMap>
-
-    <select id="getBoardById" resultMap="getBoardResult">
-        SELECT B.ID, B.TITLE, B.WRITERID, B.CONTENT, B.REGDATE, B.HIT, B.FILES, B.PREVBID, B.NEXTBID, (SELECT COUNT(ID) FROM REPLY WHERE BOARDID = #{id})REPLYCOUNT FROM
-        (SELECT ID, TITLE, WRITERID, CONTENT, REGDATE, HIT, FILES,
-        LEAD(ID, 1, 0) OVER (ORDER BY ID DESC) AS PREVBID,
-        LAG(ID, 1, 0) OVER (ORDER BY ID DESC) AS NEXTBID
-        FROM (SELECT * FROM BOARD WHERE ${criteria.field} LIKE '%'|| #{criteria.query} ||'%' ORDER BY REGDATE DESC))B
-        WHERE B.ID = #{id}
+    <select id="getBoardById" resultType="com.oiji.springweb.dto.article.Board">
+        SELECT A.*, (SELECT COUNT(id) FROM reply WHERE boardid = #{id})replycount FROM
+        (SELECT B.*,
+        (SELECT id FROM board WHERE id &lt; #{id} ORDER BY id DESC LIMIT 1)prevbid,
+        (SELECT id FROM board WHERE id &gt; #{id} ORDER BY id DESC LIMIT 1)nextbid
+        FROM (SELECT * FROM board WHERE ${criteria.field} LIKE CONCAT('%',#{criteria.query},'%') ORDER BY regdate DESC)B WHERE B.id = #{id})A
     </select>
 
     <select id="getBoardCount" parameterType="com.oiji.springweb.paging.Criteria" resultType="int">
-        SELECT COUNT(ID) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM BOARD WHERE
-        ${field} LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N)
+        SELECT COUNT(B.ID) COUNT FROM (SELECT * FROM BOARD WHERE
+        ${field} LIKE CONCAT('%',#{query},'%') ORDER BY REGDATE DESC)B
     </select>
 
     <insert id="addBoard" parameterType="com.oiji.springweb.dto.article.Board">
-        <selectKey keyProperty="id" resultType="int" order="BEFORE">
-            SELECT BOARD_SEQ.NEXTVAL FROM DUAL
-        </selectKey>
-        INSERT INTO BOARD(ID, TITLE, WRITERID, CONTENT) VALUES(#{id}, #{title}, #{writerId}, #{content})
+        INSERT INTO BOARD(TITLE, WRITERID, CONTENT) VALUES(#{title}, #{writerId}, #{content})
     </insert>
 
     <update id="editBoard" parameterType="com.oiji.springweb.dto.article.Board">

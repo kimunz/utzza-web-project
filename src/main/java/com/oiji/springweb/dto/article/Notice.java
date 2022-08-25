@@ -2,7 +2,7 @@ package com.oiji.springweb.dto.article;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 public class Notice {
@@ -10,7 +10,7 @@ public class Notice {
     private String title;
     private String writerId;
     private String content;
-    private Date regDate;
+    private Timestamp regDate;
     private int hit;
     private String files;
     private int prevNid;

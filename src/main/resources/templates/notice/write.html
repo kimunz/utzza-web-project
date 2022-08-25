@@ -6,7 +6,7 @@
     <title>UTZZA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/css/notice.css">
+    <link type="text/css" rel="stylesheet" href="/css/notice-write.css">
     <script src="https://kit.fontawesome.com/b68de622cb.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -88,82 +88,31 @@
                 게시판
             </h2>
             <ul>
-                <li><a href="/notice"><strong>공지사항</strong></a></li>
-                <li><a href="/board">자유게시판</a></li>
+                <li><a href="/notice">공지사항</a></li>
+                <li><a href="/board"><strong>자유게시판</strong></a></li>
             </ul>
         </aside>
-        <div class="content">
 
-            <h3>
-                <i class="fas fa-bullhorn"></i>
-                공지사항
-            </h3>
-            <hr>
-            <div class="notice-search">
-                <form th:action="@{/notice}" th:method="get" class="form-inline">
-                    <fieldset>
-                        <select class="form-control input-sm" name="field">
-                            <option th:selected="${pageMaker.criteria.getField() eq 'title'}"  th:value="title">제목</option>
-                            <option th:selected="${pageMaker.criteria.getField() eq 'writerId'}" th:value="writerId">작성자</option>
-                        </select>
-                        <input class="form-control input-sm" type="text" name="query" th:value="${pageMaker.criteria.getQuery()}">
-                        <input class="form-control input-sm" type="submit" value="검색">
-                    </fieldset>
-                </form>
-            </div>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <td class="w60">번호</td>
-                    <td>제목</td>
-                    <td class="w100">작성자</td>
-                    <td class="w100">작성일</td>
-                    <td class="w60">조회수</td>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="notice : ${list}">
-                    <tr th:object="${notice}">
-                        <td th:text="*{id}">번호</td>
-                        <td class="title">
-                            <a th:text="*{title}"
-                               th:href="@{/notice/view(id=*{id}, page=${pageMaker.criteria.getPage()}, field=${pageMaker.criteria.getField()}, query=${pageMaker.criteria.getQuery()})}">제목</a>
-                        </td>
-                        <td th:text="*{writerId}"></td>
-                        <td th:text="*{#dates.format(regDate, 'yyyy-MM-dd')}"></td>
-                        <td th:text="*{hit}"></td>
-                    </tr>
-                </th:block>
-                </tbody>
-            </table>
-
-            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                <div class="write-btn">
-                    <a th:href="@{/notice/write}">글쓰기</a>
+        <!--          본문           -->
+        <div class="write-box">
+            <form method="post" th:action="@{/notice/write}">
+                <input type="hidden" name="writerId" th:value="${user.name}">
+                <div class="title-box">
+                    <input type="text" class="title" name="title" placeholder="제목을 입력하세요.">
                 </div>
-            </th:block>
-
-            <div class="indexer">
-                <div><span th:text="${pageMaker.criteria.getPage() == 1? 1 : pageMaker.criteria.getPage()}">page</span> / <span th:text="${pageMaker.getEndPage()}"></span></div>
-            </div>
-
-            <div class="pager" th:object="${pageMaker}">
-                <div class="nav-btn">
-                    <a th:if="*{prev}" class="changePage"><code>&lt;</code></a>
-
-                    <th:block th:each="num : ${#numbers.sequence(pageMaker.getStartPage(), pageMaker.getEndPage())}">
-                        <code th:if="${pageMaker.criteria.getPage == num}" th:text="${num}"></code>
-                        <a class="changePage" th:unless="${pageMaker.criteria.getPage() == num}"
-                           th:href="@{/notice(page=${num}, field=${pageMaker.criteria.field}, query=${pageMaker.criteria.query})}">
-                            <code th:text="${num}"></code>
-                        </a>
-                    </th:block>
-
-                    <a th:if="*{next}" class="changePage"><code>&gt;</code></a>
+                <div class="file-box">
+                    <input type="file" name="files">
                 </div>
-            </div>
+                <div class="content-box">
+                    <textarea name="content" class="content"></textarea>
+                </div>
+                <div class="btn-area">
+                    <button type="button" onclick="history.back(-1);">취소</button>
+                    <button type="submit" onclick="return confirm('정말 등록하시겠습니까?');">등록</button>
+                </div>
+            </form>
         </div>
+
     </div>
 </main>
 
@@ -173,7 +122,7 @@
      function toggleMenu(){
          menu.classList.toggle('active');
      }
-    </script>
+</script>
 
 </body>
 </html>

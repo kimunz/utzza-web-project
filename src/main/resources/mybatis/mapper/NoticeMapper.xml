@@ -2,48 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oiji.springweb.mapper.NoticeMapper">
-    <resultMap id="getNoticeListResult" type="com.oiji.springweb.dto.article.Notice" >
-        <result property="id" column="id" />
-        <result property="title" column="title" />
-        <result property="writerId" column="writerId" />
-        <result property="content" column="content" jdbcType="CLOB" javaType="java.lang.String" />
-        <result property="regDate" column="regDate" />
-        <result property="hit" column="hit" />
-        <result property="files" column="files" />
-    </resultMap>
-
-    <select id="getNoticeList" parameterType="com.oiji.springweb.paging.Criteria" resultMap="getNoticeListResult">
-        SELECT ID, TITLE, WRITERID, CONTENT, REGDATE, HIT, FILES
-        FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE ${field}
-        LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N)
-        WHERE NUM BETWEEN (#{page} - 1) * #{records} + 1 AND #{page} * #{records}
+    <select id="getNoticeList" parameterType="com.oiji.springweb.paging.Criteria" resultType="com.oiji.springweb.dto.article.Notice">
+        SELECT A.ID, A.TITLE, A.WRITERID, A.CONTENT, A.REGDATE, A.HIT, A.FILES
+        FROM (SELECT * FROM NOTICE WHERE ${field} LIKE CONCAT('%',#{query},'%') ORDER BY REGDATE DESC
+        LIMIT #{rowNum}, #{records})A
     </select>
 
-    <resultMap id="getNoticeResult" type="com.oiji.springweb.dto.article.Notice" >
-        <result property="id" column="id" />
-        <result property="title" column="title" />
-        <result property="writerId" column="writerId" />
-        <result property="content" column="content" jdbcType="CLOB" javaType="java.lang.String" />
-        <result property="regDate" column="regDate" />
-        <result property="hit" column="hit" />
-        <result property="files" column="files" />
-        <result property="prevNid" column="prevNid" />
-        <result property="nextNid" column="nextNid" />
-    </resultMap>
-
-    <select id="getNoticeById" resultMap="getNoticeResult">
-        SELECT N.ID, N.TITLE, N.WRITERID, N.CONTENT, N.REGDATE, N.HIT, N.FILES, N.PREVNID, N.NEXTNID FROM
-        (SELECT ID, TITLE, WRITERID, CONTENT, REGDATE, HIT, FILES,
-        LEAD(ID, 1, 0) OVER (ORDER BY ID DESC) AS PREVNID,
-        LAG(ID, 1, 0) OVER (ORDER BY ID DESC) AS NEXTNID
-        FROM (SELECT * FROM NOTICE WHERE ${criteria.field} LIKE '%'|| #{criteria.query} ||'%' ORDER BY REGDATE DESC))N
-        WHERE N.ID = #{id}
+    <select id="getNoticeById" resultType="com.oiji.springweb.dto.article.Notice">
+        SELECT N.*,
+        (SELECT id FROM notice WHERE id &lt; #{id} ORDER BY id DESC LIMIT 1)prevnid,
+        (SELECT id FROM notice WHERE id &gt; #{id} ORDER BY id DESC LIMIT 1)nextnid
+        FROM (SELECT * FROM notice WHERE ${criteria.field} LIKE CONCAT('%',#{criteria.query},'%')
+        ORDER BY regdate DESC)N WHERE N.id = #{id}
     </select>
 
     <select id="getNoticeCount" parameterType="com.oiji.springweb.paging.Criteria" resultType="int">
-        SELECT COUNT(ID) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE
-        ${field} LIKE '%'|| #{query} ||'%' ORDER BY REGDATE DESC)N)
+        SELECT COUNT(N.ID) COUNT FROM (SELECT * FROM notice WHERE
+        ${field} LIKE CONCAT('%',#{query},'%') ORDER BY REGDATE DESC)N
     </select>
+
+    <insert id="addNotice" parameterType="com.oiji.springweb.dto.article.Notice">
+        INSERT INTO NOTICE(TITLE, WRITERID, CONTENT) VALUES(#{title}, #{writerId}, #{content})
+    </insert>
+
+    <update id="editNotice" parameterType="com.oiji.springweb.dto.article.Notice">
+        UPDATE NOTICE SET TITLE = #{title}, CONTENT = #{content} WHERE ID = #{id}
+    </update>
+
+    <delete id="removeNotice" parameterType="int">
+        DELETE FROM NOTICE WHERE ID = #{id}
+    </delete>
 
     <update id="updateNoticeHit" parameterType="int">
         UPDATE NOTICE SET HIT=HIT+1 WHERE ID = #{id}

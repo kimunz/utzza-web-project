@@ -201,6 +201,24 @@ hr{
 	font-size: 13px;
 }
 
+#main .container .content .sub-title .categ-name{
+	position: relative;
+	left: 2px;
+}
+
+#main .container .content .sub-title .n-fn{
+    display: flex;
+}
+
+#main .container .content .sub-title .n-fn .n-edit,
+#main .container .content .sub-title .n-fn .n-remove
+{
+    background: none;
+    border: none;
+	text-decoration: underline;
+	margin-left: 10px;
+}
+
 #main .container .content .content-info{
 	margin-top: 4px;
 	padding-bottom: 10px;

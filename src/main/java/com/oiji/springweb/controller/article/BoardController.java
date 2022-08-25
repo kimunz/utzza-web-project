@@ -87,6 +87,7 @@ public class BoardController {
                                 @ModelAttribute Criteria criteria,
                                 @AuthenticationPrincipal UserEntity user,
                                 Model model) {
+        log.info("id={}",id);
 
         Board board = boardService.getBoardById(criteria, id);
         if (user == null || !user.getName().equals(board.getWriterId())) {

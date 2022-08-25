@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login", "/signUp", "/search", "/resources/**", "/image/**").permitAll() //누구나 접근 가능
                 .antMatchers("/board/write").hasRole("USER")
+                .antMatchers("/notice/write").hasRole("ADMIN")
                 .and()
                     .formLogin()
                     .loginPage("/login")
@@ -46,7 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .rememberMe()
                     .key("rememberMe")
                     .userDetailsService(userDetailsService());
-
     }
 
     @Override

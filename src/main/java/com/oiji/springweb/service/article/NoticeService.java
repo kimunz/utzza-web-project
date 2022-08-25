@@ -22,11 +22,27 @@ public class NoticeService {
         return noticeMapper.getNoticeCount(criteria);
     }
 
-    public Notice findById(Criteria criteria, int id) {
+    public int addNotice(Notice notice) {
+        notice.setContent(notice.getContent().replace("\r\n", "<br>"));
+        return noticeMapper.addNotice(notice);
+    }
+
+    public int editNotice(Notice notice) {
+        notice.setContent(notice.getContent().replace("\r\n", "<br>"));
+        return noticeMapper.editNotice(notice);
+    }
+
+    public int removeNotice(int id) {
+        return noticeMapper.removeNotice(id);
+    }
+
+    public Notice getNoticeById(Criteria criteria, int id) {
         return noticeMapper.getNoticeById(criteria, id);
     }
 
     public void updateNoticeHit(int id) {
         noticeMapper.updateNoticeHit(id);
     }
+
+
 }

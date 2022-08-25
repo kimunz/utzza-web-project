@@ -23,9 +23,10 @@ public class PaginationInfo {
         endPage = (int)(Math.ceil(criteria.getPage() * 1.0 / pageSize)) * pageSize;
         startPage = endPage - (pageSize-1);
 
-        if (endPage > totalPages) {
+        if (totalPages == 0)
+            totalPages = 1;
+        if (endPage > totalPages)
             endPage = totalPages;
-        }
 
         prev = startPage > 1;
         next = endPage < totalPages;

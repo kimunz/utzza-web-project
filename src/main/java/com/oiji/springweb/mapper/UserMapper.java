@@ -1,6 +1,5 @@
 package com.oiji.springweb.mapper;
 
-import com.oiji.springweb.dto.user.PasswordInfo;
 import com.oiji.springweb.dto.user.User;
 import com.oiji.springweb.entity.UserEntity;
 import org.apache.ibatis.annotations.*;

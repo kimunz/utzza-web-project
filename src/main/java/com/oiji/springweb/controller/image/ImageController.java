@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -104,31 +105,30 @@ public class ImageController {
         return new UrlResource(fileStore.getFullPath(version+"/"+imgName));
     }
 
-    @GetMapping("/download/{imgPath}")
-    public void downloadImage(@PathVariable String imgPath, HttpServletResponse response) throws IOException {
+    @GetMapping("/download/{version}/{imgName}")
+    public void downloadImage(@PathVariable String version,
+                              @PathVariable String imgName,
+                              HttpServletResponse response) throws IOException {
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmSS");
         String time = dateFormat.format(cal.getTime());
-        String ext = fileStore.extractExt(imgPath);
+        String ext = fileStore.extractExt(imgName);
 
-        String realFile = fileStore.getFullPath(imgPath);
+        String realFile = fileStore.getFullPath(version+"/"+imgName);
 
         BufferedOutputStream out = null;
         InputStream in = null;
 
         try {
             response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "inline;filename="+ time + "." + ext);
-            File file = new File(realFile);
-            if(file.exists()) {
-                in = new FileInputStream(file);
-                out = new BufferedOutputStream(response.getOutputStream());
-                int len;
-                byte[] buf = new byte[1024];
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
+            response.setHeader("Content-Disposition", "attachment;filename="+ time + "." + ext);
+            in = new BufferedInputStream(new URL(realFile).openStream());
+            out = new BufferedOutputStream(response.getOutputStream());
+            int len;
+            byte[] buf = new byte[1024];
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
             }
 
         } catch (Exception e) {

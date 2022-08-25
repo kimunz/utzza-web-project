@@ -7,10 +7,7 @@
     </select>
 
     <insert id="addReply" parameterType="com.oiji.springweb.dto.article.Reply">
-        <selectKey keyProperty="id" resultType="int" order="BEFORE">
-            SELECT REPLY_SEQ.NEXTVAL FROM DUAL
-        </selectKey>
-        INSERT INTO REPLY(ID, CONTENT, WRITERID, BOARDID) VALUES(#{id}, #{content}, #{writerId}, #{boardId})
+        INSERT INTO REPLY(CONTENT, WRITERID, BOARDID) VALUES(#{content}, #{writerId}, #{boardId})
     </insert>
 
     <update id="editReply">

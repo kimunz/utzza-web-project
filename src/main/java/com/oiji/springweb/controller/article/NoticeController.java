@@ -1,15 +1,18 @@
 package com.oiji.springweb.controller.article;
 
 import com.oiji.springweb.dto.article.Notice;
+import com.oiji.springweb.entity.UserEntity;
 import com.oiji.springweb.paging.Criteria;
 import com.oiji.springweb.paging.PaginationInfo;
 import com.oiji.springweb.service.article.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -60,9 +63,56 @@ public class NoticeController {
             noticeService.updateNoticeHit(id);
         }
 
-        Notice notice = noticeService.findById(criteria, id);
+        Notice notice = noticeService.getNoticeById(criteria, id);
         model.addAttribute("notice", notice);
 
         return "notice/view";
+    }
+
+    @GetMapping("/notice/write")
+    public String writeNoticeForm(@AuthenticationPrincipal UserEntity user, Model model) {
+
+        model.addAttribute("user", user);
+        return "notice/write";
+    }
+
+    @PostMapping("/notice/write")
+    public String writeNotice(@ModelAttribute Notice notice) {
+
+        noticeService.addNotice(notice);
+        return "redirect:/notice";
+    }
+
+    @GetMapping("/notice/edit")
+    public String editBoardForm(@RequestParam int id,
+                                @ModelAttribute Criteria criteria,
+                                @AuthenticationPrincipal UserEntity user,
+                                Model model) {
+
+        Notice notice = noticeService.getNoticeById(criteria, id);
+        if (user == null || !user.getName().equals(notice.getWriterId())) {
+            return "message/auth";
+        }
+        notice.setContent(notice.getContent().replace("<br>", "\r\n"));
+        model.addAttribute("notice", notice);
+        return "notice/edit";
+    }
+
+    @PostMapping("/notice/edit")
+    public String editNotice(@ModelAttribute Notice notice) {
+        noticeService.editNotice(notice);
+        return "redirect:/notice";
+    }
+
+    @PostMapping("/notice/remove")
+    public String removeNotice(@RequestParam int id,
+                              @RequestParam String writerId,
+                              @AuthenticationPrincipal UserEntity user) {
+
+        if (user == null || !user.getName().equals(writerId)) {
+            return "message/auth";
+        }
+        noticeService.removeNotice(id);
+        return "redirect:/notice";
     }
 }

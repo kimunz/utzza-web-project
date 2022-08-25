@@ -94,13 +94,23 @@
         </aside>
         <div class="content" th:object="${notice}">
             <div class="sub-title">
-                <span>공지사항</span>
+                <div class="categ-name">
+                    <span>공지사항</span>
+                </div>
             </div>
+            <th:block sec:authorize access="hasRole('ROLE_ADMIN')">
+                <div class="n-fn" th:if="${notice.writerId eq user?.name}">
+                    <button class="n-edit" th:onclick="|location.href='@{/board/edit(id=*{id})}'|">수정</button>
+                    <form method="post" th:action="@{/board/remove(id=*{id}, writerId=*{writerId})}">
+                        <button class= "n-remove" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                    </form>
+                </div>
+            </th:block>
             <div class="content-info">
                 <strong class="title" th:text="*{title}"></strong>
                 <div class="info-desc">
                     <span class="txt-item" th:text="*{writerId}"></span>
-                    <span class="txt-item" th:text="*{regDate}"></span>
+                    <span class="txt-item" th:text="*{#dates.format(regDate, 'yyyy-MM-dd HH:mm')}"></span>
                     <span class="txt-item" th:text="|조회 *{hit}|"></span>
                 </div>
             </div>

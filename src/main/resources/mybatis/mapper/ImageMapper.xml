@@ -12,7 +12,7 @@
     </select>
 
     <select id="getImageListByContext" resultType="com.oiji.springweb.entity.ImageEntity">
-        SELECT A.ID, A.TITLE, A.IMGPATH, A.HIT FROM (SELECT * FROM IMAGE WHERE WHERE CONTEXT = #{context} ORDER BY HIT DESC LIMIT #{start}, 32)A
+        SELECT A.ID, A.TITLE, A.IMGPATH, A.HIT FROM (SELECT * FROM IMAGE WHERE CONTEXT = #{context} ORDER BY HIT DESC LIMIT #{start}, 32)A
     </select>
 
     <select id="getImageById" resultType="com.oiji.springweb.entity.ImageEntity">
