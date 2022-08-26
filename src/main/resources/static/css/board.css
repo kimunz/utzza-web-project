@@ -277,23 +277,50 @@ hr{
 	}
 
 	#header .header-top .search .search-bar{
-	    width: 500px;
+	    width: 80%;
 	}
 
 	#header .header-top .member-menu{
 		display: none;
 	}
 
+	#header .main-menu li:hover .categ-menu{
+        background: white;
+        color: var(--text-color);
+    }
+
+    #header .main-menu li .categ-menu{
+        display: block;
+        padding: 10px 20px;
+    }
+
+	#header .main-menu li .sub-menu{
+        position: absolute;
+        top: 15px;
+        right: 250px;
+	    height: 180px;
+        background: white;
+        border: 1px solid var(--light-accent-color);
+        z-index: 1;
+    }
+
 	#header .header-top .toggle-btn{
 		display: block;
+		margin-right: 10px;
 	}
 
 	#header .main-menu{
-		display: none;
-		width: 200px;
+        display: none;
 	}
 
 	#header .main-menu.active{
         display: block;
+        position: fixed;
+        right: 0px;
+        height: 500px;
+        width: 250px;
+        z-index: 1;
+        padding: 15px 0px;
+        margin: 0px;
     }
 }
