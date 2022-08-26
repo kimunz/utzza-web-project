@@ -349,7 +349,7 @@ hr{
         position: absolute;
         top: 15px;
         right: 250px;
-	    height: 180px;
+	    height: 250px;
         background: white;
         border: 1px solid var(--light-accent-color);
         z-index: 1;
