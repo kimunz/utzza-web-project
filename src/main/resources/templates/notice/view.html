@@ -97,15 +97,15 @@
                 <div class="categ-name">
                     <span>공지사항</span>
                 </div>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="n-fn" th:if="${notice.writerId eq user?.name}">
+                        <button class="n-edit" th:onclick="|location.href='@{/notice/edit(id=*{id})}'|">수정</button>
+                        <form method="post" th:action="@{/notice/remove(id=*{id}, writerId=*{writerId})}">
+                            <button class= "n-remove" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                        </form>
+                    </div>
+                </th:block>
             </div>
-            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                <div class="n-fn" th:if="${notice.writerId eq user?.name}">
-                    <button class="n-edit" th:onclick="|location.href='@{/notice/edit(id=*{id})}'|">수정</button>
-                    <form method="post" th:action="@{/notice/remove(id=*{id}, writerId=*{writerId})}">
-                        <button class= "n-remove" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
-                    </form>
-                </div>
-            </th:block>
             <div class="content-info">
                 <strong class="title" th:text="*{title}"></strong>
                 <div class="info-desc">

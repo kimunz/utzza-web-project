@@ -44,6 +44,7 @@ public class NoticeController {
                                     @ModelAttribute Criteria criteria,
                                     HttpServletRequest request,
                                     HttpServletResponse response,
+                                    @AuthenticationPrincipal UserEntity user,
                                     Model model) {
 
         Cookie oldCookie = null;
@@ -65,6 +66,7 @@ public class NoticeController {
 
         Notice notice = noticeService.getNoticeById(criteria, id);
         model.addAttribute("notice", notice);
+        model.addAttribute("user", user);
 
         return "notice/view";
     }

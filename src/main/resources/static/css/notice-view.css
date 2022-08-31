@@ -195,10 +195,10 @@ hr{
 }
 
 #main .container .content .sub-title{
-	position: relative;
-	left: 2px;
-	color: #a6a6a6;
-	font-size: 13px;
+	display: flex;
+    color: #a6a6a6;
+    font-size: 13px;
+    justify-content: space-between;
 }
 
 #main .container .content .sub-title .categ-name{
