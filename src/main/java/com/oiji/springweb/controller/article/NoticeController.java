@@ -30,6 +30,7 @@ public class NoticeController {
     @GetMapping("/notice")
     public String getNoticeListPage(@ModelAttribute Criteria criteria, Model model) {
 
+        criteria.setRowNum((criteria.getPage() - 1) * 10);
         List<Notice> list = noticeService.findAll(criteria);
         int count = noticeService.getNoticeCount(criteria);
 

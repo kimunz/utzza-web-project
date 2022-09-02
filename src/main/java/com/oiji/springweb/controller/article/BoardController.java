@@ -30,6 +30,7 @@ public class BoardController {
     @GetMapping("/board")
     public String getBoardListPage(@ModelAttribute Criteria criteria, Model model) {
 
+        criteria.setRowNum((criteria.getPage() - 1) * 10);
         List<Board> list = boardService.getBoardList(criteria);
         int count = boardService.getBoardCount(criteria);
 

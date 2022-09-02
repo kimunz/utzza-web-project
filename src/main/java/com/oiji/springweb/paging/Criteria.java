@@ -25,7 +25,7 @@ public class Criteria {
 
     public Criteria(int page, int rowNum, int records, String query, String field) {
         this.page = page;
-        this.rowNum = (page - 1) * records;
+        this.rowNum = rowNum;
         this.records = records;
         this.query = query;
         this.field = field;
