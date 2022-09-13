@@ -251,35 +251,6 @@ body{
 	}
 
 	#header .header-top .search .search-bar{
-	    width: 500px;
-	}
-
-	#header .header-top .member-menu{
-		display: none;
-	}
-
-	#header .header-top .toggle-btn{
-		display: block;
-	}
-
-}
-
-@media screen and (max-width: 1200px) {
-	#header {
-		width: 970px;
-	}
-
-	#header .header-top .search .search-bar{
-	    width: 600px;
-	}
-}
-
-@media screen and (max-width: 992px) {
-	#header {
-		width: 800px;
-	}
-
-	#header .header-top .search .search-bar{
 	    width: 80%;
 	}
 

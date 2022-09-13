@@ -260,7 +260,7 @@ hr{
 
 @media screen and (max-width: 1200px) {
 	#header {
-		width: 100%;
+		width: 970px;
 	}
 
 	#header .header-top .search .search-bar{
@@ -270,14 +270,11 @@ hr{
 
 @media screen and (max-width: 992px) {
 	#header {
-		width: 100%;
+		width: 800px;
 	}
 
 	#header .header-top .search .search-bar{
 	    width: 80%;
-	}
-
-	#header .header-top .member-menu{
 	}
 
 	#header .main-menu li:hover .categ-menu{
