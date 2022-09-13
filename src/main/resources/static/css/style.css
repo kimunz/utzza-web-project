@@ -274,10 +274,6 @@ hr{
 	    width: 80%;
 	}
 
-	#header .header-top .member-menu{
-		display: none;
-	}
-
 	#header .main-menu li:hover .categ-menu{
         background: white;
         color: var(--text-color);
@@ -309,9 +305,9 @@ hr{
 
 	#header .main-menu.active{
         display: block;
-        position: fixed;
+        position: absolute;
         right: 0px;
-        height: 500px;
+        height: 100%;
         width: 250px;
         z-index: 1;
         padding: 15px 0px;

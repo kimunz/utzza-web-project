@@ -239,7 +239,7 @@ hr{
 
 @media screen and (max-width: 1200px) {
 	#header {
-		width: 970px;
+		width: 100%;
 	}
 
 	#header .header-top .search .search-bar{
@@ -249,7 +249,7 @@ hr{
 
 @media screen and (max-width: 992px) {
 	#header {
-		width: 800px;
+		width: 100%;
 	}
 
 	#header .header-top .search .search-bar{
@@ -257,7 +257,6 @@ hr{
 	}
 
 	#header .header-top .member-menu{
-		display: none;
 	}
 
 	#header .main-menu li:hover .categ-menu{
@@ -291,9 +290,9 @@ hr{
 
 	#header .main-menu.active{
         display: block;
-        position: fixed;
+        position: absolute;
         right: 0px;
-        height: 500px;
+        height: 100%;
         width: 250px;
         z-index: 1;
         padding: 15px 0px;

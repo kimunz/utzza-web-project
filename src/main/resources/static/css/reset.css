@@ -9,8 +9,6 @@ h1, h2, h3, h4, h5, h6,
 blockquote, p, address, pre, cite,
 form, fieldset, input, textarea, select,
 table, th, td{
-	margin:0;
-	padding:0;
 	}
 
 /* 목록 */
