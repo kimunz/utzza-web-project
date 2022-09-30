@@ -11,7 +11,7 @@
     <select id="getNoticeById" resultType="com.oiji.springweb.dto.article.Notice">
         SELECT N.*,
         (SELECT id FROM notice WHERE id &lt; #{id} ORDER BY id DESC LIMIT 1)prevnid,
-        (SELECT id FROM notice WHERE id &gt; #{id} ORDER BY id DESC LIMIT 1)nextnid
+        (SELECT id FROM notice WHERE id &gt; #{id} ORDER BY id ASC LIMIT 1)nextnid
         FROM (SELECT * FROM notice WHERE ${criteria.field} LIKE CONCAT('%',#{criteria.query},'%')
         ORDER BY regdate DESC)N WHERE N.id = #{id}
     </select>

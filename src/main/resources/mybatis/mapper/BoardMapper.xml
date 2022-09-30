@@ -14,7 +14,7 @@
         SELECT A.*, (SELECT COUNT(id) FROM reply WHERE boardid = #{id})replycount FROM
         (SELECT B.*,
         (SELECT id FROM board WHERE id &lt; #{id} ORDER BY id DESC LIMIT 1)prevbid,
-        (SELECT id FROM board WHERE id &gt; #{id} ORDER BY id DESC LIMIT 1)nextbid
+        (SELECT id FROM board WHERE id &gt; #{id} ORDER BY id ASC LIMIT 1)nextbid
         FROM (SELECT * FROM board WHERE ${criteria.field} LIKE CONCAT('%',#{criteria.query},'%') ORDER BY regdate DESC)B WHERE B.id = #{id})A
     </select>
 
